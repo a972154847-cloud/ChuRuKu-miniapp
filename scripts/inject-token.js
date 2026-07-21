@@ -1,0 +1,3 @@
+// Inject token and user into localStorage before app loads
+window.localStorage.setItem('token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwib3BlbmlkIjoiZGV2LW9wZW5pZCIsIm5hbWUiOiLvv73vv73vv73Uue-_ve-_ve-_vdSxIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzg0NDc3MjQ4LCJleHAiOjE3ODUwODIwNDh9.HdeUUcn0OH4L4b5M1jd7hNH_LJaLSd6sVPrfybhEDKw');
+window.localStorage.setItem('user', JSON.stringify({id:1,openid:'dev-openid',name:'测试管理员',role:'admin',status:'active'}));

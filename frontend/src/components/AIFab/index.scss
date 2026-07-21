@@ -1,0 +1,54 @@
+.ai-fab {
+  position: fixed;
+  right: 32rpx;
+  bottom: 240rpx;
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #1989fa 0%, #1677d4 100%);
+  box-shadow: 0 8rpx 24rpx rgba(25, 137, 250, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* P2-8: 层级契约见 app.scss（$z-ai-fab=9997） */
+  z-index: 9997;
+  transition: transform 0.2s, left 0.3s ease, top 0.15s ease;
+  /* 禁止文字选择和长按菜单 */
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.ai-fab:active {
+  transform: scale(0.92);
+}
+
+/* 拖动中：取消动画过渡（跟手），放大轻微提示 */
+.ai-fab--dragging {
+  transition: none;
+  transform: scale(1.1);
+  box-shadow: 0 12rpx 32rpx rgba(25, 137, 250, 0.5);
+  opacity: 0.9;
+}
+
+.ai-fab__icon {
+  font-size: 48rpx;
+  color: #fff;
+  line-height: 1;
+  pointer-events: none;
+}
+
+.ai-fab__badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  min-width: 32rpx;
+  height: 32rpx;
+  line-height: 32rpx;
+  text-align: center;
+  background: #ff4d4f;
+  color: #fff;
+  font-size: 20rpx;
+  border-radius: 16rpx;
+  padding: 0 8rpx;
+  box-sizing: border-box;
+}

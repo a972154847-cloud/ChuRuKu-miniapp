@@ -1,0 +1,37 @@
+/* ============================================================
+ * 主题配色变量（消防/应急主题）
+ * 对应 Skill 规范：src/styles/theme.scss
+ * ============================================================ */
+
+/* 品牌主题色 */
+$color-primary: #D9534F;
+$color-primary-dark: #B94241;
+$color-primary-light: #E57373;
+
+/* 功能色 */
+$color-success: #52c41a;
+$color-warning: #F0A04B;
+$color-error: #D9534F;
+$color-info: #3498db;
+
+/* 背景色 */
+$color-bg-page: #f5f5f5;
+$color-bg-card: #ffffff;
+$color-bg-mask: rgba(0, 0, 0, 0.5);
+
+/* 文本色 */
+$color-text-primary: #1D2129;
+$color-text-secondary: #4E5969;
+$color-text-tertiary: #86909C;
+$color-text-disabled: #C9CDD4;
+$color-text-inverse: #ffffff;
+
+/* 边框色 */
+$color-border: #e5e5e5;
+$color-border-light: #f0f0f0;
+
+/* 业务相关变量 */
+$color-inbound: #52c41a;   /* 入库绿 */
+$color-outbound: #D9534F;  /* 出库红 */
+$color-alert-danger: #D9534F;
+$color-alert-warning: #F0A04B;

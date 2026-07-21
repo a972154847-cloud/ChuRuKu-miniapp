@@ -1,0 +1,227 @@
+.records-page {
+  min-height: 100vh;
+  background: #f5f5f5;
+  padding: 16px 16px calc(48px + env(safe-area-inset-bottom));
+  box-sizing: border-box;
+}
+
+/* ===== 筛选条 ===== */
+.records-filter {
+  background: #fff;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+
+  &__row {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 12px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    &--search {
+      align-items: center;
+    }
+  }
+
+  &__picker {
+    flex: 1;
+    height: 64px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 0 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #fafafa;
+    box-sizing: border-box;
+  }
+
+  &__picker-text {
+    font-size: 26px;
+    color: #333;
+    flex: 1;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  &__arrow {
+    font-size: 22px;
+    color: #999;
+    margin-left: 8px;
+  }
+
+  &__input {
+    flex: 1;
+    height: 64px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 0 16px;
+    font-size: 26px;
+    background: #fafafa;
+    box-sizing: border-box;
+  }
+
+  &__search-btn {
+    padding: 0 20px;
+    height: 64px;
+    line-height: 64px;
+    background: #d9534f;
+    color: #fff;
+    border-radius: 8px;
+    font-size: 26px;
+  }
+
+  &__reset-btn {
+    padding: 0 20px;
+    height: 64px;
+    line-height: 64px;
+    background: #f0f0f0;
+    color: #666;
+    border-radius: 8px;
+    font-size: 26px;
+  }
+}
+
+/* ===== 记录卡片列表 ===== */
+.records-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.records-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+
+  &__head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+
+  &__tag {
+    font-size: 22px;
+    padding: 4px 16px;
+    border-radius: 4px;
+    color: #fff;
+    font-weight: 500;
+
+    &--in {
+      background: #52c41a;
+    }
+
+    &--out {
+      background: #d9534f;
+    }
+  }
+
+  &__time {
+    font-size: 24px;
+    color: #999;
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 12px;
+  }
+
+  &__name {
+    font-size: 30px;
+    color: #333;
+    font-weight: 500;
+  }
+
+  &__cat {
+    font-size: 22px;
+    color: #888;
+  }
+
+  &__foot {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 12px;
+    border-top: 1px solid #f0f0f0;
+  }
+
+  &__qty {
+    font-size: 26px;
+    color: #666;
+  }
+
+  &__qty-num {
+    font-size: 32px;
+    color: #d9534f;
+    font-weight: 600;
+    margin-left: 4px;
+  }
+
+  &__operator {
+    font-size: 24px;
+    color: #888;
+  }
+}
+
+/* ===== 空态 ===== */
+.records-empty {
+  text-align: center;
+  padding: 80px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+
+  &__text {
+    font-size: 30px;
+    color: #999;
+  }
+
+  &__sub {
+    font-size: 24px;
+    color: #bbb;
+  }
+}
+
+/* ===== 底部加载状态 ===== */
+.records-footer {
+  text-align: center;
+  padding: 24px 0;
+
+  &__text {
+    font-size: 24px;
+    color: #999;
+  }
+}
+
+/* ===== 新建记录悬浮按钮 ===== */
+.records-fab {
+  position: fixed;
+  right: 32px;
+  bottom: calc(48px + env(safe-area-inset-bottom));
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  background: #d9534f;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 16px rgba(217, 83, 79, 0.4);
+  z-index: 100;
+
+  &__plus {
+    font-size: 56px;
+    color: #fff;
+    line-height: 1;
+  }
+}

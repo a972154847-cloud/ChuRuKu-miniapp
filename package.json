@@ -1,0 +1,11 @@
+{
+  "scripts": {
+    "verify": "node scripts/verify-changes.mjs",
+    "verify:all": "node scripts/verify-changes.mjs --all",
+    "verify:backend": "node scripts/verify-changes.mjs --backend",
+    "verify:frontend": "node scripts/verify-changes.mjs --frontend"
+  },
+  "dependencies": {
+    "@playwright/test": "^1.61.1"
+  }
+}

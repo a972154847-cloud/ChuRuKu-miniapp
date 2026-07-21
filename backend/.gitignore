@@ -1,0 +1,12 @@
+node_modules/
+dist/
+dev.db
+dev.db-journal
+dev.db-wal
+dev.db-shm
+uploads/*
+!uploads/.gitkeep
+.env
+*.log
+.transformers-cache/
+../.verification/

@@ -1,0 +1,108 @@
+/* ============================================================
+ * 通用 SCSS 变量和 Mixin
+ * 对应 Skill 规范：src/styles/variables.scss
+ * 基于 750rpx 基准 + 8px 网格系统
+ * ============================================================ */
+
+/* ============ 间距系统（8 的倍数） ============ */
+$spacing-xxs: 8rpx;
+$spacing-xs: 16rpx;
+$spacing-sm: 24rpx;
+$spacing-md: 32rpx;
+$spacing-lg: 48rpx;
+$spacing-xl: 64rpx;
+
+/* 页面边距 */
+$page-padding: 32rpx;
+$max-content-width: 686rpx;
+
+/* ============ 圆角设计 ============ */
+$radius-xs: 4rpx;
+$radius-sm: 8rpx;
+$radius-md: 12rpx;
+$radius-lg: 16rpx;
+$radius-xl: 24rpx;
+$radius-button: 48rpx;
+$radius-round: 999rpx;
+
+/* ============ 阴影设计 ============ */
+$shadow-card: 0 2rpx 12rpx rgba(0, 0, 0, 0.08);
+$shadow-card-hover: 0 4rpx 20rpx rgba(0, 0, 0, 0.12);
+$shadow-float: 0 4rpx 16rpx rgba(0, 0, 0, 0.1);
+$shadow-popup: 0 8rpx 32rpx rgba(0, 0, 0, 0.15);
+
+/* ============ 字体层级 ============ */
+$font-size-title-lg: 40rpx;   /* 大标题 */
+$font-size-title: 34rpx;      /* 标题 */
+$font-size-subtitle: 30rpx;   /* 副标题 */
+$font-size-body: 28rpx;       /* 正文 */
+$font-size-aux: 24rpx;        /* 辅助文字 */
+$font-size-tag: 22rpx;        /* 小字/标签 */
+
+$font-weight-bold: 600;
+$font-weight-medium: 500;
+$font-weight-regular: 400;
+
+/* ============ 按钮尺寸 ============ */
+$button-height-sm: 64rpx;
+$button-height-md: 80rpx;
+$button-height-lg: 96rpx;
+
+/* ============ 动画 ============ */
+$transition-base: all 0.2s ease;
+$transition-fast: all 0.15s ease;
+
+/* ============ z-index 层级契约 ============ */
+$z-ai-fab: 9997;
+$z-ai-mask: 9998;
+$z-ai-panel: 9999;
+
+/* ============ Mixin ============ */
+
+/* 单行文本截断 */
+@mixin text-ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 多行文本截断 */
+@mixin text-ellipsis-multi($lines: 1) {
+  display: -webkit-box;
+  -webkit-line-clamp: $lines;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 按钮重置 */
+@mixin button-reset {
+  padding: 0;
+  margin: 0;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  box-sizing: border-box;
+  line-height: normal;
+  &::after {
+    border: none;
+  }
+}
+
+/* 横向滚动容器 */
+@mixin scroll-x-container {
+  white-space: nowrap;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* 横向滚动子项 */
+@mixin scroll-x-item($width) {
+  display: inline-block;
+  width: $width;
+  vertical-align: top;
+  white-space: normal;
+}

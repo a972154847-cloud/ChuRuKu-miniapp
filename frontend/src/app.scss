@@ -1,0 +1,27 @@
+/* NutUI 主题样式（按需引入；依赖已安装，暂注释，使用时取消注释） */
+// @import '@nutui/nutui-react-taro/dist/style.css';
+
+/* P2-8: z-index 层级契约（与原生层交互）
+ * 9997  .ai-fab              浮窗入口
+ * 9998  .ai-panel-mask       浮窗遮罩
+ * 9999  .ai-panel--floating  浮窗容器
+ * 任何超过 9999 的 z-index 都会盖住 Taro.showModal/showToast，破坏原生 UX
+ */
+$z-ai-fab: 9997;
+$z-ai-mask: 9998;
+$z-ai-panel: 9999;
+
+page {
+  background-color: #f5f5f5;
+  color: #1D2129;
+  font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica,
+    'PingFang SC', 'Microsoft YaHei', sans-serif;
+  font-size: 28rpx;
+}
+
+.container {
+  padding: 32rpx;
+  background: #f5f5f5;
+  min-height: 100vh;
+  box-sizing: border-box;
+}

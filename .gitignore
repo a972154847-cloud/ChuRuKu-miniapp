@@ -1,0 +1,70 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Database
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+*.db.bak*
+*.sqlite
+*.sqlite3
+
+# Uploads (keep .gitkeep)
+uploads/*
+!uploads/.gitkeep
+backend/uploads/*
+!backend/uploads/.gitkeep
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+debug.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE / Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+.trae/
+
+# AI tool cache
+.qoder/
+
+# Test / Coverage
+coverage/
+test-results/
+test-screenshots/
+vitest_out*
+**/screenshots/
+
+# Taro temp
+.temp/
+.rn_temp/
+.swc/
+
+# WeChat DevTools
+project.private.config.json
+
+# Windows artifact
+nul
+
+# Misc
+*.local
+.transformers-cache/
+midscene_run/
+.reports/
+backend/reports/
+backend/certs/
+dy

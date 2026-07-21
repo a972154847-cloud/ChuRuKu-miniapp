@@ -1,0 +1,49 @@
+# =============================================================================
+# 器材装备出入库记录小程序 - Docker Compose 部署
+# 用法：
+#   1. 复制 .env.example 为 .env 并填入真实凭据
+#   2. docker compose up -d --build
+#   3. 访问 http://localhost:3000/api/health 验证
+# 前端为微信小程序 / H5 静态产物，需另行构建发布，不在此编排内（见 docs/DEPLOYMENT.md）
+# =============================================================================
+
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    image: equipment-backend:latest
+    container_name: equipment-backend
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - DB_PATH=/app/data/equipment.db
+      - JWT_SECRET=${JWT_SECRET:-change-me-in-production}
+      - JWT_EXPIRES_IN=${JWT_EXPIRES_IN:-7d}
+      - WX_APP_ID=${WX_APP_ID:-}
+      - WX_APP_SECRET=${WX_APP_SECRET:-}
+      - WX_SUBSCRIBE_TEMPLATE_ID=${WX_SUBSCRIBE_TEMPLATE_ID:-}
+      - AI_PROVIDER=${AI_PROVIDER:-qwen}
+      - AI_BASE_URL=${AI_BASE_URL:-https://dashscope.aliyuncs.com/compatible-mode/v1}
+      - AI_API_KEY=${AI_API_KEY:-}
+      - AI_MODEL=${AI_MODEL:-qwen-vl-max}
+      - UPLOAD_DIR=/app/data/uploads
+      - LOW_STOCK_THRESHOLD=${LOW_STOCK_THRESHOLD:-5}
+    volumes:
+      # 数据库与上传文件统一持久化到 backend-data 卷
+      - backend-data:/app/data
+    restart: unless-stopped
+    healthcheck:
+      # alpine 自带 wget，探测健康检查端点
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:3000/api/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+
+volumes:
+  backend-data:
