@@ -73,3 +73,37 @@ export function searchEquipments(keyword: string): Promise<SearchEquipmentsResul
     return { list, total: res.total || list.length }
   })
 }
+
+/** 最近出入库记录项 */
+export interface RecentRecordItem {
+  id: number
+  type: 'in' | 'out'
+  quantity: number
+  operator_name: string
+  created_at: string
+}
+
+/** 器材详情（含库存 + 最近记录） */
+export interface EquipmentDetail {
+  id: number
+  name: string
+  spec: string | null
+  category_id: number | null
+  category_name: string | null
+  image_url: string | null
+  scrap_years: number | null
+  threshold: number
+  is_active: number
+  current_stock: number
+  created_at: string
+  updated_at: string
+  recent_records: RecentRecordItem[]
+}
+
+/** 获取器材详情 */
+export function getEquipmentDetail(id: number) {
+  return request<EquipmentDetail>({
+    url: `/equipments/${id}`,
+    method: 'GET',
+  })
+}

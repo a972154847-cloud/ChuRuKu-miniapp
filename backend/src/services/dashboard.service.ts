@@ -330,8 +330,83 @@ export function getDashboardOverview(days: number = 7): DashboardOverview {
   }
 }
 
+/** 系统活动项 */
+export interface ActivityItem {
+  id: number
+  action: string
+  action_label: string
+  entity: string
+  entity_label: string
+  actor_name: string | null
+  created_at: string
+}
+
+/** 操作映射为友好中文标签 */
+const ACTION_LABELS: Record<string, string> = {
+  'record.create': '新增出入库',
+  'record.update': '编辑出入库',
+  'record.delete': '删除出入库',
+  'record.attach_photos': '添加照片',
+  'record.replace_photos': '替换照片',
+  'record.detach_photo': '删除照片',
+  'equipment.create': '新增器材',
+  'equipment.update': '编辑器材',
+  'user.login': '用户登录',
+  'auth.failed': '认证失败',
+}
+
+function getActionLabel(action: string): string {
+  return ACTION_LABELS[action] || action
+}
+
+function getEntityLabel(entity: string, entityId: number | null): string {
+  if (entity === 'record') return '出入库记录'
+  if (entity === 'equipment') return '器材'
+  if (entity === 'user') return '用户'
+  if (entity === 'category') return '分类'
+  if (entity === 'record_photo') return '照片'
+  return entity
+}
+
+/**
+ * 获取最近系统活动动态
+ * - 从 logs 表取最近 20 条记录，JOIN users 表获取操作人姓名
+ * - 仅返回 viewer 及以上角色可查看的常规活动
+ */
+export function getDashboardActivities(): ActivityItem[] {
+  const rows = db
+    .prepare(
+      `SELECT l.id, l.action, l.entity, l.entity_id, l.created_at,
+              u.name as actor_name
+       FROM logs l
+       LEFT JOIN users u ON l.actor_id = u.id
+       WHERE l.action NOT LIKE 'auth.%'
+       ORDER BY l.created_at DESC
+       LIMIT 20`
+    )
+    .all() as Array<{
+    id: number
+    action: string
+    entity: string
+    entity_id: number | null
+    created_at: string
+    actor_name: string | null
+  }>
+
+  return rows.map((r) => ({
+    id: r.id,
+    action: r.action,
+    action_label: getActionLabel(r.action),
+    entity: r.entity,
+    entity_label: getEntityLabel(r.entity, r.entity_id),
+    actor_name: r.actor_name,
+    created_at: r.created_at,
+  }))
+}
+
 export default {
   getDashboardOverview,
   getLowStock,
   getExpiry,
+  getDashboardActivities,
 }

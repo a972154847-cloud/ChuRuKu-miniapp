@@ -22,7 +22,7 @@
     "build:qq": "taro build --type qq && npm run fix:comp",
     "build:jd": "taro build --type jd && npm run fix:comp",
     "build:harmony-hybrid": "taro build --type harmony-hybrid",
-    "dev:weapp": "npm run build:weapp -- --watch",
+    "dev:weapp": "set \"NODE_ENV=development\" && set \"TARO_APP_API_BASE_URL=https://api.972154847.asia/api\" && npm run build:weapp && taro build --type weapp --watch",
     "dev:swan": "npm run build:swan -- --watch",
     "dev:alipay": "npm run build:alipay -- --watch",
     "dev:tt": "npm run build:tt -- --watch",

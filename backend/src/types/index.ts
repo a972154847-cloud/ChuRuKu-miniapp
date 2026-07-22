@@ -109,6 +109,7 @@ export interface RecordPhoto {
   id: number
   record_id: number
   url: string
+  thumbnail_url?: string | null
   kind: PhotoKind
   annotation_json?: string | null
   sort_order: number

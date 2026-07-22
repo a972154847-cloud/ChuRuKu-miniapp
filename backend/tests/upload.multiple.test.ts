@@ -3,6 +3,10 @@ process.env.NODE_ENV = 'test'
 
 import type { Application } from 'express'
 import type { SuperTest, Test } from 'supertest'
+import fs from 'fs'
+import path from 'path'
+import sharp from 'sharp'
+import { config } from '../src/config'
 
 const { runMigrations } = require('../src/db/migrate')
 runMigrations()
@@ -15,7 +19,11 @@ const { signToken } = require('../src/middlewares/auth') as typeof import('../sr
 
 beforeEach(() => {
   resetDatabase()
-  try { db.exec("ALTER TABLE users ADD COLUMN status TEXT NOT NULL DEFAULT 'active'") } catch (e) { /* status column already exists via 008 migration */ }
+  try {
+    db.exec("ALTER TABLE users ADD COLUMN status TEXT NOT NULL DEFAULT 'active'")
+  } catch (e) {
+    /* status column already exists via 008 migration */
+  }
 })
 
 // 模块级递增 id：避免 verifyToken 的 userCache（30s TTL）跨测试命中旧用户
@@ -30,7 +38,7 @@ function createUser(role: 'admin' | 'editor' | 'viewer', name?: string) {
     id,
     openid,
     name || role,
-    role
+    role,
   )
   const user = db.prepare('SELECT * FROM users WHERE id = ?').get(id) as {
     id: number
@@ -42,9 +50,15 @@ function createUser(role: 'admin' | 'editor' | 'viewer', name?: string) {
   return { token: signToken(user as any), id: user.id, role, user }
 }
 
-const PNG_BUFFER = Buffer.from([
-  0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a, 0x00, 0x00, 0x00, 0x0d, 0x49, 0x48, 0x44, 0x52,
-])
+let PNG_BUFFER: Buffer
+
+beforeAll(async () => {
+  PNG_BUFFER = await sharp({
+    create: { width: 1, height: 1, channels: 3, background: { r: 255, g: 255, b: 255 } },
+  })
+    .png()
+    .toBuffer()
+})
 
 describe('POST /api/upload/multiple', () => {
   test('未登录返回 401', async () => {
@@ -75,6 +89,9 @@ describe('POST /api/upload/multiple', () => {
     expect(res.body.data.list[0].url).toMatch(/^\/uploads\//)
     expect(res.body.data.list[0].filename).toMatch(/\.png$/)
     expect(res.body.data.list[0].mimeType).toBe('image/png')
+    expect(res.body.data.list[0].thumbnailUrl).toMatch(/^\/uploads\/thumbs\/.+\.webp$/)
+    const thumbnailFilename = path.posix.basename(res.body.data.list[0].thumbnailUrl)
+    expect(fs.existsSync(path.join(config.uploadDir, 'thumbs', thumbnailFilename))).toBe(true)
   })
 
   test('admin 上传多个图片（3 个）成功', async () => {

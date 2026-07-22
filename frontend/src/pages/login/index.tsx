@@ -1,23 +1,14 @@
 import { useEffect, useState } from 'react'
-import { View, Text, Button, Input, Picker } from '@tarojs/components'
+import { View, Text, Button } from '@tarojs/components'
 import Taro from '@tarojs/taro'
-import { wxLogin, devLogin } from '@/services/auth'
+import { wxLogin } from '@/services/auth'
 import { useUserStore } from '@/store/user'
-import type { Role } from '@/types'
 import './index.scss'
-
-const ROLE_OPTIONS: { label: string; value: Role }[] = [
-  { label: '管理员 (admin)', value: 'admin' },
-  { label: '录入员 (editor)', value: 'editor' },
-  { label: '查看员 (viewer)', value: 'viewer' }
-]
 
 export default function Login() {
   const setAuth = useUserStore((s) => s.setAuth)
   const token = useUserStore((s) => s.token)
   const [loading, setLoading] = useState(false)
-  const [devName, setDevName] = useState('')
-  const [roleIdx, setRoleIdx] = useState(0)
 
   // 已登录则自动跳转首页
   useEffect(() => {
@@ -44,26 +35,7 @@ export default function Login() {
       setTimeout(goHome, 500)
     } catch (err) {
       Taro.showToast({
-        title: err instanceof Error ? err.message : '微信登录失败，可使用开发登录',
-        icon: 'none'
-      })
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  const handleDevLogin = async () => {
-    if (loading) return
-    setLoading(true)
-    try {
-      const role = ROLE_OPTIONS[roleIdx].value
-      const res = await devLogin(undefined, devName || undefined, role)
-      setAuth(res.token, res.user)
-      Taro.showToast({ title: '登录成功', icon: 'success' })
-      setTimeout(goHome, 500)
-    } catch (err) {
-      Taro.showToast({
-        title: err instanceof Error ? err.message : '开发登录失败',
+        title: err instanceof Error ? err.message : '微信登录失败，请稍后重试',
         icon: 'none'
       })
     } finally {
@@ -89,37 +61,6 @@ export default function Login() {
         </Button>
       </View>
 
-      <View className='login-divider'>
-        <View className='login-divider__line' />
-        <Text className='login-divider__text'>开发登录（测试用）</Text>
-        <View className='login-divider__line' />
-      </View>
-
-      <View className='login-section login-section--dev'>
-        <Input
-          className='login-input'
-          value={devName}
-          placeholder='用户名（可选）'
-          onInput={(e) => setDevName(e.detail.value)}
-        />
-        <Picker
-          mode='selector'
-          range={ROLE_OPTIONS.map((r) => r.label)}
-          value={roleIdx}
-          onChange={(e) => setRoleIdx(Number(e.detail.value))}
-        >
-          <View className='login-picker'>
-            <Text>{ROLE_OPTIONS[roleIdx].label}</Text>
-          </View>
-        </Picker>
-        <Button
-          className='login-btn login-btn--dev'
-          loading={loading}
-          onClick={handleDevLogin}
-        >
-          开发登录
-        </Button>
-      </View>
     </View>
   )
 }

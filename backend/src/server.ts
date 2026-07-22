@@ -19,22 +19,34 @@ const hasCerts = fs.existsSync(certFile) && fs.existsSync(keyFile)
 /**
  * P1-13 安全修复：
  * - 生产环境必须 HTTPS，证书不存在直接 throw（拒绝启动）
+ * - 但若有 BEHIND_PROXY=true 环境变量（如 Docker + Nginx 反代），则允许 HTTP
  * - 开发环境允许回退到 HTTP，但 warn 提示
  * - 启动时打印实际协议和端口
  */
+const behindProxy = process.env.BEHIND_PROXY === 'true' || process.env.BEHIND_PROXY === '1'
+
 if (config.nodeEnv === 'production') {
   if (!hasCerts) {
-    throw new Error(
-      '[server] 生产环境必须配置 HTTPS 证书（certs/cert.pem、certs/key.pem），拒绝以 HTTP 启动'
-    )
+    if (behindProxy) {
+      // Docker + Nginx 反代场景，后端跑内部 HTTP
+      console.log('[server] 生产环境（反向代理模式），使用 HTTP')
+      app.listen(config.port, () => {
+        console.log(`HTTP Server running on http://localhost:${config.port}`)
+      })
+    } else {
+      throw new Error(
+        '[server] 生产环境必须配置 HTTPS 证书（certs/cert.pem、certs/key.pem）或设置 BEHIND_PROXY=true'
+      )
+    }
+  } else {
+    const httpsOptions = {
+      cert: fs.readFileSync(certFile),
+      key: fs.readFileSync(keyFile),
+    }
+    https.createServer(httpsOptions, app).listen(config.port, () => {
+      console.log(`HTTPS Server running on https://localhost:${config.port}`)
+    })
   }
-  const httpsOptions = {
-    cert: fs.readFileSync(certFile),
-    key: fs.readFileSync(keyFile),
-  }
-  https.createServer(httpsOptions, app).listen(config.port, () => {
-    console.log(`HTTPS Server running on https://localhost:${config.port}`)
-  })
 } else if (hasCerts) {
   const httpsOptions = {
     cert: fs.readFileSync(certFile),

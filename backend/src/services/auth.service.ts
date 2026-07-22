@@ -72,7 +72,7 @@ interface DevLoginOptions {
 /**
  * 开发环境登录：仅在 development/test 环境可用
  * - 默认 openid='dev-openid', name='开发者'
- * - P0-2: 强制 role 为 viewer（需要 admin 时手动改 DB），忽略调用方传入的 role
+ * - P0-2: development 环境首用户为 admin，已存在用户保留原角色（不降级）
  * - V-3: test 环境下，role 覆盖需 allowRoleOverride=true 显式 opt-in
  */
 export function devLogin(opts?: DevLoginOptions): User {
@@ -84,7 +84,7 @@ export function devLogin(opts?: DevLoginOptions): User {
 
   const openid = opts?.openid || 'dev-openid'
   const name = opts?.name || '开发者'
-  // P0-2: development 环境强制 role 为 viewer，即使用户传入 admin 也降级为 viewer
+  // P0-2: development 环境首用户为 admin，已存在用户保留原角色
   // test 环境例外：
   //   - V-3 修复：role 覆盖需 allowRoleOverride=true 显式 opt-in
   //   - 显式 opt-in 时使用该 role（便于测试权限控制）
@@ -98,7 +98,9 @@ export function devLogin(opts?: DevLoginOptions): User {
       role = count === 0 ? 'admin' : 'viewer'
     }
   } else {
-    role = 'viewer'
+    // development 环境：首用户 admin，已存在用户不降级
+    const count = (db.prepare('SELECT COUNT(*) as c FROM users').get() as { c: number }).c
+    role = count === 0 ? 'admin' : 'viewer'
   }
 
   const existing = db.prepare('SELECT * FROM users WHERE openid = ?').get(openid) as
@@ -110,17 +112,19 @@ export function devLogin(opts?: DevLoginOptions): User {
       "UPDATE users SET name = ?, updated_at = datetime('now','+8 hours') WHERE id = ?"
     ).run(name, existing.id)
 
-    if (role !== existing.role) {
+    // 不降级已存在的用户角色（保留手动在 DB 中提升的 admin 权限）
+    const effectiveRole = existing.role
+    if (config.nodeEnv === 'test' && opts?.allowRoleOverride && opts?.role && opts.role !== existing.role) {
       db.prepare(
         "UPDATE users SET role = ?, updated_at = datetime('now','+8 hours') WHERE id = ?"
-      ).run(role, existing.id)
+      ).run(opts.role, existing.id)
       writeLog({
         actorId: existing.id,
         action: 'role.change',
         entity: 'user',
         entityId: existing.id,
         before: { role: existing.role },
-        after: { role },
+        after: { role: opts.role },
       })
     }
 

@@ -70,7 +70,7 @@ export default function Categories() {
       <View className='categories-page'>
         <View className='categories-empty'>
           <Text className='categories-empty__text'>无权限</Text>
-          <Text className='categories-empty__sub'>仅管理员可管理器材分类</Text>
+          <Text className='categories-empty__sub'>请联系管理员开通权限</Text>
         </View>
       </View>
     )

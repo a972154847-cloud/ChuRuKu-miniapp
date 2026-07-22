@@ -32,6 +32,7 @@ export interface UpdateRecordInput {
 
 export interface AttachPhotoInput {
   url: string
+  thumbnail_url?: string | null
   kind: PhotoKind
   annotation_json?: string | null
   sort_order?: number

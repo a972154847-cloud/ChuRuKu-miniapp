@@ -62,7 +62,7 @@ describe('POST /api/auth/login', () => {
     expect(res.status).toBe(502)
     expect(res.body.code).toBe(502)
     expect(res.body.message).toBe('微信登录失败')
-    expect(res.body.detail).toContain('network error')
+    expect(res.body.detail).toBeUndefined()
   })
 
   test('微信返回 errcode 时抛错并返回 502', async () => {
@@ -72,7 +72,18 @@ describe('POST /api/auth/login', () => {
     const res = await request(app).post('/api/auth/login').send({ code: 'bad_code' })
     expect(res.status).toBe(502)
     expect(res.body.message).toBe('微信登录失败')
-    expect(res.body.detail).toContain('40029')
+    expect(res.body.detail).toBeUndefined()
+  })
+
+  test('微信接口超时返回 504，提示稍后重试', async () => {
+    const timeoutError = Object.assign(new Error('timeout'), { code: 'ECONNABORTED' })
+    axiosDefault.get.mockRejectedValueOnce(timeoutError)
+
+    const res = await request(app).post('/api/auth/login').send({ code: 'timeout_code' })
+
+    expect(res.status).toBe(504)
+    expect(res.body.code).toBe(504)
+    expect(res.body.message).toContain('响应较慢')
   })
 
   test('首用户登录成功并强制 admin 角色', async () => {

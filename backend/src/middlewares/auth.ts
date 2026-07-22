@@ -12,6 +12,14 @@ interface WxLoginResult {
   unionid?: string
 }
 
+export const WX_LOGIN_TIMEOUT_MS = 8000
+
+/** 仅识别网络层超时，不把微信业务错误误判为可重试的超时。 */
+export function isWxLoginTimeout(error: unknown): boolean {
+  const code = (error as { code?: unknown } | null)?.code
+  return code === 'ECONNABORTED' || code === 'ETIMEDOUT'
+}
+
 /**
  * P1-7: 兜底为 users 表添加 status 列（migrate.ts 不在本任务范围）
  * SQLite 不支持 ADD COLUMN IF NOT EXISTS，用 PRAGMA table_info 检查列是否存在
@@ -42,7 +50,7 @@ export async function wxLogin(code: string): Promise<WxLoginResult> {
       js_code: code,
       grant_type: 'authorization_code',
     },
-    timeout: 5000,
+    timeout: WX_LOGIN_TIMEOUT_MS,
   })
   if (res.data.errcode) {
     throw new Error(`微信登录失败: ${res.data.errcode} ${res.data.errmsg}`)

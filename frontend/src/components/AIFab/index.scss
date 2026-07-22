@@ -22,6 +22,11 @@
   transform: scale(0.92);
 }
 
+/* hoverClass 样式（Taro 点击态） */
+.ai-fab--hover {
+  transform: scale(0.92) !important;
+}
+
 /* 拖动中：取消动画过渡（跟手），放大轻微提示 */
 .ai-fab--dragging {
   transition: none;

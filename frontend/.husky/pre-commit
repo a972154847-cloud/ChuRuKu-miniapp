@@ -1,0 +1,23 @@
+#!/usr/bin/env sh
+
+# 1. 运行 lint-staged（eslint + 相关测试）
+npx --no -- lint-staged --allow-empty
+LINT_EXIT=$?
+
+# 2. 扫描暂存区中的密钥
+echo "---"
+echo "[pre-commit] 扫描暂存区密钥..."
+cd "$(dirname "$0")/../.."
+node scripts/scan-secrets.mjs
+SECRET_EXIT=$?
+
+# 汇总结果
+if [ $LINT_EXIT -ne 0 ] || [ $SECRET_EXIT -ne 0 ]; then
+  echo ""
+  echo "❌ pre-commit 检查失败"
+  echo "   lint-staged: $([ $LINT_EXIT -eq 0 ] && echo '✅' || echo '❌')"
+  echo "   密钥扫描:    $([ $SECRET_EXIT -eq 0 ] && echo '✅' || echo '❌')"
+  exit 1
+fi
+
+echo "✅ pre-commit 全部检查通过"

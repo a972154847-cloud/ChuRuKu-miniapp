@@ -1,7 +1,8 @@
 import db from '../db'
 import { writeLog } from './log.service'
+import { saveRecordToRecycleBin } from './recycle.service'
 import { notifyRecordEvent } from './notification.service'
-import { PHOTO_LIMIT, VIDEO_LIMIT } from './upload.service'
+import { PHOTO_LIMIT, VIDEO_LIMIT, getThumbnailUrlIfExists } from './upload.service'
 import { NotFoundError, ValidationError, ConflictError } from '../utils/errors'
 import type { LogRow } from './log-query.service'
 import {
@@ -70,19 +71,24 @@ interface AttachPhotoInput {
 const VALID_TYPES: RecordType[] = ['in', 'out']
 const VALID_PHOTO_KINDS: PhotoKind[] = ['product', 'location', 'annotated', 'video']
 
+function withThumbnail(photo: RecordPhoto): RecordPhoto {
+  return { ...photo, thumbnail_url: getThumbnailUrlIfExists(photo.url, photo.kind) }
+}
+
 function getOrCreateEquipment(name: string): { id: number; name: string } {
   name = name.trim()
   if (!name) {
     throw new ValidationError('器材名称不能为空')
   }
-  const existing = db
-    .prepare('SELECT id, name FROM equipments WHERE name = ?')
-    .get(name) as { id: number; name: string } | undefined
+  const existing = db.prepare('SELECT id, name FROM equipments WHERE name = ?').get(name) as
+    { id: number; name: string } | undefined
   if (existing) {
     return existing
   }
   const result = db
-    .prepare('INSERT INTO equipments (name, category_id, threshold, is_active) VALUES (?, NULL, 0, 1)')
+    .prepare(
+      'INSERT INTO equipments (name, category_id, threshold, is_active) VALUES (?, NULL, 0, 1)',
+    )
     .run(name)
   return { id: result.lastInsertRowid as number, name }
 }
@@ -91,7 +97,7 @@ function getEquipmentStock(equipmentId: number): number {
   const row = db
     .prepare(
       `SELECT COALESCE(SUM(CASE WHEN type = 'in' THEN quantity ELSE -quantity END), 0) as stock
-       FROM records WHERE equipment_id = ?`
+       FROM records WHERE equipment_id = ?`,
     )
     .get(equipmentId) as { stock: number }
   return row.stock
@@ -124,7 +130,7 @@ export function createRecord(input: CreateRecordInput, operatorId: number): Reco
         `INSERT INTO records
           (equipment_id, type, quantity, operator_id, location_photo_url,
            ai_source, name_source, recipient, purpose, expected_return_at, remark)
-         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       )
       .run(
         eq.id,
@@ -137,12 +143,12 @@ export function createRecord(input: CreateRecordInput, operatorId: number): Reco
         input.recipient ?? null,
         input.purpose ?? null,
         input.expected_return_at ?? null,
-        input.remark ?? null
+        input.remark ?? null,
       )
 
-    const record = db.prepare('SELECT * FROM records WHERE id = ?').get(
-      result.lastInsertRowid
-    ) as Record
+    const record = db
+      .prepare('SELECT * FROM records WHERE id = ?')
+      .get(result.lastInsertRowid) as Record
     writeLog({
       actorId: operatorId,
       action: 'record.create',
@@ -155,17 +161,14 @@ export function createRecord(input: CreateRecordInput, operatorId: number): Reco
 
   const { record, eq } = create()
 
-  const operator = db
-    .prepare('SELECT name FROM users WHERE id = ?')
-    .get(operatorId) as { name: string } | undefined
+  const operator = db.prepare('SELECT name FROM users WHERE id = ?').get(operatorId) as
+    { name: string } | undefined
   void notifyRecordEvent({
     type: input.type,
     equipment_name: eq.name,
     quantity: qty,
     operator_name: operator?.name || '',
-  }).catch((e) =>
-    console.warn('[notification] createRecord notify failed:', (e as Error).message)
-  )
+  }).catch((e) => console.warn('[notification] createRecord notify failed:', (e as Error).message))
 
   return record
 }
@@ -191,8 +194,9 @@ export function listRecords(filters: ListRecordsFilters): ListRecordsResult {
     params.push(filters.operator_id)
   }
   // 兼容前端 equipment_name 与 keyword 两种参数，统一按器材名模糊匹配
-  const kw = (filters.keyword && filters.keyword.trim())
-    || (filters.equipment_name && filters.equipment_name.trim())
+  const kw =
+    (filters.keyword && filters.keyword.trim()) ||
+    (filters.equipment_name && filters.equipment_name.trim())
   if (kw) {
     where.push('e.name LIKE ?')
     params.push(`%${kw}%`)
@@ -216,7 +220,7 @@ export function listRecords(filters: ListRecordsFilters): ListRecordsResult {
   const total = (
     db
       .prepare(
-        `SELECT COUNT(*) as c FROM records r LEFT JOIN equipments e ON r.equipment_id = e.id ${whereClause}`
+        `SELECT COUNT(*) as c FROM records r LEFT JOIN equipments e ON r.equipment_id = e.id ${whereClause}`,
       )
       .get(...params) as { c: number }
   ).c
@@ -229,7 +233,7 @@ export function listRecords(filters: ListRecordsFilters): ListRecordsResult {
        LEFT JOIN users u ON r.operator_id = u.id
        ${whereClause}
        ORDER BY r.created_at DESC, r.id DESC
-       LIMIT ? OFFSET ?`
+       LIMIT ? OFFSET ?`,
     )
     .all(...params, pageSize, (page - 1) * pageSize) as RecordListRow[]
 
@@ -237,13 +241,15 @@ export function listRecords(filters: ListRecordsFilters): ListRecordsResult {
   return { list, total, page, pageSize, has_more }
 }
 
-export function getRecordById(id: number): (Record & {
-  equipment: { id: number; name: string } | null
-  operator: { id: number; name: string; role: string } | null
-  photos: RecordPhoto[]
-  related_logs: LogRow[]
-  current_stock: number
-}) | null {
+export function getRecordById(id: number):
+  | (Record & {
+      equipment: { id: number; name: string } | null
+      operator: { id: number; name: string; role: string } | null
+      photos: RecordPhoto[]
+      related_logs: LogRow[]
+      current_stock: number
+    })
+  | null {
   const row = db
     .prepare(
       `SELECT r.*, e.id as eq_id, e.name as eq_name,
@@ -251,7 +257,7 @@ export function getRecordById(id: number): (Record & {
        FROM records r
        LEFT JOIN equipments e ON r.equipment_id = e.id
        LEFT JOIN users u ON r.operator_id = u.id
-       WHERE r.id = ?`
+       WHERE r.id = ?`,
     )
     .get(id) as
     | (Record & {
@@ -265,9 +271,11 @@ export function getRecordById(id: number): (Record & {
 
   if (!row) return null
 
-  const photos = db
-    .prepare('SELECT * FROM record_photos WHERE record_id = ? ORDER BY sort_order ASC, id ASC')
-    .all(id) as RecordPhoto[]
+  const photos = (
+    db
+      .prepare('SELECT * FROM record_photos WHERE record_id = ? ORDER BY sort_order ASC, id ASC')
+      .all(id) as RecordPhoto[]
+  ).map(withThumbnail)
 
   const related_logs = db
     .prepare(
@@ -275,7 +283,7 @@ export function getRecordById(id: number): (Record & {
        FROM logs l
        LEFT JOIN users u ON l.actor_id = u.id
        WHERE l.entity = 'record' AND l.entity_id = ?
-       ORDER BY l.created_at ASC, l.id ASC`
+       ORDER BY l.created_at ASC, l.id ASC`,
     )
     .all(id) as LogRow[]
 
@@ -292,11 +300,7 @@ export function getRecordById(id: number): (Record & {
   }
 }
 
-export function updateRecord(
-  id: number,
-  input: UpdateRecordInput,
-  operatorId: number
-): Record {
+export function updateRecord(id: number, input: UpdateRecordInput, operatorId: number): Record {
   const existing = db.prepare('SELECT * FROM records WHERE id = ?').get(id) as Record | undefined
   if (!existing) {
     throw new NotFoundError('记录不存在')
@@ -387,19 +391,17 @@ export function updateRecord(
   const updated = update()
 
   if (input.quantity !== undefined) {
-    const eq = db
-      .prepare('SELECT name FROM equipments WHERE id = ?')
-      .get(updated.equipment_id) as { name: string } | undefined
-    const operator = db
-      .prepare('SELECT name FROM users WHERE id = ?')
-      .get(operatorId) as { name: string } | undefined
+    const eq = db.prepare('SELECT name FROM equipments WHERE id = ?').get(updated.equipment_id) as
+      { name: string } | undefined
+    const operator = db.prepare('SELECT name FROM users WHERE id = ?').get(operatorId) as
+      { name: string } | undefined
     void notifyRecordEvent({
       type: updated.type,
       equipment_name: eq?.name || '',
       quantity: Number(updated.quantity),
       operator_name: operator?.name || '',
     }).catch((e) =>
-      console.warn('[notification] updateRecord notify failed:', (e as Error).message)
+      console.warn('[notification] updateRecord notify failed:', (e as Error).message),
     )
   }
 
@@ -412,7 +414,18 @@ export function deleteRecord(id: number, operatorId: number): void {
     throw new NotFoundError('记录不存在')
   }
 
-  // 事务包裹：库存校验 + DELETE record + writeLog 原子化。
+  // 获取器材名称（用于回收站摘要）
+  const equip = db
+    .prepare('SELECT name FROM equipments WHERE id = ?')
+    .get(existing.equipment_id) as { name: string } | undefined
+  const equipmentName = equip?.name || '未知器材'
+
+  // 获取关联照片
+  const photos = db
+    .prepare('SELECT * FROM record_photos WHERE record_id = ? ORDER BY sort_order ASC, id ASC')
+    .all(id) as RecordPhoto[]
+
+  // 事务包裹：库存校验 + 移入回收站 + DELETE record + writeLog 原子化。
   // 库存由 records 动态 SUM 计算，删除 record 即自动恢复库存；
   // 事务保证校验与删除之间无并发写入，日志失败时整笔回滚
   db.transaction(() => {
@@ -420,11 +433,21 @@ export function deleteRecord(id: number, operatorId: number): void {
 
     if (existing.type === 'in') {
       if (currentStock - existing.quantity < 0) {
-        throw new ConflictError(`删除后库存将为负数：当前库存 ${currentStock}，入库数量 ${existing.quantity}`)
+        throw new ConflictError(
+          `删除后库存将为负数：当前库存 ${currentStock}，入库数量 ${existing.quantity}`,
+        )
       }
     }
 
-    const newStock = existing.type === 'in' ? currentStock - existing.quantity : currentStock + existing.quantity
+    const newStock =
+      existing.type === 'in' ? currentStock - existing.quantity : currentStock + existing.quantity
+
+    // 删除前将记录及关联照片保存到回收站，以便误删恢复
+    saveRecordToRecycleBin(
+      { ...existing, equipment_name: equipmentName },
+      photos as any[],
+      operatorId,
+    )
 
     db.prepare('DELETE FROM records WHERE id = ?').run(id)
     writeLog({
@@ -467,15 +490,14 @@ export function getEquipmentList(): Array<{ id: number; name: string; stock: num
        FROM equipments e
        LEFT JOIN records r ON r.equipment_id = e.id
        GROUP BY e.id, e.name
-       ORDER BY e.name ASC`
+       ORDER BY e.name ASC`,
     )
     .all() as Array<{ id: number; name: string; stock: number }>
 }
 
 export function getEquipmentStockByName(name: string): number {
-  const eq = db
-    .prepare('SELECT id FROM equipments WHERE name = ?')
-    .get(name) as { id: number } | undefined
+  const eq = db.prepare('SELECT id FROM equipments WHERE name = ?').get(name) as
+    { id: number } | undefined
   if (!eq) {
     return 0
   }
@@ -520,17 +542,17 @@ export function attachPhotos(recordId: number, photos: AttachPhotoInput[]): Reco
       const result = db
         .prepare(
           `INSERT INTO record_photos (record_id, url, kind, annotation_json, sort_order)
-           VALUES (?, ?, ?, ?, ?)`
+           VALUES (?, ?, ?, ?, ?)`,
         )
         .run(recordId, p.url, p.kind, p.annotation_json ?? null, p.sort_order ?? 0)
-      const row = db.prepare('SELECT * FROM record_photos WHERE id = ?').get(
-        result.lastInsertRowid
-      ) as RecordPhoto
+      const row = db
+        .prepare('SELECT * FROM record_photos WHERE id = ?')
+        .get(result.lastInsertRowid) as RecordPhoto
       inserted.push(row)
     }
     return inserted
   })
-  return insert()
+  return insert().map(withThumbnail)
 }
 
 export function detachPhoto(recordId: number, photoId: number): void {
@@ -578,20 +600,24 @@ export function replacePhotos(recordId: number, photos: AttachPhotoInput[]): Rec
       const result = db
         .prepare(
           `INSERT INTO record_photos (record_id, url, kind, annotation_json, sort_order)
-           VALUES (?, ?, ?, ?, ?)`
+           VALUES (?, ?, ?, ?, ?)`,
         )
         .run(recordId, p.url, p.kind, p.annotation_json ?? null, p.sort_order ?? 0)
-      const row = db.prepare('SELECT * FROM record_photos WHERE id = ?').get(
-        result.lastInsertRowid
-      ) as RecordPhoto
+      const row = db
+        .prepare('SELECT * FROM record_photos WHERE id = ?')
+        .get(result.lastInsertRowid) as RecordPhoto
       inserted.push(row)
     }
     return inserted
   })
-  return tx()
+  return tx().map(withThumbnail)
 }
 
-export function getEquipmentInRecords(name: string, page: number = 1, pageSize: number = 20): {
+export function getEquipmentInRecords(
+  name: string,
+  page: number = 1,
+  pageSize: number = 20,
+): {
   list: Array<{
     id: number
     equipment_name: string
@@ -604,9 +630,8 @@ export function getEquipmentInRecords(name: string, page: number = 1, pageSize: 
   const safePageSize = Math.min(Math.max(Number(pageSize) || 20, 1), 100)
   const safePage = Math.max(Number(page) || 1, 1)
 
-  const eq = db
-    .prepare('SELECT id, name FROM equipments WHERE name = ?')
-    .get(name) as { id: number; name: string } | undefined
+  const eq = db.prepare('SELECT id, name FROM equipments WHERE name = ?').get(name) as
+    { id: number; name: string } | undefined
   if (!eq) {
     return { list: [], total: 0 }
   }
@@ -623,9 +648,14 @@ export function getEquipmentInRecords(name: string, page: number = 1, pageSize: 
        FROM records
        WHERE equipment_id = ? AND type = 'in'
        ORDER BY created_at DESC
-       LIMIT ? OFFSET ?`
+       LIMIT ? OFFSET ?`,
     )
-    .all(eq.id, safePageSize, (safePage - 1) * safePageSize) as Array<{ id: number; equipment_id: number; quantity: number; created_at: string }>
+    .all(eq.id, safePageSize, (safePage - 1) * safePageSize) as Array<{
+    id: number
+    equipment_id: number
+    quantity: number
+    created_at: string
+  }>
 
   // 批量查询照片，避免 N+1：分页 20 条原先触发 20 次 SQL
   const recordIds = records.map((r) => r.id)
@@ -634,15 +664,16 @@ export function getEquipmentInRecords(name: string, page: number = 1, pageSize: 
     const placeholders = recordIds.map(() => '?').join(',')
     const allPhotos = db
       .prepare(
-        `SELECT * FROM record_photos WHERE record_id IN (${placeholders}) ORDER BY sort_order ASC, id ASC`
+        `SELECT * FROM record_photos WHERE record_id IN (${placeholders}) ORDER BY sort_order ASC, id ASC`,
       )
       .all(...recordIds) as RecordPhoto[]
     for (const p of allPhotos) {
       const arr = photosByRecord.get(p.record_id)
+      const photo = withThumbnail(p)
       if (arr) {
-        arr.push(p)
+        arr.push(photo)
       } else {
-        photosByRecord.set(p.record_id, [p])
+        photosByRecord.set(p.record_id, [photo])
       }
     }
   }

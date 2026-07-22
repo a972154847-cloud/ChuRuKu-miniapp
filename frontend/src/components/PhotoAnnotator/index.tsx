@@ -40,14 +40,25 @@ const CANVAS_ID = 'photo-annotator-canvas'
  * - 保存：canvasToTempFilePath → uploadFile → onSave(newUrl)
  * - H5 降级：canvasToTempFilePath 失败时用 canvas.toDataURL + Blob 上传
  */
+/** Taro Canvas 2D 节点类型（小程序特有，H5 降级为标准 HTMLCanvasElement） */
+interface TaroCanvasNode {
+  getContext: (type: string) => CanvasRenderingContext2D
+  createImage?: () => HTMLImageElement
+  toDataURL?: (type?: string, quality?: number) => string
+  width: number
+  height: number
+  getBoundingClientRect?: () => { width: number; height: number; left: number; top: number }
+}
+
 function PhotoAnnotator({ imageUrl, onSave, onCancel }: PhotoAnnotatorProps) {
-  const canvasRef = useRef<HTMLCanvasElement | any>(null)
-  const ctxRef = useRef<CanvasRenderingContext2D | any>(null)
-  const imgRef = useRef<any>(null)
+  const canvasRef = useRef<TaroCanvasNode | HTMLCanvasElement | null>(null)
+  const ctxRef = useRef<CanvasRenderingContext2D | null>(null)
+  const imgRef = useRef<HTMLImageElement | null>(null)
   const canvasSizeRef = useRef<{ width: number; height: number }>({ width: 0, height: 0 })
   const annotationsRef = useRef<Annotation[]>([])
   const currentAnnotationRef = useRef<Annotation | null>(null)
   const drawingRef = useRef(false)
+  const objectUrlRef = useRef<string | null>(null)
 
   const [tool, setTool] = useState<AnnotationTool>('arrow')
   const [color, setColor] = useState<AnnotationColor>('red')
@@ -77,14 +88,14 @@ function PhotoAnnotator({ imageUrl, onSave, onCancel }: PhotoAnnotatorProps) {
               console.error('[PhotoAnnotator] canvas node 获取失败', res)
               return
             }
-            const canvas = res[0].node
+            const canvas = res[0].node as TaroCanvasNode
             // 用 Canvas 节点的实际显示尺寸（CSS 像素），而非手动估算
             // 这是触摸坐标与绘制坐标一致的关键
             const canvasWidth = res[0].width || sysInfo.windowWidth
             const canvasHeight = res[0].height || Math.floor(sysInfo.windowHeight * 0.6)
             canvasSizeRef.current = { width: canvasWidth, height: canvasHeight }
 
-            const ctx = canvas.getContext('2d') as CanvasRenderingContext2D
+            const ctx = canvas.getContext('2d')
             canvas.width = canvasWidth * dpr
             canvas.height = canvasHeight * dpr
             ctx.scale(dpr, dpr)
@@ -98,8 +109,8 @@ function PhotoAnnotator({ imageUrl, onSave, onCancel }: PhotoAnnotatorProps) {
               setReady(true)
               redraw()
             }
-            img.onerror = (err: any) => {
-              console.error('[PhotoAnnotator] 图片加载失败', err)
+            img.onerror = () => {
+              console.error('[PhotoAnnotator] 图片加载失败')
               Taro.showToast({ title: '图片加载失败', icon: 'none' })
             }
             img.src = imageUrl
@@ -112,6 +123,11 @@ function PhotoAnnotator({ imageUrl, onSave, onCancel }: PhotoAnnotatorProps) {
     setTimeout(initCanvas, 50)
     return () => {
       cancelled = true
+      // 释放 Object URL 防止内存泄漏
+      if (objectUrlRef.current) {
+        URL.revokeObjectURL(objectUrlRef.current)
+        objectUrlRef.current = null
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [imageUrl])
@@ -282,14 +298,15 @@ function PhotoAnnotator({ imageUrl, onSave, onCancel }: PhotoAnnotatorProps) {
     try {
       let tempFilePath: string | null = null
       // 路径1：Taro.canvasToTempFilePath（小程序 + H5 通用）
+      // Taro 的 canvas 参数类型定义较宽松，这里传入实际 canvas 节点
       try {
         const res = await Taro.canvasToTempFilePath({
-          canvas,
+          canvas: canvas as unknown as Parameters<typeof Taro.canvasToTempFilePath>[0]['canvas'],
           fileType: 'jpg',
           quality: 0.9,
           destWidth: canvas.width,
           destHeight: canvas.height
-        } as any)
+        })
         tempFilePath = res.tempFilePath
       } catch (e1) {
         console.warn('[PhotoAnnotator] canvasToTempFilePath 失败，尝试 H5 降级', e1)
@@ -299,7 +316,13 @@ function PhotoAnnotator({ imageUrl, onSave, onCancel }: PhotoAnnotatorProps) {
         const dataUrl = canvas.toDataURL('image/jpeg', 0.9)
         const blob = dataURLToBlob(dataUrl)
         if (blob) {
-          tempFilePath = URL.createObjectURL(blob) as unknown as string
+          // 释放旧的 Object URL（如果有）
+          if (objectUrlRef.current) {
+            URL.revokeObjectURL(objectUrlRef.current)
+          }
+          const url = URL.createObjectURL(blob)
+          objectUrlRef.current = url
+          tempFilePath = url
         }
       }
       if (!tempFilePath) {

@@ -6,6 +6,7 @@ const BASE_URL = (typeof TARO_APP_API_BASE_URL !== 'undefined' && TARO_APP_API_B
 
 export interface UploadResult {
   url: string
+  thumbnailUrl?: string | null
   filename: string
   size: number
   mimeType: string

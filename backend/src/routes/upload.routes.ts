@@ -1,7 +1,12 @@
 import { Router, Request, Response } from 'express'
-import { upload, validateImageSize, buildFileUrl } from '../services/upload.service'
+import {
+  upload,
+  validateImageSize,
+  buildFileUrl,
+  createThumbnail,
+} from '../services/upload.service'
 import authRequired from '../middlewares/auth'
-import { requireEditor } from '../middlewares/role'
+import { requireViewer } from '../middlewares/role'
 
 const router = Router()
 
@@ -13,14 +18,15 @@ router.use(authRequired)
  */
 router.post(
   '/',
-  requireEditor,
+  requireViewer,
   upload.single('file'),
   validateImageSize,
-  (req: Request, res: Response) => {
+  async (req: Request, res: Response) => {
     if (!req.file) {
       res.status(400).json({ code: 400, message: '未提供文件' })
       return
     }
+    const thumbnailUrl = await createThumbnail(req.file)
     res.json({
       code: 0,
       message: 'ok',
@@ -29,9 +35,10 @@ router.post(
         filename: req.file.filename,
         size: req.file.size,
         mimeType: req.file.mimetype,
+        thumbnailUrl,
       },
     })
-  }
+  },
 )
 
 /**
@@ -40,28 +47,32 @@ router.post(
  */
 router.post(
   '/multiple',
-  requireEditor,
+  requireViewer,
   upload.array('files', 5),
   validateImageSize,
-  (req: Request, res: Response) => {
+  async (req: Request, res: Response) => {
     const files = req.files as Express.Multer.File[]
     if (!files || files.length === 0) {
       res.status(400).json({ code: 400, message: '未提供文件' })
       return
     }
+    const list = await Promise.all(
+      files.map(async (f) => ({
+        url: buildFileUrl(f.filename),
+        filename: f.filename,
+        size: f.size,
+        mimeType: f.mimetype,
+        thumbnailUrl: await createThumbnail(f),
+      })),
+    )
     res.json({
       code: 0,
       message: 'ok',
       data: {
-        list: files.map((f) => ({
-          url: buildFileUrl(f.filename),
-          filename: f.filename,
-          size: f.size,
-          mimeType: f.mimetype,
-        })),
+        list,
       },
     })
-  }
+  },
 )
 
 export default router

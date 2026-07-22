@@ -14,7 +14,10 @@
     "test:watch": "jest --watch",
     "lint": "eslint src",
     "format": "prettier --write \"src/**/*.ts\"",
-    "migrate": "ts-node --transpile-only src/db/migrate.ts"
+    "migrate": "ts-node --transpile-only src/db/migrate.ts",
+    "migrate:dry-run": "ts-node --transpile-only src/db/migrate.ts --dry-run",
+    "migrate:down": "ts-node --transpile-only src/db/migrate.ts down",
+    "thumbnails:generate": "ts-node --transpile-only scripts/generate-thumbnails.ts"
   },
   "keywords": [],
   "author": "",
@@ -34,6 +37,7 @@
     "jsonwebtoken": "^9.0.3",
     "morgan": "^1.11.0",
     "multer": "^2.2.0",
+    "sharp": "0.34.5",
     "uuid": "^14.0.1"
   },
   "devDependencies": {

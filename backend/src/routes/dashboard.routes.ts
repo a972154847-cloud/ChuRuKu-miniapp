@@ -4,6 +4,7 @@ import {
   getDashboardOverview,
   getLowStock,
   getExpiry,
+  getDashboardActivities,
 } from '../services/dashboard.service'
 
 const router = Router()
@@ -39,6 +40,15 @@ router.get('/low-stock', (_req: Request, res: Response) => {
 router.get('/expiring', (_req: Request, res: Response) => {
   const { list, expired, expiringSoon } = getExpiry()
   res.json({ code: 0, message: 'ok', data: { list, expired, expiringSoon } })
+})
+
+/**
+ * GET /activities 最近系统活动动态
+ * 返回最近 20 条系统操作记录（含操作人、操作类型、时间）
+ */
+router.get('/activities', (_req: Request, res: Response) => {
+  const list = getDashboardActivities()
+  res.json({ code: 0, message: 'ok', data: { list } })
 })
 
 export default router

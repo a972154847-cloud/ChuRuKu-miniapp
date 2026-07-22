@@ -111,7 +111,7 @@ function EquipmentPicker(
   }
 
   const handleManualInput = (e: any) => {
-    const v = e.detail.value || ''
+    const v = e.detail?.value ?? ''
     setManualName(v)
     nameSourceRef.current = 'manual'
     onChange({ id: 0, name: v, name_source: 'manual' })
@@ -174,7 +174,7 @@ function EquipmentPicker(
             className='equipment-picker__input'
             value={keyword}
             placeholder={placeholder}
-            onInput={(e) => setKeyword(e.detail.value)}
+            onInput={(e) => setKeyword(e.detail?.value ?? '')}
             onConfirm={doSearch}
             confirmType='search'
           />

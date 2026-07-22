@@ -10,17 +10,20 @@ export default defineAppConfig({
     'pages/logs/index',
     'pages/profile/index',
     'pages/login/index',
-    'pages/ai-chat/index'
+    'pages/ai-chat/index',
+    'pages/equipment-detail/index',
+    'pages/recycle/index'
   ],
   window: {
     backgroundTextStyle: 'dark',
-    navigationBarBackgroundColor: '#D9534F',
-    navigationBarTitleText: '器材装备管理',
-    navigationBarTextStyle: 'white'
+    navigationBarBackgroundColor: '#ffffff',
+    navigationBarTitleText: '器材装备出入库管理',
+    navigationStyle: 'default',
+    navigationBarTextStyle: 'black'
   },
   tabBar: {
     color: '#999999',
-    selectedColor: '#D9534F',
+    selectedColor: '#2c664b',
     backgroundColor: '#ffffff',
     borderStyle: 'black',
     list: [

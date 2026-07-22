@@ -1,7 +1,7 @@
 import { Router, Request, Response } from 'express'
 import authRequired from '../middlewares/auth'
 import { requireViewer, requireEditor } from '../middlewares/role'
-import { searchEquipments } from '../services/equipment.service'
+import { searchEquipments, getEquipmentDetail } from '../services/equipment.service'
 import { toInt, safePageSize } from '../utils/helpers'
 import db from '../db'
 
@@ -60,6 +60,24 @@ router.post('/search', requireEditor, (req: Request, res: Response) => {
   const keyword = (req.body || {}).keyword
   const list = searchEquipments(keyword || '')
   res.json({ code: 0, message: 'ok', data: { list } })
+})
+
+/**
+ * GET /:id 器材详情（viewer 及以上）
+ * 返回器材完整信息（含当前库存 + 最近 10 条出入库记录）
+ */
+router.get('/:id', requireViewer, (req: Request, res: Response) => {
+  const id = toInt(req.params.id, NaN)
+  if (!Number.isFinite(id)) {
+    res.status(400).json({ code: 400, message: '非法器材 id' })
+    return
+  }
+  const detail = getEquipmentDetail(id)
+  if (!detail) {
+    res.status(404).json({ code: 404, message: '器材不存在' })
+    return
+  }
+  res.json({ code: 0, message: 'ok', data: detail })
 })
 
 export default router

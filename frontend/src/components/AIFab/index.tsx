@@ -1,6 +1,6 @@
 import { View, Text } from '@tarojs/components'
-import Taro, { useDidShow } from '@tarojs/taro'
-import { useState, useRef } from 'react'
+import Taro from '@tarojs/taro'
+import { useState, useRef, useCallback, useEffect } from 'react'
 import { useUserStore } from '@/store/user'
 import { useAiChatStore } from '@/store/ai-chat'
 import './index.scss'
@@ -32,7 +32,7 @@ export default function AIFab() {
   const token = useUserStore((s) => s.token)
   const [currentPath, setCurrentPath] = useState<string>('')
 
-  // FAB 位置（默认右下角，用负偏移实现 right 定位）
+  // FAB 位置（默认右下角）
   const [pos, setPos] = useState<{ x: number; y: number } | null>(null)
   const touchRef = useRef<TouchState | null>(null)
   const [dragging, setDragging] = useState(false)
@@ -42,23 +42,39 @@ export default function AIFab() {
   const FAB_SIZE = 50 // 100rpx ≈ 50px
   const MARGIN = 16 // 边距
 
-  useDidShow(() => {
+  const initScreenAndRoute = useCallback(() => {
     try {
       const router = Taro.getCurrentInstance().router
       setCurrentPath(router?.path || '')
       // 获取屏幕尺寸（仅一次）
       if (screenRef.current.w === 375) {
         const info = Taro.getWindowInfo()
-        screenRef.current = { w: info.windowWidth, h: info.windowHeight }
+        if (info && info.windowWidth) {
+          screenRef.current = { w: info.windowWidth, h: info.windowHeight }
+        }
       }
     } catch {
       setCurrentPath('')
     }
-  })
+  }, [])
+
+  // 初始化屏幕信息和当前路由（仅挂载时执行一次）
+  useEffect(() => {
+    initScreenAndRoute()
+  }, [initScreenAndRoute])
 
   // FAB 打开浮窗后，自己隐藏
   const isOpen = panelMode === 'floating'
   const shouldShow = Boolean(token) && !HIDE_ROUTES.includes(currentPath) && !isOpen
+
+  /** 打开 AI 面板（点击或 touch 后调用） */
+  const handleOpen = useCallback(() => {
+    if (!token) {
+      Taro.reLaunch({ url: '/pages/login/index' })
+      return
+    }
+    openFloatingPanel()
+  }, [token, openFloatingPanel])
 
   const handleTouchStart = (e: any) => {
     const touch = e.touches?.[0] || e.changedTouches?.[0]
@@ -91,30 +107,36 @@ export default function AIFab() {
     }
   }
 
-  const handleTouchEnd = () => {
+  const handleTouchEnd = (e: any) => {
     const t = touchRef.current
     touchRef.current = null
     setDragging(false)
-    if (!t || !t.moved) {
-      // 未拖动 → 点击
-      if (!token) {
-        Taro.reLaunch({ url: '/pages/login/index' })
-        return
+    if (t?.moved) {
+      // 拖动结束 → 自动贴边
+      if (pos) {
+        const { w } = screenRef.current
+        const centerX = pos.x + FAB_SIZE / 2
+        const snapX = centerX < w / 2 ? MARGIN : w - FAB_SIZE - MARGIN
+        setPos({ x: snapX, y: pos.y })
       }
-      openFloatingPanel()
+      return
     }
-    // 拖动结束 → 自动贴边（移到最近的左/右边缘）
-    if (t?.moved && pos) {
-      const { w } = screenRef.current
-      const centerX = pos.x + FAB_SIZE / 2
-      const snapX = centerX < w / 2 ? MARGIN : w - FAB_SIZE - MARGIN
-      setPos({ x: snapX, y: pos.y })
-    }
+    // 未拖动 → 点击行为
+    handleOpen()
+    e.stopPropagation?.()
   }
+
+  /** 纯点击兜底：H5 / 部分模拟器下 touch 事件可能不触发 */
+  const handleClick = useCallback((e: any) => {
+    // 若 touchStart 已记录（说明走的 touch 通道），交由 handleTouchEnd 处理
+    if (touchRef.current) return
+    handleOpen()
+    e.stopPropagation?.()
+  }, [handleOpen])
 
   if (!shouldShow) return null
 
-  const fabStyle: React.CSSProperties = pos
+  const fabStyle: Record<string, string | number> = pos
     ? { left: `${pos.x}px`, top: `${pos.y}px`, right: 'auto', bottom: 'auto' }
     : {}
 
@@ -125,7 +147,9 @@ export default function AIFab() {
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
+      onClick={handleClick}
       catchMove
+      hoverClass='ai-fab--hover'
     >
       <Text className='ai-fab__icon'>🤖</Text>
     </View>

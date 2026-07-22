@@ -15,8 +15,14 @@ import aiRoutes from './routes/ai.routes'
 import uploadRoutes from './routes/upload.routes'
 import dashboardRoutes from './routes/dashboard.routes'
 import logsRoutes from './routes/logs.routes'
+import recycleRoutes from './routes/recycle.routes'
 
 const app = express()
+
+// Cloudflare Tunnel/Nginx 反向代理会传递 X-Forwarded-For；仅在显式启用代理模式时信任第一跳。
+if (process.env.BEHIND_PROXY === 'true' || process.env.BEHIND_PROXY === '1') {
+  app.set('trust proxy', 1)
+}
 
 // 基础中间件
 app.use(helmet())
@@ -85,6 +91,7 @@ app.use('/api/ai', aiRoutes)
 app.use('/api/upload', uploadRoutes)
 app.use('/api/dashboard', dashboardRoutes)
 app.use('/api/logs', logsRoutes)
+app.use('/api/recycle', recycleRoutes)
 
 // 错误处理
 app.use(notFound)

@@ -1,5 +1,6 @@
 import db from '../db'
 import { writeLog } from './log.service'
+import { saveCategoryToRecycleBin } from './recycle.service'
 import { Category } from '../types'
 import { NotFoundError, ValidationError, ConflictError } from '../utils/errors'
 
@@ -402,6 +403,20 @@ export function deleteCategory(id: number, operatorId: number, force: boolean = 
         'UPDATE equipments SET category_id = NULL, updated_at = datetime(\'now\', \'+8 hours\') WHERE category_id = ?'
       ).run(id)
     }
+
+    // 删除前将分类数据保存到回收站，以便误删恢复
+    saveCategoryToRecycleBin(
+      {
+        id: cat.id,
+        parent_id: cat.parent_id,
+        code: cat.code,
+        name: cat.name,
+        level: cat.level,
+        sort_order: cat.sort_order,
+        created_at: cat.created_at,
+      },
+      operatorId
+    )
 
     db.prepare('DELETE FROM categories WHERE id = ?').run(id)
 

@@ -306,7 +306,7 @@ function CategoryPicker({
             className='category-picker__input'
             value={searchKeyword}
             placeholder='输入分类名称或 code 搜索'
-            onInput={(e) => setSearchKeyword(e.detail.value)}
+            onInput={(e) => setSearchKeyword(e.detail?.value ?? '')}
             focus
           />
           <Text className='category-picker__reset' onClick={switchToPicker}>

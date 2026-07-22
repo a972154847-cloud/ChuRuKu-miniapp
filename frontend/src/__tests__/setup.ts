@@ -35,7 +35,22 @@ function makeDom(tag: string, displayName?: string) {
 vi.mock('@tarojs/components', () => {
   const View = makeDom('div', 'View')
   const Text = makeDom('span', 'Text')
-  const Input = makeDom('input', 'Input')
+  const Input = React.forwardRef((props: any, ref: any) => {
+    const { onInput, onChange, ...rest } = props || {}
+    return React.createElement('input', {
+      ...rest,
+      ref,
+      onInput: (event: any) => {
+        // 兼容 testing-library 的 fireEvent.input（event.target.value）
+        // 和 Taro 小程序事件对象（event.detail.value）
+        const detail = event.detail || { value: event.target?.value }
+        const synthetic = { ...event, detail }
+        if (onInput) onInput(synthetic)
+        if (onChange) onChange(synthetic)
+      }
+    })
+  })
+  Input.displayName = 'Input'
   const Textarea = makeDom('textarea', 'Textarea')
   const Button = makeDom('button', 'Button')
   const Image = makeDom('img', 'Image')

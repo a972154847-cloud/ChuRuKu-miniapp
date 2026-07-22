@@ -84,7 +84,7 @@ export default function RecordsPage() {
 
   // P2-9: render 内不再 sync 读 storage；启动时异步加载 token 状态，
   // 避免 mount 时同步 IO 阻塞 React 渲染管线（H5 / 真机均受益）
-  const [, setHasToken] = useState(false)
+  const [hasToken, setHasToken] = useState(false)
   useEffect(() => {
     let cancelled = false
     // Taro.getStorage 是 Promise API，底层 wx.getStorageInfo / wx.getStorage
@@ -264,8 +264,8 @@ export default function RecordsPage() {
     Taro.navigateTo({ url: '/pages/record-edit/index' })
   }
 
-  // 渲染前再次确认 token 存在（storage 读取，避免闭包陷阱）
-  if (!Taro.getStorageSync('token')) {
+  // 渲染前使用 state 变量判断 token，避免 render 阶段同步 IO
+  if (!hasToken) {
     return <View className='records-page'><Text> </Text></View>
   }
 

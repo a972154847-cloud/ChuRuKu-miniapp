@@ -28,11 +28,6 @@ export default function RecordEdit() {
       Taro.reLaunch({ url: '/pages/login/index' })
       return
     }
-    if (user && user.role === 'viewer') {
-      Taro.showToast({ title: '无操作权限', icon: 'none' })
-      setTimeout(() => Taro.navigateBack(), 800)
-      return
-    }
     picker.loadEquipmentList()
   }, [token, user])
 

@@ -140,6 +140,17 @@ export default function RecordDetailPage() {
     }
   }
 
+  const handleMore = () => {
+    if (!canDelete) return
+    Taro.showActionSheet({
+      itemList: ['删除记录'],
+      itemColor: '#bd4d40',
+      success: (result) => {
+        if (result.tapIndex === 0) handleDelete()
+      }
+    })
+  }
+
   if (!token) {
     return <View className='record-detail'><Text> </Text></View>
   }
@@ -166,7 +177,7 @@ export default function RecordDetailPage() {
 
   const photos = record.photos || []
   const logs = record.related_logs || []
-  const canDelete = user && (user.role === 'admin' || user.role === 'editor')
+  const canDelete = user?.role === 'admin'
   const canEdit = user && (user.role === 'admin' || user.role === 'editor')
 
   return (
@@ -179,6 +190,7 @@ export default function RecordDetailPage() {
           >
             {record.type === 'in' ? '入库' : '出库'}
           </Text>
+          {canDelete && <Text className='record-detail__more' onClick={handleMore}>更多</Text>}
         </View>
         <Text className='record-detail__name'>
           {record.equipment?.name || `器材#${record.equipment_id}`}
@@ -263,8 +275,9 @@ export default function RecordDetailPage() {
                   ) : (
                     <Image
                       className='record-detail__photo-img'
-                      src={resolveFileUrl(p.url)}
+                      src={resolveFileUrl(p.thumbnail_url || p.url)}
                       mode='aspectFill'
+                      lazyLoad
                     />
                   )}
                   <Text className='record-detail__photo-kind'>
@@ -317,7 +330,7 @@ export default function RecordDetailPage() {
       </View>
 
       {/* 操作按钮（仅 Admin/Editor 可见） */}
-      {(canEdit || canDelete) && (
+      {canEdit && (
         <View className='record-detail__actions'>
           {canEdit && (
             <Text
@@ -325,14 +338,6 @@ export default function RecordDetailPage() {
               onClick={() => Taro.navigateTo({ url: `/pages/record-edit/index?id=${record.id}` })}
             >
               编辑记录
-            </Text>
-          )}
-          {canDelete && (
-            <Text
-              className={`record-detail__delete-btn ${deleting ? 'is-disabled' : ''}`}
-              onClick={handleDelete}
-            >
-              {deleting ? '删除中...' : '删除记录'}
             </Text>
           )}
         </View>

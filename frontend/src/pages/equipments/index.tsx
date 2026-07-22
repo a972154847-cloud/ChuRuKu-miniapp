@@ -107,12 +107,9 @@ export default function EquipmentsPage() {
     return params
   }
 
-  // 跳转到该器材的出入库记录
-  // 注意：records 是 tabBar 页，navigateTo 跳 tabBar 在小程序中非法，
-  // 且 switchTab 不支持 query 参数。改用 storage 传递 keyword。
-  const goToRecords = (item: EquipmentStockItem) => {
-    Taro.setStorageSync('records_filter', { keyword: item.name })
-    Taro.switchTab({ url: '/pages/records/index' })
+  // 跳转到器材详情页
+  const goToDetail = (item: EquipmentStockItem) => {
+    Taro.navigateTo({ url: `/pages/equipment-detail/index?id=${item.id}` })
   }
 
   return (
@@ -152,7 +149,7 @@ export default function EquipmentsPage() {
           <View
             key={item.id}
             className='equipments-item'
-            onClick={() => goToRecords(item)}
+            onClick={() => goToDetail(item)}
           >
             <View className='equipments-item__main'>
               <Text className='equipments-item__name'>{item.name}</Text>

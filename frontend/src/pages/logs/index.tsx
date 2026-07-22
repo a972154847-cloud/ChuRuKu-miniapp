@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState, useCallback, useRef } from 'react'
 import { View, Text, Picker, Button } from '@tarojs/components'
 import Taro from '@tarojs/taro'
 import { listLogs, getLogStats, type LogEntry, type LogStats } from '@/services/logs'
@@ -42,7 +42,6 @@ export default function LogsPage() {
 
   const [list, setList] = useState<LogEntry[]>([])
   const [total, setTotal] = useState(0)
-  const [page, setPage] = useState(1)
   const [loading, setLoading] = useState(false)
   const [loadingMore, setLoadingMore] = useState(false)
   const [expandedId, setExpandedId] = useState<number | null>(null)
@@ -55,20 +54,30 @@ export default function LogsPage() {
   // 统计
   const [stats, setStats] = useState<LogStats | null>(null)
 
-  const fetchList = useCallback(
-    async (reset: boolean) => {
-      const nextPage = reset ? 1 : page + 1
+  // 用 ref 跟踪当前页码，避免闭包过期问题
+  const pageRef = useRef(1)
+
+  /**
+   * 统一的数据获取函数，参数全部显式传入，不依赖闭包中的 state。
+   * @param reset  true=从第1页重置加载；false=加载下一页
+   * @param aIdx   筛选的操作类型索引
+   * @param sDate  开始日期
+   * @param eDate  结束日期
+   */
+  const doFetch = useCallback(
+    async (reset: boolean, aIdx: number, sDate: string, eDate: string) => {
+      const nextPage = reset ? 1 : pageRef.current + 1
       if (reset) {
         setLoading(true)
       } else {
         setLoadingMore(true)
       }
       try {
-        const action = ACTION_OPTIONS[actionIdx].value
+        const action = ACTION_OPTIONS[aIdx].value
         const res = await listLogs({
           action: action || undefined,
-          start_date: startDate || undefined,
-          end_date: endDate || undefined,
+          start_date: sDate || undefined,
+          end_date: eDate || undefined,
           page: nextPage,
           page_size: PAGE_SIZE
         })
@@ -78,7 +87,8 @@ export default function LogsPage() {
           setList((prev) => [...prev, ...(res.list || [])])
         }
         setTotal(res.total || 0)
-        setPage(res.page || nextPage)
+        const newPage = res.page || nextPage
+        pageRef.current = newPage
       } catch {
         // 错误已由 request.ts toast
       } finally {
@@ -86,7 +96,7 @@ export default function LogsPage() {
         setLoadingMore(false)
       }
     },
-    [actionIdx, startDate, endDate, page]
+    []
   )
 
   const fetchStats = useCallback(async () => {
@@ -100,7 +110,7 @@ export default function LogsPage() {
 
   useEffect(() => {
     if (isAdmin) {
-      fetchList(true)
+      doFetch(true, actionIdx, startDate, endDate)
       fetchStats()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -108,7 +118,7 @@ export default function LogsPage() {
 
   // 下拉刷新
   Taro.usePullDownRefresh(async () => {
-    await Promise.all([fetchList(true), fetchStats()])
+    await Promise.all([doFetch(true, actionIdx, startDate, endDate), fetchStats()])
     Taro.stopPullDownRefresh()
   })
 
@@ -116,60 +126,38 @@ export default function LogsPage() {
   Taro.useReachBottom(() => {
     if (loadingMore || loading) return
     if (list.length >= total) return
-    fetchList(false)
+    doFetch(false, actionIdx, startDate, endDate)
   })
 
   const handleActionChange = (idx: number) => {
     setActionIdx(idx)
-    // 切换筛选后重置加载
-    setTimeout(() => {
-      setList([])
-      setPage(0)
-      fetchListReset(idx, startDate, endDate)
-    }, 0)
-  }
-
-  // 切换筛选时重置：直接传新参数避免依赖闭包里的 page
-  const fetchListReset = async (
-    aIdx: number,
-    sDate: string,
-    eDate: string
-  ) => {
-    setLoading(true)
-    try {
-      const action = ACTION_OPTIONS[aIdx].value
-      const res = await listLogs({
-        action: action || undefined,
-        start_date: sDate || undefined,
-        end_date: eDate || undefined,
-        page: 1,
-        page_size: PAGE_SIZE
-      })
-      setList(res.list || [])
-      setTotal(res.total || 0)
-      setPage(res.page || 1)
-    } catch {
-      // ignore
-    } finally {
-      setLoading(false)
-    }
+    // 重置分页状态
+    setList([])
+    pageRef.current = 0
+    doFetch(true, idx, startDate, endDate)
   }
 
   const handleStartDateChange = (v: string) => {
     setStartDate(v)
-    fetchListReset(actionIdx, v, endDate)
+    setList([])
+    pageRef.current = 0
+    doFetch(true, actionIdx, v, endDate)
   }
 
   const handleEndDateChange = (v: string) => {
     setEndDate(v)
-    fetchListReset(actionIdx, startDate, v)
+    setList([])
+    pageRef.current = 0
+    doFetch(true, actionIdx, startDate, v)
   }
 
   const handleReset = () => {
     setActionIdx(0)
     setStartDate('')
     setEndDate('')
-    fetchListReset(0, '', '')
+    setList([])
+    pageRef.current = 0
+    doFetch(true, 0, '', '')
   }
 
   const toggleExpand = (id: number) => {

@@ -76,4 +76,56 @@ export function searchEquipments(keyword: string): EquipmentWithCategory[] {
     .all(`%${kw}%`, `%${kw}%`) as EquipmentWithCategory[]
 }
 
-export default { listEquipments, searchEquipments }
+/**
+ * 获取器材详情（含当前库存 + 最近出入库记录）
+ * - 返回完整器材信息、当前库存量、阈值、报废年限
+ * - 附带最近 10 条出入库记录（含记录类型、数量、操作人、时间）
+ */
+export interface EquipmentDetail extends EquipmentWithCategory {
+  current_stock: number
+  recent_records: Array<{
+    id: number
+    type: string
+    quantity: number
+    operator_name: string
+    created_at: string
+  }>
+}
+
+export function getEquipmentDetail(id: number): EquipmentDetail | null {
+  const equip = db
+    .prepare(
+      `SELECT e.*, c.name as category_name, c.code as category_code,
+       COALESCE((
+         SELECT SUM(CASE WHEN r.type='in' THEN r.quantity ELSE -r.quantity END)
+         FROM records r WHERE r.equipment_id = e.id
+       ), 0) AS current_stock
+       FROM equipments e
+       LEFT JOIN categories c ON e.category_id = c.id
+       WHERE e.id = ?`
+    )
+    .get(id) as (EquipmentWithCategory & { current_stock: number }) | undefined
+
+  if (!equip) return null
+
+  const recent_records = db
+    .prepare(
+      `SELECT r.id, r.type, r.quantity, u.name as operator_name, r.created_at
+       FROM records r
+       LEFT JOIN users u ON r.operator_id = u.id
+       WHERE r.equipment_id = ?
+       ORDER BY r.created_at DESC
+       LIMIT 10`
+    )
+    .all(id) as Array<{
+    id: number
+    type: string
+    quantity: number
+    operator_name: string
+    created_at: string
+  }>
+
+  return { ...equip, recent_records }
+}
+
+export default { listEquipments, searchEquipments, getEquipmentDetail }

@@ -26,6 +26,12 @@ const ADMIN_ENTRIES: { key: string; label: string; url: string; desc: string }[]
     desc: '维护器材分类树'
   },
   {
+    key: 'recycle',
+    label: '回收站',
+    url: '/pages/recycle/index',
+    desc: '恢复被删除的数据'
+  },
+  {
     key: 'logs',
     label: '操作日志',
     url: '/pages/logs/index',

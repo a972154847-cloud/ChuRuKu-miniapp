@@ -101,3 +101,22 @@ export function getExpiringList() {
     method: 'GET'
   })
 }
+
+/** 系统活动项 */
+export interface ActivityItem {
+  id: number
+  action: string
+  action_label: string
+  entity: string
+  entity_label: string
+  actor_name: string | null
+  created_at: string
+}
+
+/** 系统活动动态 */
+export function getDashboardActivities() {
+  return request<{ list: ActivityItem[] }>({
+    url: '/dashboard/activities',
+    method: 'GET'
+  })
+}

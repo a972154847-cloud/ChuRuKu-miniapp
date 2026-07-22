@@ -47,7 +47,7 @@ export default function Users() {
         role: role || undefined,
         keyword: kw || undefined,
         page: 1,
-        pageSize: 50
+        pageSize: 200
       })
       setList(res.list || [])
     } catch {

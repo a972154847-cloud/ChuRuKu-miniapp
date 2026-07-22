@@ -1,4 +1,5 @@
 import Taro from '@tarojs/taro'
+import { useUserStore } from '@/store/user'
 
 // 手机真机调试时，localhost 指向手机本身而非电脑后端。
 // 开发环境下使用电脑局域网 IP，手机和电脑需在同一 WiFi。
@@ -41,8 +42,8 @@ function handleUnauthorized(): void {
   if (isRedirecting) return
   isRedirecting = true
   try {
-    Taro.removeStorageSync('token')
-    Taro.removeStorageSync('user')
+    // 同时清空 Zustand 内存态和小程序存储，避免登录页仍读取旧 token 后跳回首页。
+    useUserStore.getState().logout()
   } catch (e) {
     // ignore storage errors
   }

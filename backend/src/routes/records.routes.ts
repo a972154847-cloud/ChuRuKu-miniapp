@@ -44,7 +44,7 @@ router.get('/equipment-in', requireViewer, (req: Request, res: Response) => {
   res.json({ code: 0, message: 'ok', data: result })
 })
 
-router.post('/', requireEditor, (req: Request, res: Response) => {
+router.post('/', requireViewer, (req: Request, res: Response) => {
   const b = req.body || {}
   const record = createRecord(
     {
@@ -123,7 +123,7 @@ router.get('/:id', requireViewer, (req: Request, res: Response) => {
   res.json({ code: 0, message: 'ok', data: record })
 })
 
-router.put('/:id', requireEditor, (req: Request, res: Response) => {
+router.put('/:id', requireViewer, (req: Request, res: Response) => {
   const id = toInt(req.params.id, NaN)
   if (!Number.isFinite(id)) {
     res.status(400).json({ code: 400, message: '非法记录 id' })
@@ -158,7 +158,7 @@ router.delete('/:id', requireAdmin, (req: Request, res: Response) => {
   res.json({ code: 0, message: 'ok' })
 })
 
-router.post('/:id/photos', requireEditor, (req: Request, res: Response) => {
+router.post('/:id/photos', requireViewer, (req: Request, res: Response) => {
   const id = toInt(req.params.id, NaN)
   if (!Number.isFinite(id)) {
     res.status(400).json({ code: 400, message: '非法记录 id' })
@@ -185,7 +185,7 @@ router.post('/:id/photos', requireEditor, (req: Request, res: Response) => {
  * Body: { photos: AttachPhotoInput[] }
  * - photos 为空数组时，等同于清空所有照片
  */
-router.put('/:id/photos', requireEditor, (req: Request, res: Response) => {
+router.put('/:id/photos', requireViewer, (req: Request, res: Response) => {
   const id = toInt(req.params.id, NaN)
   if (!Number.isFinite(id)) {
     res.status(400).json({ code: 400, message: '非法记录 id' })
@@ -207,7 +207,7 @@ router.put('/:id/photos', requireEditor, (req: Request, res: Response) => {
   res.json({ code: 0, message: 'ok', data: { list: inserted } })
 })
 
-router.delete('/:id/photos/:photoId', requireEditor, (req: Request, res: Response) => {
+router.delete('/:id/photos/:photoId', requireViewer, (req: Request, res: Response) => {
   const id = toInt(req.params.id, NaN)
   const photoId = toInt(req.params.photoId, NaN)
   if (!Number.isFinite(id) || !Number.isFinite(photoId)) {

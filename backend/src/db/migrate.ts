@@ -187,15 +187,79 @@ export function runMigrationsDown(steps: number = 1): void {
 }
 
 // 命令行入口：
-//   npm run migrate            => UP（执行未应用的迁移）
-//   npm run migrate -- down    => DOWN（回滚最近一次迁移）
-//   npm run migrate -- down 3  => DOWN（回滚最近 3 次迁移）
+//   npm run migrate                          => UP（执行未应用的迁移）
+//   npm run migrate -- down                  => DOWN（回滚最近一次迁移）
+//   npm run migrate -- down 3                => DOWN（回滚最近 3 次迁移）
+//   npm run migrate -- --dry-run             => UP（仅预览，不执行）
+//   npm run migrate -- down --dry-run        => DOWN（仅预览，不执行）
 if (require.main === module) {
-  const arg = process.argv[2]
+  const args = process.argv.slice(2)
+  const isDryRun = args.includes('--dry-run') || args.includes('--dry')
+  const filteredArgs = args.filter(a => a !== '--dry-run' && a !== '--dry')
+
+  if (isDryRun) {
+    console.log('='.repeat(60))
+    console.log('🧪 DRY-RUN 模式 — 仅预览，不执行任何数据库变更')
+    console.log('='.repeat(60))
+  }
+
+  const arg = filteredArgs[0]
   if (arg === 'down') {
-    const steps = parseInt(process.argv[3] || '1', 10)
+    const steps = parseInt(filteredArgs[1] || '1', 10)
+    if (isDryRun) {
+      const applied = db
+        .prepare('SELECT filename, applied_at FROM _migrations ORDER BY id DESC LIMIT ?')
+        .all(Number.isFinite(steps) && steps > 0 ? steps : 1) as { filename: string; applied_at: string }[]
+      if (applied.length === 0) {
+        console.log('[dry-run] 无可回滚的迁移')
+      } else {
+        console.log(`[dry-run] 将回滚以下 ${applied.length} 次迁移:`)
+        for (const row of applied) {
+          const sql = DOWN_MIGRATIONS[row.filename]
+          if (sql) {
+            console.log(`\n  📄 ${row.filename} (applied at: ${row.applied_at})`)
+            console.log(`  ⤵ 回滚 SQL:`)
+            sql.split('\n').filter(l => l.trim()).forEach(l => console.log(`     ${l.trim()}`))
+          } else {
+            console.log(`\n  ⚠️  ${row.filename} — 缺少 DOWN 脚本，无法回滚`)
+          }
+        }
+      }
+      console.log('\n[dry-run] 预览完成，未执行任何变更')
+      process.exit(0)
+    }
     runMigrationsDown(Number.isFinite(steps) && steps > 0 ? steps : 1)
   } else {
+    if (isDryRun) {
+      const migrationsDir = path.join(__dirname, '..', '..', 'migrations')
+      if (!fs.existsSync(migrationsDir)) {
+        console.log('[dry-run] migrations 目录不存在')
+        process.exit(0)
+      }
+      const files = fs
+        .readdirSync(migrationsDir)
+        .filter((f) => f.endsWith('.sql'))
+        .sort()
+      const applied = new Set(
+        (db.prepare('SELECT filename FROM _migrations').all() as MigrationRow[]).map(
+          (r) => r.filename
+        )
+      )
+      const pending = files.filter(f => !applied.has(f))
+      if (pending.length === 0) {
+        console.log('[dry-run] 所有迁移均已应用，无需执行')
+      } else {
+        console.log(`[dry-run] 将执行以下 ${pending.length} 次迁移:`)
+        for (const file of pending) {
+          const sql = fs.readFileSync(path.join(migrationsDir, file), 'utf-8')
+          console.log(`\n  📄 ${file}`)
+          console.log(`  ⤵ SQL:`)
+          sql.split('\n').filter(l => l.trim()).forEach(l => console.log(`     ${l.trim()}`))
+        }
+      }
+      console.log('\n[dry-run] 预览完成，未执行任何变更')
+      process.exit(0)
+    }
     runMigrations()
   }
   process.exit(0)

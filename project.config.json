@@ -1,8 +1,9 @@
 {
+  "miniprogramRoot": "frontend/dist/",
   "setting": {
     "es6": true,
     "postcss": true,
-    "minified": true,
+    "minified": false,
     "uglifyFileName": false,
     "enhance": true,
     "packNpmRelationList": [],
@@ -12,7 +13,9 @@
       "outputPath": ""
     },
     "useCompilerPlugins": false,
-    "minifyWXML": true
+    "minifyWXML": true,
+    "swc": true,
+    "disableSWC": false
   },
   "compileType": "miniprogram",
   "simulatorPluginLibVersion": {},

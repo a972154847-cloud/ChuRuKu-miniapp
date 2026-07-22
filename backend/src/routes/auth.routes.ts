@@ -1,6 +1,6 @@
 import { Router, Request, Response } from 'express'
 import rateLimit from 'express-rate-limit'
-import { wxLogin, signToken } from '../middlewares/auth'
+import { isWxLoginTimeout, wxLogin, signToken } from '../middlewares/auth'
 import { loginOrRegister, devLogin } from '../services/auth.service'
 import { writeLog } from '../services/log.service'
 import { config } from '../config'
@@ -34,6 +34,18 @@ router.post('/login', loginLimiter, async (req: Request, res: Response) => {
     const token = signToken(user)
     res.json({ code: 0, message: 'ok', data: { token, user } })
   } catch (e) {
+    const error = e as {
+      code?: unknown
+      response?: { status?: unknown }
+    }
+    const timedOut = isWxLoginTimeout(e)
+    // 仅输出可诊断的传输元数据，避免 code、token、微信密钥或用户信息进入日志。
+    console.error('[auth] wxLogin failed', {
+      category: timedOut ? 'timeout' : 'upstream_error',
+      axiosCode: typeof error.code === 'string' ? error.code : undefined,
+      upstreamStatus:
+        typeof error.response?.status === 'number' ? error.response.status : undefined,
+    })
     // P1-12: 登录失败写审计日志（user_id=null，记录 IP/UA 便于追溯暴力破解）
     writeLog({
       actorId: null,
@@ -43,9 +55,11 @@ router.post('/login', loginLimiter, async (req: Request, res: Response) => {
       ip: req.ip || null,
       userAgent: req.headers['user-agent'] || null,
     })
-    res
-      .status(502)
-      .json({ code: 502, message: '微信登录失败', detail: (e as Error).message })
+    const status = timedOut ? 504 : 502
+    res.status(status).json({
+      code: status,
+      message: timedOut ? '微信登录服务响应较慢，请稍后重试' : '微信登录失败',
+    })
   }
 })
 
