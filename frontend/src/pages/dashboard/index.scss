@@ -2,168 +2,174 @@
 @import '@/styles/theme.scss';
 
 /* ============================================
- * Dashboard — 仪表盘
+ * Dashboard — Deep Navy + Warm Gold
+ * 严格对齐 TSX className，仅做视觉升级
  * ============================================ */
 
+/* ---- 页面容器 ---- */
 .dashboard {
-  padding: $page-padding;
-  padding-bottom: 80px;
+  padding: 28rpx 32rpx;
+  padding-bottom: 160rpx;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 24rpx;
   min-height: 100vh;
   box-sizing: border-box;
   background: $color-bg-page;
 }
 
-/* 1. 库存概览卡片 — 海军蓝渐变 */
-.stock-overview {
+.dashboard--center {
+  justify-content: center;
+  align-items: center;
+  font-size: $font-size-body;
+  color: $color-text-secondary;
+}
+
+.dashboard-empty {
+  font-size: $font-size-body;
+  color: $color-text-tertiary;
+  text-align: center;
+  padding: 48rpx 0;
+  display: block;
+}
+
+.dashboard-retry {
+  margin-top: 16rpx;
+  padding: 20rpx 48rpx;
+  border-radius: $radius-button;
+  background: $color-primary;
+  color: $color-text-inverse;
+  font-size: $font-size-body;
+  font-weight: $font-weight-bold;
+  display: inline-block;
+}
+
+/* ---- 库存概览卡片 ---- */
+.stock-card {
   position: relative;
   overflow: hidden;
   border-radius: $radius-xl;
-  padding: 28px 30px;
+  padding: 40rpx 36rpx;
   background: $gradient-primary;
   color: $color-text-inverse;
-  min-height: 140px;
+  min-height: 180rpx;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -40%;
+    right: -24%;
+    width: 160rpx;
+    height: 160rpx;
+    border-radius: 50%;
+    background: radial-gradient(circle, $color-accent 0%, transparent 70%);
+    opacity: 0.07;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 240rpx;
+    height: 120rpx;
+    border-radius: 50%;
+    background: radial-gradient(ellipse, $color-accent 0%, transparent 70%);
+    opacity: 0.05;
+    transform: translate(-50%, 50%);
+  }
 }
 
-.stock-overview::before {
-  content: '';
-  position: absolute;
-  top: -30%;
-  right: -20%;
-  width: 128px;
-  height: 128px;
-  border-radius: 50%;
-  background: radial-gradient(circle, $color-accent 0%, transparent 70%);
-  opacity: 0.06;
-}
-
-.stock-overview::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  width: 192px;
-  height: 96px;
-  border-radius: 50%;
-  background: radial-gradient(ellipse, $color-accent 0%, transparent 70%);
-  opacity: 0.04;
-  transform: translate(-50%, 50%);
-}
-
-.stock-label {
+.stock-card__label {
   position: relative;
   font-size: $font-size-body;
   font-weight: $font-weight-medium;
-  opacity: 0.8;
+  opacity: 0.82;
 }
 
-.stock-count-row {
+.stock-card__number {
   position: relative;
   display: flex;
   align-items: baseline;
-  gap: 12px;
-  margin-top: 16px;
+  gap: 16rpx;
+  margin-top: 20rpx;
 }
 
-.stock-count-number {
-  font-size: 64px;
+.stock-card__value {
+  font-size: 64rpx;
   font-weight: 800;
   line-height: 1;
-  letter-spacing: -1px;
+  letter-spacing: -1rpx;
 }
 
-.stock-count-unit {
+.stock-card__unit {
   font-size: $font-size-aux;
   font-weight: $font-weight-medium;
   color: $color-accent;
 }
 
-.stock-meta-row {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  margin-top: 24px;
-}
-
-.stock-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-size: $font-size-tag;
-  padding: 8px 20px;
-  border-radius: $radius-round;
-  font-weight: $font-weight-medium;
-  background: rgba($color-accent, 0.18);
-  color: $color-accent;
-}
-
-.stock-update-time {
-  font-size: $font-size-tag;
-  opacity: 0.6;
-}
-
-/* 2. KPI 指标行 */
+/* ---- KPI 指标行 ---- */
 .kpi-row {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
+  gap: 20rpx;
 }
 
-.kpi-card {
+.kpi {
   background: $color-bg-card;
-  border-radius: $radius-sm;
-  padding: 28px 24px;
-  border: 1px solid $color-border;
+  border-radius: $radius-md;
+  padding: 32rpx 20rpx;
+  border: 1rpx solid $color-border;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  position: relative;
 }
 
-.kpi-label {
+.kpi__value {
+  font-size: 40rpx;
+  font-weight: $font-weight-bold;
+  margin-bottom: 8rpx;
+}
+
+.kpi__value--in {
+  color: $color-success;
+}
+
+.kpi__value--out {
+  color: $color-error;
+}
+
+.kpi__value--warning {
+  color: $color-warning;
+}
+
+.kpi__label {
   font-size: $font-size-tag;
   color: $color-text-secondary;
   line-height: 1.3;
-  margin-top: 4px;
 }
 
-.kpi-value {
-  font-size: 36px;
-  font-weight: $font-weight-bold;
-  margin-top: 4px;
-}
-
-.kpi-warning-dot {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  background: $color-warning;
-}
-
-/* 3. 快捷操作 */
-.quick-actions {
+/* ---- 快捷操作按钮 ---- */
+.action-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 24px;
+  gap: 24rpx;
 }
 
-.quick-action-btn {
+.action-button {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 16px;
-  padding: 24px 32px;
-  border-radius: $radius-sm;
+  gap: 12rpx;
+  height: 88rpx;
+  border-radius: $radius-button;
   font-size: $font-size-body;
   font-weight: $font-weight-bold;
-  border: none;
+  background: $color-bg-card;
+  color: $color-primary;
+  border: 2rpx solid $color-primary;
+  box-sizing: border-box;
   line-height: normal;
 
   &:active {
@@ -171,294 +177,232 @@
   }
 }
 
-.quick-action-primary {
+.action-button--primary {
   background: $color-primary;
   color: $color-text-inverse;
+  border: none;
 }
 
-.quick-action-outline {
-  background: $color-bg-card;
-  color: $color-primary;
-  border: 2px solid $color-primary;
-}
-
-/* 4. 低库存预警卡片 */
-.alert-card {
-  border-radius: $radius-sm;
-  padding: 28px 32px;
+/* ---- 低库存预警 ---- */
+.warning-card {
+  border-radius: $radius-md;
+  padding: 32rpx;
   background: #FDF6E4;
+  border-left: 6rpx solid $color-warning;
 }
 
-.alert-header {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  margin-bottom: 20px;
-}
-
-.alert-title {
+.warning-card__title {
   font-size: $font-size-body;
   font-weight: $font-weight-bold;
   color: #8B6914;
+  display: block;
 }
 
-.alert-badge {
-  margin-left: auto;
+.warning-card__body {
   font-size: $font-size-tag;
-  font-weight: $font-weight-medium;
-  padding: 4px 16px;
-  border-radius: $radius-round;
-  background: rgba($color-warning, 0.16);
-  color: $color-warning;
-}
-
-.alert-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-size: $font-size-body;
-  margin-bottom: 16px;
-
-  &:last-of-type {
-    margin-bottom: 0;
-  }
-}
-
-.alert-item-name {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  min-width: 0;
-  font-weight: $font-weight-medium;
   color: #5C4328;
-
-  Text {
-    @include text-ellipsis;
-  }
+  line-height: 1.6;
+  margin-top: 12rpx;
+  display: block;
 }
 
-.alert-dot {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: $color-warning;
-  flex-shrink: 0;
-}
-
-.alert-item-count {
-  flex-shrink: 0;
-  margin-left: 16px;
-  font-size: $font-size-tag;
-  font-weight: $font-weight-bold;
-  color: $color-error;
-}
-
-.alert-divider {
-  margin: 24px 0 20px;
-  border: none;
-  border-top: 1px solid #E8D5A4;
-}
-
-.alert-view-all {
-  font-size: $font-size-tag;
-  font-weight: $font-weight-medium;
-  color: $color-warning;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-/* 5. 趋势图区域 */
-.chart-section {
+/* ---- 内容卡片 & 区域头部 ---- */
+.content-card {
   background: $color-bg-card;
-  border-radius: $radius-sm;
-  border: 1px solid $color-border;
-  padding: $spacing-md;
+  border-radius: $radius-md;
+  border: 1rpx solid $color-border;
+  overflow: hidden;
 }
 
-.chart-header {
+.content-card--records {
+  border-radius: 0;
+  border: none;
+  border-top: 1rpx solid $color-border;
+}
+
+.section-head {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 8px;
+  padding: 32rpx;
 }
 
-.chart-title {
+.section-head--outside {
+  padding: 0 32rpx 20rpx;
+}
+
+.section-head__title {
   font-size: $font-size-body;
   font-weight: $font-weight-bold;
   color: $color-text-primary;
 }
 
-.chart-toggle-group {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  border-radius: 16px;
-  padding: 4px;
-  background: $color-border-light;
-}
-
-.chart-toggle {
-  padding: 8px 20px;
-  border-radius: 12px;
+.section-head__link {
   font-size: $font-size-tag;
   font-weight: $font-weight-medium;
-  color: $color-text-secondary;
-  background: transparent;
-  border: none;
-  line-height: normal;
+  color: $color-accent;
+  display: flex;
+  align-items: center;
+  gap: 4rpx;
+}
 
-  &.active {
-    background: $color-bg-card;
-    color: $color-text-primary;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+/* ---- 时间范围切换 ---- */
+.range-switch {
+  display: flex;
+  align-items: center;
+  gap: 4rpx;
+  border-radius: 16rpx;
+  padding: 4rpx;
+  background: $color-border-light;
+
+  Text {
+    padding: 10rpx 24rpx;
+    border-radius: 12rpx;
+    font-size: $font-size-tag;
+    font-weight: $font-weight-medium;
+    color: $color-text-secondary;
   }
 }
 
-.chart-legend {
-  display: flex;
-  align-items: center;
-  gap: 32px;
-  margin: 32px 0 16px;
+.is-active {
+  background: $color-bg-card;
+  color: $color-text-primary !important;
+  box-shadow: 0 1rpx 3rpx rgba(0, 0, 0, 0.06);
 }
 
-.chart-legend-item {
+/* ---- 趋势图 ---- */
+.trend {
+  padding: 0 32rpx 32rpx;
+}
+
+.trend__legend {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 40rpx;
+  margin-bottom: 28rpx;
+}
+
+.trend__legend-item {
+  display: flex;
+  align-items: center;
+  gap: 10rpx;
   font-size: $font-size-tag;
   color: $color-text-secondary;
 }
 
-.chart-legend-color {
-  width: 24px;
-  height: 24px;
-  border-radius: 4px;
+.trend__dot {
+  width: 20rpx;
+  height: 20rpx;
+  border-radius: 4rpx;
   flex-shrink: 0;
 }
 
-.chart-bars {
+.trend__dot--in {
+  background: $color-success;
+}
+
+.trend__dot--out {
+  background: $color-error;
+}
+
+.trend__plot {
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
-  gap: 12px;
-  height: 160px;
+  gap: 8rpx;
+  height: 200rpx;
 }
 
-.chart-bar-group {
+.trend__column {
   flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-end;
   height: 100%;
+  min-width: 0;
 }
 
-.chart-bar-label-top {
-  font-size: 20px;
-  font-weight: $font-weight-bold;
-  color: $color-text-secondary;
-  margin-bottom: 4px;
-}
-
-.chart-bar-in {
+.trend__bars {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 4rpx;
+  flex: 1;
   width: 100%;
-  max-width: 56px;
+}
+
+.trend__bar {
+  width: 56rpx;
+  border-radius: 6rpx 6rpx 0 0;
+  min-height: 4rpx;
+}
+
+.trend__bar--in {
   background: $color-success;
 }
 
-.chart-bar-out {
-  width: 100%;
-  max-width: 56px;
+.trend__bar--out {
   background: $color-error;
 }
 
-.chart-bar-label-bottom {
-  font-size: 20px;
+.trend__date {
+  font-size: 20rpx;
   color: $color-text-secondary;
-  margin-top: 8px;
-}
-
-/* 6. 最近操作记录 */
-.recent-section {
-  background: $color-bg-card;
-  border-radius: $radius-sm;
-  border: 1px solid $color-border;
-  overflow: hidden;
-}
-
-.recent-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 32px 32px 24px;
-}
-
-.recent-title {
-  font-size: $font-size-body;
-  font-weight: $font-weight-bold;
-  color: $color-text-primary;
-}
-
-.recent-view-all {
-  font-size: $font-size-tag;
-  font-weight: $font-weight-medium;
-  color: $color-accent;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
-.recent-item {
-  display: flex;
-  align-items: center;
-  gap: 24px;
-  padding: 24px 32px;
-}
-
-.recent-item + .recent-item {
-  border-top: 1px solid $color-border;
-}
-
-.recent-icon-wrap {
-  width: 72px;
-  height: 72px;
-  border-radius: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  margin-top: 10rpx;
   flex-shrink: 0;
 }
 
-.recent-icon-in {
-  background: rgba($color-success, 0.1);
-  color: $color-success;
+/* ---- 最近记录 ---- */
+.recent-section {
+  background: $color-bg-card;
+  border-radius: $radius-md;
+  border: 1rpx solid $color-border;
+  overflow: hidden;
 }
 
-.recent-icon-out {
-  background: rgba($color-error, 0.1);
-  color: $color-error;
+.recent-record {
+  display: flex;
+  align-items: center;
+  gap: 24rpx;
+  padding: 28rpx 32rpx;
+
+  + .recent-record {
+    border-top: 1rpx solid $color-border;
+  }
 }
 
-.recent-info {
+.recent-record__main {
   flex: 1;
   min-width: 0;
 }
 
-.recent-equip-name {
+.recent-record__name {
   font-size: $font-size-body;
   font-weight: $font-weight-medium;
   color: $color-text-primary;
+  display: block;
   @include text-ellipsis;
 }
 
-.recent-meta {
+.recent-record__meta {
   font-size: $font-size-tag;
   color: $color-text-secondary;
+  margin-top: 6rpx;
+  display: block;
 }
 
-.recent-qty {
+.recent-record__qty {
   font-size: $font-size-body;
   font-weight: $font-weight-bold;
   flex-shrink: 0;
+}
+
+.recent-record__qty--in {
+  color: $color-success;
+}
+
+.recent-record__qty--out {
+  color: $color-error;
 }

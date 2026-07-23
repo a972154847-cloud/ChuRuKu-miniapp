@@ -2,7 +2,7 @@
 @import '@/styles/theme.scss';
 
 .users-page {
-  padding: $page-padding;
+  padding: $spacing-md;
   background: $color-bg-page;
   min-height: 100vh;
   box-sizing: border-box;
@@ -14,35 +14,35 @@
   background: $color-bg-card;
   border-radius: $radius-lg;
   border: 2px solid $color-border;
-  padding: $spacing-md;
-  margin-bottom: $section-gap;
+  padding: 24rpx;
+  margin-bottom: 28rpx;
 
   &__picker {
     flex: 0 0 auto;
-    height: 80px;
-    padding: 0 40px;
+    height: 80rpx;
+    padding: 0 32rpx;
     border: 2px solid $color-border;
     border-radius: $radius-md;
     display: flex;
     align-items: center;
-    font-size: $font-size-aux;
-    margin-right: $spacing-sm;
+    font-size: 24rpx;
+    margin-right: 24rpx;
     color: $color-text-primary;
   }
 
   &__input {
     flex: 1;
-    height: 80px;
+    height: 80rpx;
     border: 2px solid $color-border;
     border-radius: $radius-md;
-    padding: 0 $spacing-md;
-    font-size: $font-size-aux;
+    padding: 0 24rpx;
+    font-size: 24rpx;
     box-sizing: border-box;
   }
 
   &__btn {
     flex: 0 0 auto;
-    margin-left: $spacing-sm;
+    margin-left: 24rpx;
     background: $color-primary;
     color: $color-text-inverse;
     border: none;
@@ -59,7 +59,7 @@
 .users-item {
   display: flex;
   align-items: center;
-  padding: $spacing-xl 40px;
+  padding: 36rpx 32rpx;
   border-bottom: 2px solid $color-border-light;
 
   &:last-child {
@@ -74,13 +74,13 @@
   &__row {
     display: flex;
     align-items: center;
-    margin-bottom: $spacing-xs;
+    margin-bottom: 16rpx;
   }
 
   &__name {
-    font-size: $font-size-title;
+    font-size: 34rpx;
     font-weight: $font-weight-bold;
-    margin-right: $spacing-md;
+    margin-right: 24rpx;
     color: $color-text-primary;
   }
 
@@ -88,11 +88,15 @@
     display: flex;
     align-items: center;
     color: $color-text-tertiary;
-    font-size: $font-size-aux;
+    font-size: 24rpx;
   }
 
   &__id {
-    margin-right: $spacing-md;
+    margin-right: 24rpx;
+  }
+
+  &__time {
+    color: $color-text-tertiary;
   }
 
   &__btn {
@@ -105,16 +109,16 @@
   &__self {
     flex: 0 0 auto;
     color: $color-text-tertiary;
-    font-size: $font-size-aux;
-    margin-left: $spacing-sm;
+    font-size: 24rpx;
+    margin-left: 24rpx;
   }
 }
 
 .users-role {
   display: inline-block;
-  padding: 8px $spacing-sm;
+  padding: 8rpx 24rpx;
   border-radius: $radius-sm;
-  font-size: $font-size-tag;
+  font-size: 22rpx;
   color: $color-text-inverse;
 
   &--admin {
@@ -134,27 +138,27 @@
   background: $color-success;
   color: $color-text-inverse;
   border-radius: $radius-md;
-  margin-bottom: $section-gap;
+  margin-bottom: 28rpx;
   width: 100%;
-  height: $button-height-md;
-  line-height: $button-height-md;
-  font-size: $font-size-body;
+  height: 88rpx;
+  line-height: 88rpx;
+  font-size: 28rpx;
 }
 
 .users-empty {
   text-align: center;
-  padding: 240px 0;
+  padding: 240rpx 0;
 
   &__text {
     display: block;
-    font-size: $font-size-title-lg;
+    font-size: 40rpx;
     color: $color-text-tertiary;
-    margin-bottom: $spacing-sm;
+    margin-bottom: 24rpx;
   }
 
   &__sub {
     display: block;
-    font-size: $font-size-aux;
+    font-size: 24rpx;
     color: $color-text-disabled;
   }
 }
@@ -176,26 +180,26 @@
   width: 80%;
   background: $color-bg-card;
   border-radius: $radius-lg;
-  padding: 64px $spacing-xl;
+  padding: 64rpx 48rpx;
 
   &__title {
     display: block;
-    font-size: $font-size-title-lg;
+    font-size: 40rpx;
     font-weight: $font-weight-bold;
     text-align: center;
-    margin-bottom: $spacing-xl;
+    margin-bottom: 48rpx;
     color: $color-text-primary;
   }
 
   &__picker {
-    height: 80px;
+    height: 80rpx;
     border: 2px solid $color-border;
     border-radius: $radius-md;
-    padding: 0 40px;
+    padding: 0 24rpx;
     display: flex;
     align-items: center;
-    font-size: $font-size-body;
-    margin-bottom: $spacing-xl;
+    font-size: 28rpx;
+    margin-bottom: 48rpx;
     color: $color-text-primary;
   }
 
@@ -207,12 +211,12 @@
   &__btn {
     flex: 1;
     border-radius: $radius-md;
-    font-size: $font-size-body;
+    font-size: 28rpx;
 
     &--cancel {
       background: $color-bg-page;
       color: $color-text-secondary;
-      margin-right: $spacing-md;
+      margin-right: 32rpx;
       border: 2px solid $color-border;
     }
 

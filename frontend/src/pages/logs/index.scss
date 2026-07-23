@@ -2,7 +2,7 @@
 @import '@/styles/theme.scss';
 
 .logs-page {
-  padding: $page-padding;
+  padding: $spacing-md;
   background: $color-bg-page;
   min-height: 100vh;
   box-sizing: border-box;
@@ -14,8 +14,8 @@
   background: $color-bg-card;
   border-radius: $radius-lg;
   border: 2px solid $color-border;
-  padding: $spacing-xl $spacing-md;
-  margin-bottom: $section-gap;
+  padding: 36rpx 24rpx;
+  margin-bottom: 28rpx;
 
   &__item {
     flex: 1;
@@ -30,14 +30,14 @@
   }
 
   &__num {
-    font-size: $font-size-title-lg;
+    font-size: 40rpx;
     font-weight: $font-weight-bold;
     color: $color-accent;
-    margin-bottom: $spacing-xs;
+    margin-bottom: 8rpx;
   }
 
   &__label {
-    font-size: $font-size-aux;
+    font-size: 24rpx;
     color: $color-text-tertiary;
   }
 }
@@ -47,23 +47,23 @@
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: $spacing-sm;
+  gap: 24rpx;
   background: $color-bg-card;
   border-radius: $radius-lg;
   border: 2px solid $color-border;
-  padding: $spacing-md;
-  margin-bottom: $section-gap;
+  padding: 24rpx;
+  margin-bottom: 28rpx;
 
   &__picker {
     flex: 0 0 auto;
     max-width: 30%;
-    height: 80px;
-    padding: 0 40px;
+    height: 80rpx;
+    padding: 0 32rpx;
     border: 2px solid $color-border;
     border-radius: $radius-md;
     display: flex;
     align-items: center;
-    font-size: $font-size-aux;
+    font-size: 24rpx;
     color: $color-text-primary;
     overflow: hidden;
     white-space: nowrap;
@@ -72,13 +72,13 @@
   &__date {
     flex: 1;
     min-width: 30%;
-    height: 80px;
-    padding: 0 $spacing-md;
+    height: 80rpx;
+    padding: 0 24rpx;
     border: 2px solid $color-border;
     border-radius: $radius-md;
     display: flex;
     align-items: center;
-    font-size: $font-size-aux;
+    font-size: 24rpx;
     color: $color-text-primary;
     box-sizing: border-box;
 
@@ -105,7 +105,7 @@
 }
 
 .logs-item {
-  padding: $spacing-lg;
+  padding: 32rpx;
   border-bottom: 2px solid $color-border-light;
 
   &:last-child {
@@ -120,7 +120,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: $spacing-xs;
+    margin-bottom: 16rpx;
   }
 
   &__main {
@@ -132,25 +132,25 @@
   }
 
   &__action {
-    font-size: $font-size-body;
+    font-size: 28rpx;
     font-weight: $font-weight-medium;
     color: $color-text-primary;
-    margin-right: $spacing-md;
+    margin-right: 24rpx;
   }
 
   &__entity {
-    font-size: $font-size-aux;
+    font-size: 24rpx;
     color: $color-info;
     background: rgba($color-info, 0.08);
-    padding: 8px $spacing-sm;
+    padding: 8rpx 24rpx;
     border-radius: $radius-sm;
   }
 
   &__time {
     flex: 0 0 auto;
-    font-size: $font-size-aux;
+    font-size: 24rpx;
     color: $color-text-tertiary;
-    margin-left: $spacing-sm;
+    margin-left: 24rpx;
   }
 
   &__meta {
@@ -160,23 +160,23 @@
   }
 
   &__actor {
-    font-size: $font-size-aux;
+    font-size: 24rpx;
     color: $color-text-secondary;
   }
 
   &__hint {
-    font-size: $font-size-tag;
+    font-size: 22rpx;
     color: $color-text-disabled;
   }
 
   &__detail {
-    margin-top: $spacing-md;
-    padding-top: $spacing-md;
+    margin-top: 24rpx;
+    padding-top: 24rpx;
     border-top: 2px dashed $color-border;
   }
 
   &__json {
-    margin-bottom: $spacing-sm;
+    margin-bottom: 24rpx;
 
     &:last-child {
       margin-bottom: 0;
@@ -185,18 +185,18 @@
 
   &__json-label {
     display: block;
-    font-size: $font-size-tag;
+    font-size: 22rpx;
     color: $color-text-tertiary;
-    margin-bottom: $spacing-xs;
+    margin-bottom: 8rpx;
   }
 
   &__json-text {
     display: block;
-    font-size: $font-size-tag;
+    font-size: 22rpx;
     color: $color-text-secondary;
     background: $color-bg-page;
     border-radius: $radius-sm;
-    padding: $spacing-sm;
+    padding: 24rpx;
     word-break: break-all;
     white-space: pre-wrap;
     font-family: 'Courier New', Courier, monospace;
@@ -205,28 +205,28 @@
 
 .logs-empty {
   text-align: center;
-  padding: 240px 0;
+  padding: 240rpx 0;
 
   &__text {
     display: block;
-    font-size: $font-size-title-lg;
+    font-size: 40rpx;
     color: $color-text-tertiary;
-    margin-bottom: $spacing-sm;
+    margin-bottom: 24rpx;
   }
 
   &__sub {
     display: block;
-    font-size: $font-size-aux;
+    font-size: 24rpx;
     color: $color-text-disabled;
   }
 }
 
 .logs-footer {
   text-align: center;
-  padding: 64px 0;
+  padding: 64rpx 0;
 
   &__text {
-    font-size: $font-size-aux;
+    font-size: 24rpx;
     color: $color-text-disabled;
   }
 }

@@ -5,186 +5,140 @@
  * Record Edit — 新建/编辑记录
  * ============================================ */
 
-.record-edit-page {
+// 主题变量
+$color-primary: #1B284B;
+$color-accent: #CDA63F;
+$color-bg-page: #F4F0EA;
+$color-bg-card: #FFFFFF;
+$color-text-primary: #1B1D25;
+$color-text-secondary: #6B7280;
+$color-border: #E3E0DB;
+$color-success: #2D6C52;
+$color-error: #B83830;
+
+.record-edit {
   min-height: 100vh;
   background: $color-bg-page;
   padding-bottom: 80rpx;
 }
 
-/* 顶部返回栏 */
-.edit-header {
+.record-edit__form {
+  padding: 32rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 28rpx;
+}
+
+/* AI 填表栏 */
+.record-edit__ai-bar {
   display: flex;
   align-items: center;
   gap: 16rpx;
-  padding: 24rpx;
-  background: $color-bg-card;
-  border-bottom: 1rpx solid $color-border;
+  padding: 24rpx 32rpx;
+  border-radius: 16rpx;
+  background: linear-gradient(135deg, rgba($color-accent, 0.15), rgba($color-primary, 0.08));
+  border: 1rpx solid rgba($color-accent, 0.3);
 }
 
-.edit-back-btn {
-  width: 72rpx;
-  height: 72rpx;
-  border-radius: $radius-md;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: none;
-  background: transparent;
-
-  &:active {
-    background: $color-border-light;
-  }
-}
-
-.edit-title {
+.record-edit__ai-icon {
   font-size: 36rpx;
-  font-weight: $font-weight-bold;
-  color: $color-text-primary;
 }
 
-/* 表单内容 */
-.edit-form {
-  padding: 40rpx $page-padding;
-  display: flex;
-  flex-direction: column;
-  gap: $section-gap;
+.record-edit__ai-text {
+  font-size: 28rpx;
+  font-weight: 700;
+  color: $color-primary;
 }
 
-/* 类型切换 — Segmented Control */
-.type-toggle {
-  background: $color-bg-card;
-  border-radius: $radius-lg;
-  padding: 12rpx;
-  display: flex;
-  border: 1rpx solid $color-border;
-  gap: 8rpx;
-}
-
-.type-toggle-btn {
-  flex: 1;
-  padding: 20rpx 0;
-  border-radius: $radius-md;
-  font-size: $font-size-body;
-  font-weight: $font-weight-medium;
-  text-align: center;
-  border: none;
-  background: transparent;
+.record-edit__ai-hint {
+  font-size: 24rpx;
   color: $color-text-secondary;
-  transition: $transition-fast;
-  line-height: normal;
+  margin-left: auto;
+}
 
-  &.active-in {
+/* 类型切换 */
+.record-edit__type-switch {
+  display: flex;
+  gap: 16rpx;
+}
+
+.record-edit__type-btn {
+  flex: 1;
+  height: 72rpx;
+  border-radius: 16rpx;
+  font-size: 28rpx;
+  font-weight: 500;
+  text-align: center;
+  line-height: 72rpx;
+  background: $color-bg-card;
+  color: $color-text-secondary;
+  border: 1rpx solid $color-border;
+
+  &.is-active--in {
     background: $color-success;
     color: #FFFFFF;
+    border-color: $color-success;
   }
 
-  &.active-out {
+  &.is-active--out {
     background: $color-error;
     color: #FFFFFF;
+    border-color: $color-error;
   }
 }
 
-/* 表单字段卡片 */
-.edit-field-card {
-  background: $color-bg-card;
-  border-radius: $radius-lg;
-  border: 1rpx solid $color-border;
-  overflow: hidden;
-}
-
-.edit-field-picker {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: $spacing-md;
-  background: $color-bg-card;
-  border: none;
-  width: 100%;
-  text-align: left;
-
-  &:active {
-    background: $color-border-light;
-  }
-}
-
-.edit-field-label {
+/* 字段通用 */
+.record-edit__field {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  gap: 4rpx;
+  gap: 16rpx;
 }
 
-.edit-field-label-tip {
-  font-size: $font-size-tag;
-  color: $color-text-secondary;
-}
-
-.edit-field-label-value {
-  font-size: $font-size-body;
-  font-weight: $font-weight-medium;
+.record-edit__label {
+  font-size: 28rpx;
+  font-weight: 500;
   color: $color-text-primary;
 }
 
-.edit-field-arrow {
-  color: $color-text-secondary;
-  flex-shrink: 0;
+.record-edit__required {
+  color: $color-error;
 }
 
-/* 数量步进器 */
-.edit-qty-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: $spacing-md;
-}
-
-.edit-qty-label {
-  font-size: $font-size-body;
-  color: $color-text-primary;
-}
-
-.edit-stepper {
-  display: flex;
-  align-items: center;
-  gap: 24rpx;
-}
-
-.edit-stepper-btn {
-  width: 64rpx;
-  height: 64rpx;
-  border-radius: 50%;
+.record-edit__input {
+  width: 100%;
+  height: 80rpx;
+  padding: 0 24rpx;
+  border-radius: 16rpx;
   border: 1rpx solid $color-border;
-  background: transparent;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  background: $color-bg-card;
+  font-size: 28rpx;
+  color: $color-text-primary;
+  box-sizing: border-box;
 
-  &:active {
-    background: $color-border-light;
+  &::placeholder {
+    color: $color-text-secondary;
   }
 }
 
-.edit-stepper-value {
-  font-size: $font-size-body;
-  font-weight: $font-weight-bold;
-  color: $color-text-primary;
-  width: 64rpx;
-  text-align: center;
+.record-edit__input--picker {
+  display: flex;
+  align-items: center;
 }
 
-/* 备注输入 */
-.edit-notes {
-  padding: $spacing-md;
+.record-edit__placeholder {
+  color: $color-text-secondary;
 }
 
-.edit-textarea {
+.record-edit__textarea {
   width: 100%;
-  font-size: $font-size-body;
+  min-height: 160rpx;
+  padding: 20rpx 24rpx;
+  border-radius: 16rpx;
+  border: 1rpx solid $color-border;
+  background: $color-bg-card;
+  font-size: 28rpx;
   color: $color-text-primary;
-  background: transparent;
-  border: none;
-  outline: none;
-  resize: none;
+  box-sizing: border-box;
   line-height: 1.6;
 
   &::placeholder {
@@ -192,50 +146,370 @@
   }
 }
 
-/* 照片上传 */
-.edit-photos {
-  padding: $spacing-md;
+/* 器材选择器 */
+.record-edit__equipment-input-wrapper {
+  display: flex;
+  gap: 16rpx;
+
+  .record-edit__input {
+    flex: 1;
+  }
 }
 
-.edit-photos-label {
-  font-size: $font-size-tag;
-  color: $color-text-secondary;
-  display: block;
-  margin-bottom: 24rpx;
-}
-
-.edit-photo-add-btn {
-  width: 80rpx;
+.record-edit__picker-btn {
+  flex-shrink: 0;
   height: 80rpx;
-  border-radius: $radius-md;
-  border: 2rpx dashed $color-border;
-  background: rgba($color-border-light, 0.5);
+  padding: 0 24rpx;
+  border-radius: 16rpx;
+  background: $color-primary;
+  color: #FFFFFF;
+  font-size: 24rpx;
+  border: none;
+  line-height: 80rpx;
+}
+
+.record-edit__stock-hint {
+  font-size: 24rpx;
+  color: $color-text-secondary;
+}
+
+/* 建议列表 */
+.record-edit__suggestions {
+  background: $color-bg-card;
+  border-radius: 16rpx;
+  border: 1rpx solid $color-border;
+  overflow: hidden;
+}
+
+.record-edit__suggestion-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24rpx 32rpx;
+  border-bottom: 1rpx solid $color-border;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.record-edit__suggestion-name {
+  font-size: 28rpx;
+  color: $color-text-primary;
+}
+
+.record-edit__suggestion-stock {
+  font-size: 24rpx;
+  color: $color-text-secondary;
+
+  &.is-low {
+    color: $color-error;
+  }
+}
+
+/* 器材选择弹窗 */
+.record-edit__equipment-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.record-edit__equipment-list {
+  width: 100%;
+  max-height: 70vh;
+  background: $color-bg-card;
+  border-radius: 24rpx 24rpx 0 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.record-edit__equipment-list-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 32rpx;
+  border-bottom: 1rpx solid $color-border;
+}
+
+.record-edit__equipment-list-title {
+  font-size: 32rpx;
+  font-weight: 700;
+  color: $color-text-primary;
+}
+
+.record-edit__equipment-list-close {
+  font-size: 40rpx;
+  color: $color-text-secondary;
+  padding: 0 8rpx;
+}
+
+.record-edit__equipment-list-body {
+  overflow-y: auto;
+  flex: 1;
+}
+
+.record-edit__equipment-list-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24rpx 32rpx;
+  border-bottom: 1rpx solid $color-border;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.record-edit__equipment-list-name {
+  font-size: 28rpx;
+  color: $color-text-primary;
+}
+
+.record-edit__equipment-list-stock {
+  font-size: 24rpx;
+  color: $color-text-secondary;
+
+  &.is-low {
+    color: $color-error;
+  }
+}
+
+/* 照片区域 */
+.record-edit__photo-actions {
+  display: flex;
+  gap: 16rpx;
+  flex-wrap: wrap;
+}
+
+.record-edit__photo-btn {
+  height: 64rpx;
+  padding: 0 24rpx;
+  border-radius: 12rpx;
+  font-size: 24rpx;
+  background: $color-bg-card;
+  color: $color-text-primary;
+  border: 1rpx solid $color-border;
+  line-height: 64rpx;
+
+  &--annotate {
+    border-color: rgba($color-accent, 0.5);
+    color: $color-accent;
+  }
+}
+
+.record-edit__photo-list {
+  display: flex;
+  gap: 16rpx;
+  flex-wrap: wrap;
+}
+
+.record-edit__photo-item {
+  position: relative;
+  width: 200rpx;
+  height: 200rpx;
+  border-radius: 12rpx;
+  overflow: hidden;
+  border: 1rpx solid $color-border;
+}
+
+.record-edit__photo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.record-edit__photo-mask {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 12rpx;
+  background: linear-gradient(transparent 50%, rgba(0, 0, 0, 0.5));
+}
+
+.record-edit__photo-tag {
+  font-size: 22rpx;
+  color: #FFFFFF;
+  margin-bottom: 4rpx;
+}
+
+.record-edit__photo-del {
+  font-size: 22rpx;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.record-edit__photo-count {
+  font-size: 24rpx;
+  color: $color-text-secondary;
+}
+
+/* 确认弹窗 */
+.record-edit__confirm-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: rgba(0, 0, 0, 0.5);
   display: flex;
   align-items: center;
   justify-content: center;
-
-  &:active {
-    background: $color-border-light;
-  }
+  padding: 64rpx;
 }
 
-.edit-photo-add-icon {
+.record-edit__confirm-content {
+  width: 100%;
+  max-height: 80vh;
+  background: $color-bg-card;
+  border-radius: 24rpx;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.record-edit__confirm-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 32rpx;
+  border-bottom: 1rpx solid $color-border;
+}
+
+.record-edit__confirm-title {
+  font-size: 32rpx;
+  font-weight: 700;
+  color: $color-text-primary;
+}
+
+.record-edit__confirm-close {
+  font-size: 40rpx;
+  color: $color-text-secondary;
+  padding: 0 8rpx;
+}
+
+.record-edit__confirm-body {
+  padding: 32rpx;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.record-edit__confirm-equipment-name {
+  font-size: 32rpx;
+  font-weight: 700;
+  color: $color-text-primary;
+  margin-bottom: 12rpx;
+}
+
+.record-edit__confirm-stock {
+  font-size: 28rpx;
+  color: $color-text-secondary;
+  margin-bottom: 24rpx;
+}
+
+.record-edit__confirm-section {
+  margin-bottom: 8rpx;
+}
+
+.record-edit__confirm-section-title {
+  font-size: 24rpx;
+  font-weight: 700;
+  color: $color-text-secondary;
+  margin-bottom: 16rpx;
+}
+
+.record-edit__confirm-records {
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}
+
+.record-edit__confirm-record-item {
+  display: flex;
+  flex-direction: column;
+  gap: 12rpx;
+  padding: 20rpx;
+  border-radius: 12rpx;
+  background: $color-bg-page;
+}
+
+.record-edit__confirm-record-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.record-edit__confirm-record-time {
+  font-size: 24rpx;
   color: $color-text-secondary;
 }
 
+.record-edit__confirm-record-qty {
+  font-size: 24rpx;
+  font-weight: 500;
+  color: $color-text-primary;
+}
+
+.record-edit__confirm-record-photos {
+  display: flex;
+  gap: 12rpx;
+}
+
+.record-edit__confirm-record-photo {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 8rpx;
+  overflow: hidden;
+  background: $color-border;
+}
+
+.record-edit__confirm-empty {
+  font-size: 24rpx;
+  color: $color-text-secondary;
+}
+
+.record-edit__confirm-footer {
+  display: flex;
+  gap: 16rpx;
+  padding: 24rpx 32rpx;
+  border-top: 1rpx solid $color-border;
+}
+
+.record-edit__confirm-btn {
+  flex: 1;
+  height: 72rpx;
+  border-radius: 16rpx;
+  font-size: 28rpx;
+  font-weight: 500;
+  border: none;
+  line-height: 72rpx;
+
+  &--cancel {
+    background: $color-bg-page;
+    color: $color-text-secondary;
+  }
+
+  &--confirm {
+    background: $color-primary;
+    color: #FFFFFF;
+  }
+}
+
 /* 提交按钮 */
-.edit-submit-btn {
+.record-edit__submit {
   width: 100%;
-  padding: 28rpx 0;
-  border-radius: $radius-md;
-  font-size: $font-size-body;
-  font-weight: $font-weight-bold;
+  height: 72rpx;
+  border-radius: 16rpx;
   background: $color-accent;
   color: $color-primary;
+  font-size: 28rpx;
+  font-weight: 700;
   border: none;
   margin-top: 16rpx;
-
-  &:active {
-    opacity: 0.9;
-  }
+  line-height: 72rpx;
+  text-align: center;
 }

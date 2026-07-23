@@ -5,56 +5,72 @@
  * Records — 出入库记录列表
  * ============================================ */
 
+// 主题变量
+$color-primary: #1B284B;
+$color-accent: #CDA63F;
+$color-bg-page: #F4F0EA;
+$color-bg-card: #FFFFFF;
+$color-text-primary: #1B1D25;
+$color-text-secondary: #6B7280;
+$color-border: #E3E0DB;
+$color-success: #2D6C52;
+$color-error: #B83830;
+
 .records-page {
   min-height: 100vh;
   background: $color-bg-page;
-  padding-bottom: 80px;
+  padding-bottom: 80rpx;
 }
 
-/* 页面头 */
-.records-header {
-  padding: $page-padding $page-padding 32px;
-}
-
-.records-title {
-  font-size: $font-size-title-lg;
-  font-weight: $font-weight-bold;
-  color: $color-text-primary;
-}
-
-/* 筛选栏 */
-.filter-bar {
-  padding: 0 $page-padding 40px;
+/* 筛选区 */
+.records-filter {
+  padding: 32rpx;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 20rpx;
+  background: $color-bg-card;
+  border-bottom: 1rpx solid $color-border;
 }
 
-.filter-row {
+.records-filter__row {
   display: flex;
-  gap: 16px;
+  gap: 16rpx;
 }
 
-.filter-select {
+.records-filter__row--search {
+  align-items: center;
+}
+
+.records-filter__picker {
   flex: 1;
-  height: 80px;
-  padding: 0 24px;
-  border-radius: $radius-md;
-  border: 1px solid $color-border;
-  background: $color-bg-card;
-  font-size: $font-size-body;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 80rpx;
+  padding: 0 24rpx;
+  border-radius: 16rpx;
+  border: 1rpx solid $color-border;
+  background: $color-bg-page;
+}
+
+.records-filter__picker-text {
+  font-size: 28rpx;
   color: $color-text-primary;
-  appearance: none;
 }
 
-.filter-search-input {
+.records-filter__arrow {
+  font-size: 24rpx;
+  color: $color-text-secondary;
+}
+
+.records-filter__input {
   flex: 1;
-  height: 80px;
-  padding: 0 24px;
-  border-radius: $radius-md;
-  border: 1px solid $color-border;
-  background: $color-bg-card;
-  font-size: $font-size-body;
+  height: 80rpx;
+  padding: 0 24rpx;
+  border-radius: 16rpx;
+  border: 1rpx solid $color-border;
+  background: $color-bg-page;
+  font-size: 28rpx;
   color: $color-text-primary;
 
   &::placeholder {
@@ -62,141 +78,163 @@
   }
 }
 
-.filter-search-btn {
-  height: 80px;
-  padding: 0 32px;
-  border-radius: $radius-md;
+.records-filter__search-btn {
+  height: 80rpx;
+  padding: 0 32rpx;
+  border-radius: 16rpx;
   background: $color-primary;
-  color: $color-text-inverse;
-  font-size: $font-size-body;
-  font-weight: $font-weight-medium;
-  border: none;
-  flex-shrink: 0;
-  line-height: 80px;
+  color: #FFFFFF;
+  font-size: 28rpx;
+  font-weight: 500;
+  line-height: 80rpx;
   text-align: center;
+  flex-shrink: 0;
 }
 
-.filter-reset-btn {
-  height: 80px;
-  padding: 0 24px;
-  border-radius: $radius-md;
-  border: 1px solid $color-border;
+.records-filter__reset-btn {
+  height: 80rpx;
+  padding: 0 24rpx;
+  border-radius: 16rpx;
+  border: 1rpx solid $color-border;
   background: $color-bg-card;
   color: $color-text-secondary;
-  font-size: $font-size-body;
-  flex-shrink: 0;
-  line-height: 80px;
+  font-size: 28rpx;
+  line-height: 80rpx;
   text-align: center;
+  flex-shrink: 0;
+}
+
+/* 记录列表 */
+.records-list {
+  padding: 16rpx 32rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
 }
 
 /* 记录卡片 */
-.record-list {
-  padding: 0 $page-padding;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.record-card {
+.records-card {
   background: $color-bg-card;
-  border-radius: $radius-md;
-  padding: 24px 32px;
-  border-bottom: 1px solid rgba($color-accent, 0.15);
+  border-radius: 16rpx;
+  padding: 24rpx 32rpx;
+  border-bottom: 1rpx solid rgba($color-accent, 0.15);
 }
 
-.record-card-row {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 16px;
-}
-
-.record-name-area {
+.records-card__head {
   display: flex;
   align-items: center;
-  gap: 16px;
-  min-width: 0;
+  justify-content: space-between;
+  margin-bottom: 16rpx;
 }
 
-.record-type-badge {
+.records-card__tag {
   display: inline-flex;
   align-items: center;
-  padding: 4px 16px;
-  border-radius: 8px;
-  font-size: $font-size-tag;
-  font-weight: $font-weight-medium;
-  flex-shrink: 0;
+  padding: 4rpx 16rpx;
+  border-radius: 8rpx;
+  font-size: 24rpx;
+  font-weight: 500;
 }
 
-.record-type-in {
+.records-card__tag--in {
   background: rgba($color-success, 0.1);
   color: $color-success;
 }
 
-.record-type-out {
+.records-card__tag--out {
   background: rgba($color-error, 0.1);
   color: $color-error;
 }
 
-.record-equip-name {
-  font-size: $font-size-body;
-  font-weight: $font-weight-medium;
-  color: $color-text-primary;
-  @include text-ellipsis;
-}
-
-.record-qty {
-  font-size: $font-size-body;
-  font-weight: $font-weight-bold;
-  flex-shrink: 0;
-}
-
-.record-meta {
-  margin-top: 12px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-size: $font-size-tag;
+.records-card__time {
+  font-size: 24rpx;
   color: $color-text-secondary;
 }
 
-.record-meta-sep {
-  color: $color-border;
+.records-card__body {
+  margin-bottom: 12rpx;
 }
 
-/* 页脚 */
+.records-card__name {
+  font-size: 28rpx;
+  font-weight: 500;
+  color: $color-text-primary;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.records-card__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.records-card__qty {
+  font-size: 24rpx;
+  color: $color-text-secondary;
+}
+
+.records-card__qty-num {
+  font-weight: 700;
+  color: $color-text-primary;
+}
+
+.records-card__operator {
+  font-size: 24rpx;
+  color: $color-text-secondary;
+}
+
+/* 页脚加载状态 */
 .records-footer {
-  padding: 32px $page-padding;
+  padding: 32rpx;
   text-align: center;
-  font-size: $font-size-tag;
+}
+
+.records-footer__text {
+  font-size: 24rpx;
   color: $color-text-secondary;
 }
 
 /* 空状态 */
 .records-empty {
-  padding: 80px $page-padding;
+  padding: 80rpx 32rpx;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12rpx;
 }
 
-.records-empty-text {
-  font-size: $font-size-body;
+.records-empty__text {
+  font-size: 28rpx;
   color: $color-text-secondary;
 }
 
-/* FAB 新增按钮 */
+.records-empty__sub {
+  font-size: 24rpx;
+  color: $color-text-secondary;
+}
+
+/* FAB 悬浮按钮 */
 .records-fab {
   position: fixed;
-  bottom: 80px;
-  right: $page-padding;
+  bottom: 80rpx;
+  right: 32rpx;
   z-index: 40;
-  width: 112px;
-  height: 112px;
+  width: 112rpx;
+  height: 112rpx;
   border-radius: 50%;
   background: $color-accent;
-  color: $color-primary;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4rpx 16rpx rgba($color-primary, 0.2);
   display: flex;
   align-items: center;
   justify-content: center;
-  border: none;
+}
+
+.records-fab__plus {
+  font-size: 48rpx;
+  font-weight: 300;
+  color: $color-primary;
+  line-height: 1;
 }

@@ -1,10 +1,6 @@
 @import '@/styles/variables.scss';
 @import '@/styles/theme.scss';
 
-/* ============================================
- * Permissions — 权限管理页面
- * ============================================ */
-
 .permissions-page {
   min-height: 100vh;
   background: $color-bg-page;
@@ -82,7 +78,6 @@
   align-items: center;
   padding: 24rpx 32rpx;
   background: $color-bg-card;
-  margin-bottom: 20rpx;
   border: 2px solid $color-border;
   border-radius: $radius-lg;
   margin: 0 32rpx 20rpx;
@@ -120,7 +115,7 @@
     border-bottom: 2px solid $color-border;
 
     &:active {
-      background: #E8E5E0;
+      background: $color-border;
     }
   }
 

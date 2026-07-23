@@ -1,25 +1,21 @@
 @import '@/styles/variables.scss';
 @import '@/styles/theme.scss';
 
-/* ============================================
- * Equipment Detail — 器材详情页
- * ============================================ */
-
 .equipment-detail {
   min-height: 100vh;
   background: $color-bg-page;
-  padding-bottom: $spacing-lg;
+  padding-bottom: 40rpx;
 }
 
 /* 头部信息卡片 */
 .detail-header {
   background: $color-bg-card;
-  padding: 48px $spacing-lg;
-  margin-bottom: $section-gap;
+  padding: 40rpx 32rpx;
+  margin-bottom: 28rpx;
   border-bottom: 2px solid $color-border-light;
 
   &__name {
-    font-size: $font-size-title-lg;
+    font-size: 40rpx;
     font-weight: $font-weight-bold;
     color: $color-text-primary;
     line-height: 1.4;
@@ -28,17 +24,17 @@
   &__meta {
     display: flex;
     flex-wrap: wrap;
-    gap: $spacing-xs;
-    margin-top: $spacing-sm;
-    font-size: $font-size-aux;
+    gap: 16rpx;
+    margin-top: 24rpx;
+    font-size: 24rpx;
     color: $color-text-secondary;
   }
 
   &__tag {
     background: $color-border-light;
-    padding: 4px 20px;
+    padding: 4rpx 20rpx;
     border-radius: $radius-sm;
-    font-size: $font-size-tag;
+    font-size: 22rpx;
     color: $color-text-secondary;
   }
 }
@@ -48,8 +44,8 @@
   background: $color-bg-card;
   border: 2px solid $color-border;
   border-radius: $radius-lg;
-  padding: $spacing-lg;
-  margin: 0 $spacing-md $section-gap;
+  padding: 32rpx;
+  margin: 0 24rpx 28rpx;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -59,13 +55,13 @@
   }
 
   &__label {
-    font-size: $font-size-aux;
+    font-size: 24rpx;
     color: $color-text-secondary;
-    margin-bottom: 8px;
+    margin-bottom: 8rpx;
   }
 
   &__value {
-    font-size: 72px;
+    font-size: 72rpx;
     font-weight: $font-weight-bold;
     color: $color-text-primary;
 
@@ -79,24 +75,24 @@
   }
 
   &__threshold {
-    font-size: $font-size-tag;
+    font-size: 22rpx;
     color: $color-text-tertiary;
-    margin-top: 8px;
+    margin-top: 8rpx;
   }
 
   &__unit {
-    font-size: $font-size-body;
+    font-size: 28rpx;
     color: $color-text-secondary;
-    margin-left: 8px;
+    margin-left: 8rpx;
   }
 
   &__extra {
     text-align: right;
-    font-size: $font-size-aux;
+    font-size: 24rpx;
     color: $color-text-secondary;
 
     &-item {
-      margin-bottom: 8px;
+      margin-bottom: 8rpx;
     }
   }
 }
@@ -104,21 +100,21 @@
 /* 操作按钮区 */
 .action-bar {
   display: flex;
-  gap: $spacing-sm;
-  padding: 0 $spacing-md;
-  margin-bottom: $section-gap;
+  gap: 24rpx;
+  padding: 0 24rpx;
+  margin-bottom: 28rpx;
 
   &__btn {
     flex: 1;
-    height: $button-height-md;
+    height: 88rpx;
     border-radius: $radius-md;
-    font-size: $font-size-body;
+    font-size: 28rpx;
     font-weight: $font-weight-medium;
     border: none;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 12px;
+    gap: 12rpx;
     line-height: normal;
 
     &--primary {
@@ -148,29 +144,29 @@
   background: $color-bg-card;
   border: 2px solid $color-border;
   border-radius: $radius-lg;
-  margin: 0 $spacing-md $section-gap;
+  margin: 0 24rpx 28rpx;
   overflow: hidden;
 
   &__header {
-    padding: $spacing-md $spacing-lg $spacing-sm;
-    font-size: $font-size-subtitle;
+    padding: 24rpx 32rpx 16rpx;
+    font-size: 30rpx;
     font-weight: $font-weight-bold;
     color: $color-text-primary;
     border-bottom: 2px solid $color-border-light;
   }
 
   &__empty {
-    padding: 80px 0;
+    padding: 80rpx 0;
     text-align: center;
     color: $color-text-tertiary;
-    font-size: $font-size-body;
+    font-size: 28rpx;
   }
 }
 
 .record-item {
   display: flex;
   align-items: center;
-  padding: 28px $spacing-lg;
+  padding: 28rpx 32rpx;
   border-bottom: 2px solid $color-border-light;
 
   &:last-child {
@@ -178,15 +174,15 @@
   }
 
   &__type {
-    width: 88px;
-    height: 88px;
+    width: 88rpx;
+    height: 88rpx;
     border-radius: $radius-md;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: $font-size-aux;
+    font-size: 24rpx;
     font-weight: $font-weight-bold;
-    margin-right: $spacing-sm;
+    margin-right: 24rpx;
 
     &--in {
       background: rgba($color-success, 0.1);
@@ -204,19 +200,19 @@
   }
 
   &__qty {
-    font-size: $font-size-subtitle;
+    font-size: 30rpx;
     font-weight: $font-weight-medium;
     color: $color-text-primary;
   }
 
   &__operator {
-    font-size: $font-size-tag;
+    font-size: 22rpx;
     color: $color-text-secondary;
-    margin-top: 4px;
+    margin-top: 4rpx;
   }
 
   &__time {
-    font-size: $font-size-tag;
+    font-size: 22rpx;
     color: $color-text-tertiary;
   }
 }

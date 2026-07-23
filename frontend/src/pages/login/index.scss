@@ -3,28 +3,28 @@
 
 .login-page {
   min-height: 100vh;
-  padding: 160px 80px 80px;
+  padding: 160rpx 80rpx 80rpx;
   background: linear-gradient(180deg, $color-primary 0%, $color-primary-dark 38%, $color-bg-page 38%);
   box-sizing: border-box;
 }
 
 .login-header {
   text-align: center;
-  margin-bottom: 120px;
+  margin-bottom: 120rpx;
   color: $color-text-inverse;
 }
 
 .login-logo {
   font-size: 96rpx;
   line-height: 1;
-  margin-bottom: $spacing-lg;
+  margin-bottom: 40rpx;
 }
 
 .login-title {
   display: block;
   font-size: 44rpx;
   font-weight: $font-weight-bold;
-  margin-bottom: $spacing-sm;
+  margin-bottom: 24rpx;
 }
 
 .login-subtitle {
@@ -37,19 +37,19 @@
   background: $color-bg-card;
   border-radius: $radius-lg;
   border: 2px solid $color-border;
-  padding: 64px $spacing-xl;
+  padding: 64rpx 48rpx;
   box-shadow: $shadow-card;
-}
 
-.login-section--dev {
-  padding: $spacing-xl;
+  &--dev {
+    padding: 48rpx;
+  }
 }
 
 .login-btn {
   width: 100%;
   border-radius: $radius-md;
-  font-size: $font-size-title-lg;
-  margin-top: $spacing-lg;
+  font-size: 40rpx;
+  margin-top: 40rpx;
 
   &--primary {
     background: $color-primary;
@@ -67,7 +67,7 @@
 .login-divider {
   display: flex;
   align-items: center;
-  margin: 64px 0;
+  margin: 64rpx 0;
 
   &__line {
     flex: 1;
@@ -76,31 +76,31 @@
   }
 
   &__text {
-    padding: 0 $spacing-lg;
+    padding: 0 40rpx;
     color: $color-text-tertiary;
-    font-size: $font-size-aux;
+    font-size: 24rpx;
   }
 }
 
 .login-input {
   width: 100%;
-  height: 80px;
+  height: 80rpx;
   border: 2px solid $color-border;
   border-radius: $radius-md;
-  padding: 0 $spacing-lg;
+  padding: 0 32rpx;
   box-sizing: border-box;
-  font-size: $font-size-body;
-  margin-bottom: $spacing-md;
+  font-size: 28rpx;
+  margin-bottom: 32rpx;
 }
 
 .login-picker {
   width: 100%;
-  height: 80px;
+  height: 80rpx;
   border: 2px solid $color-border;
   border-radius: $radius-md;
-  padding: 0 $spacing-lg;
+  padding: 0 32rpx;
   box-sizing: border-box;
-  font-size: $font-size-body;
+  font-size: 28rpx;
   display: flex;
   align-items: center;
   color: $color-text-primary;

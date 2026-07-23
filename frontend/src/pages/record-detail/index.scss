@@ -5,192 +5,330 @@
  * Record Detail — 记录详情
  * ============================================ */
 
-.record-detail-page {
+// 主题变量
+$color-primary: #1B284B;
+$color-accent: #CDA63F;
+$color-bg-page: #F4F0EA;
+$color-bg-card: #FFFFFF;
+$color-text-primary: #1B1D25;
+$color-text-secondary: #6B7280;
+$color-border: #E3E0DB;
+$color-success: #2D6C52;
+$color-error: #B83830;
+
+.record-detail {
   min-height: 100vh;
   background: $color-bg-page;
-  padding: $spacing-md;
-  padding-bottom: 80rpx;
+  padding: 32rpx 32rpx 120rpx;
   display: flex;
   flex-direction: column;
-  gap: $spacing-md;
-}
-
-/* 返回导航 */
-.detail-nav {
-  display: flex;
-  align-items: center;
   gap: 24rpx;
-  padding: 16rpx 0;
 }
 
-.detail-back-btn {
-  width: 72rpx;
-  height: 72rpx;
-  border-radius: $radius-md;
+/* 加载状态 */
+.record-detail__loading {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: $color-text-primary;
-  background: transparent;
-  border: none;
-
-  &:active {
-    background: $color-border-light;
-  }
+  padding: 160rpx 0;
 }
 
-.detail-nav-title {
-  font-size: 36rpx;
-  font-weight: $font-weight-bold;
-  color: $color-text-primary;
+.record-detail__loading-text {
+  font-size: 28rpx;
+  color: $color-text-secondary;
 }
 
-/* 类型标识头 */
-.detail-badge-header {
+/* 空状态 */
+.record-detail__empty {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 24rpx;
-  padding: 40rpx 0 24rpx;
+  justify-content: center;
+  padding: 160rpx 0;
 }
 
-.detail-type-badge {
+.record-detail__empty-text {
+  font-size: 28rpx;
+  color: $color-text-secondary;
+}
+
+/* 通用卡片 */
+.record-detail__card {
+  background: $color-bg-card;
+  border-radius: 16rpx;
+  padding: 32rpx;
+  border: 1rpx solid $color-border;
+}
+
+/* Hero 主信息区 */
+.record-detail__hero-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24rpx;
+}
+
+.record-detail__tag {
   display: inline-flex;
   align-items: center;
-  gap: 12rpx;
-  padding: 12rpx $spacing-md;
-  border-radius: $radius-round;
-  font-size: $font-size-body;
-  font-weight: $font-weight-bold;
+  padding: 8rpx 24rpx;
+  border-radius: 8rpx;
+  font-size: 28rpx;
+  font-weight: 700;
 }
 
-.detail-type-in {
-  background: rgba($color-success, 0.12);
+.record-detail__tag--in {
+  background: rgba($color-success, 0.1);
   color: $color-success;
 }
 
-.detail-type-out {
-  background: rgba($color-error, 0.12);
+.record-detail__tag--out {
+  background: rgba($color-error, 0.1);
   color: $color-error;
 }
 
-.detail-equip-name {
-  font-size: $font-size-title-lg;
-  font-weight: $font-weight-bold;
-  color: $color-text-primary;
-  text-align: center;
-  padding: 0 $spacing-md;
-}
-
-.detail-qty {
-  font-size: $font-size-title-lg;
-  font-weight: $font-weight-bold;
-  color: $color-text-primary;
-  letter-spacing: -1rpx;
-
-  .unit {
-    font-size: $font-size-aux;
-    font-weight: $font-weight-regular;
-    color: $color-text-secondary;
-  }
-}
-
-/* 信息卡片 */
-.detail-info-card {
-  background: $color-bg-card;
-  border-radius: $radius-md;
-  border: 1rpx solid $color-border;
-  box-shadow: $shadow-card;
-  overflow: hidden;
-}
-
-.detail-section {
-  padding: $spacing-md;
-  display: flex;
-  flex-direction: column;
-  gap: 24rpx;
-}
-
-.detail-section-title {
-  font-size: $font-size-tag;
-  font-weight: $font-weight-bold;
+.record-detail__more {
+  font-size: 28rpx;
   color: $color-text-secondary;
-  letter-spacing: 0.05em;
+  padding: 4rpx 8rpx;
 }
 
-.detail-info-grid {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  column-gap: 48rpx;
-  row-gap: 24rpx;
+.record-detail__name {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: $color-text-primary;
+  margin-bottom: 24rpx;
+}
+
+/* 数量区 */
+.record-detail__qty-box {
+  display: flex;
   align-items: baseline;
+  gap: 16rpx;
+  margin-bottom: 24rpx;
 }
 
-.detail-info-label {
-  font-size: $font-size-body;
+.record-detail__qty-label {
+  font-size: 28rpx;
   color: $color-text-secondary;
-  white-space: nowrap;
 }
 
-.detail-info-value {
-  font-size: $font-size-body;
-  font-weight: $font-weight-medium;
+.record-detail__qty-num {
+  font-size: 40rpx;
+  font-weight: 700;
   color: $color-text-primary;
-  text-align: right;
 }
 
-.detail-notes {
-  font-size: $font-size-body;
-  color: $color-text-primary;
-  line-height: 1.6;
+.record-detail__qty-num--in {
+  color: $color-success;
 }
 
-.detail-divider {
-  border: none;
-  border-top: 1rpx solid $color-border;
-  margin: 0 $spacing-md;
+.record-detail__qty-num--out {
+  color: $color-error;
 }
 
-/* 照片区域 */
-.detail-photos {
+/* 元信息 */
+.record-detail__meta {
   display: flex;
   flex-direction: column;
-  gap: 24rpx;
-  margin-top: 8rpx;
+  gap: 16rpx;
 }
 
-.detail-photos-title {
-  font-size: $font-size-body;
-  font-weight: $font-weight-bold;
+.record-detail__meta-item {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+}
+
+.record-detail__meta-label {
+  font-size: 24rpx;
   color: $color-text-secondary;
+  min-width: 120rpx;
 }
 
-.detail-photo-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+.record-detail__meta-value {
+  font-size: 28rpx;
+  color: $color-text-primary;
+}
+
+/* 额外字段 */
+.record-detail__fields {
+  display: flex;
+  flex-direction: column;
   gap: 20rpx;
 }
 
-.detail-photo-item {
-  aspect-ratio: 1;
-  border-radius: $radius-md;
-  background: $color-border-light;
-  border: 1rpx solid $color-border;
-  overflow: hidden;
+.record-detail__field-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 16rpx;
 }
 
-.detail-photo-placeholder {
-  width: 100%;
-  height: 100%;
+.record-detail__field-label {
+  font-size: 24rpx;
+  color: $color-text-secondary;
+  min-width: 120rpx;
+  flex-shrink: 0;
+}
+
+.record-detail__field-value {
+  font-size: 28rpx;
+  color: $color-text-primary;
+  flex: 1;
+}
+
+/* 分区标题 */
+.record-detail__section-title {
+  font-size: 24rpx;
+  font-weight: 700;
+  color: $color-text-secondary;
+  letter-spacing: 0.05em;
+  margin-bottom: 20rpx;
+}
+
+/* 照片画廊 */
+.record-detail__gallery-scroll {
+  overflow-x: auto;
+  white-space: nowrap;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.record-detail__gallery-list {
+  display: inline-flex;
+  gap: 16rpx;
+}
+
+.record-detail__photo-item {
+  width: 200rpx;
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8rpx;
+  flex-shrink: 0;
+}
+
+.record-detail__photo-video {
+  width: 200rpx;
+  height: 200rpx;
+  border-radius: 12rpx;
+  background: rgba($color-primary, 0.05);
+  display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  color: $color-text-secondary;
-  opacity: 0.35;
+  gap: 8rpx;
+  border: 1rpx solid $color-border;
 }
 
-.detail-photo-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+.record-detail__photo-video-icon {
+  font-size: 40rpx;
+  color: $color-primary;
+}
+
+.record-detail__photo-video-text {
+  font-size: 24rpx;
+  color: $color-text-secondary;
+}
+
+.record-detail__photo-img {
+  width: 200rpx;
+  height: 200rpx;
+  border-radius: 12rpx;
+  overflow: hidden;
+  background: rgba($color-border, 0.5);
+}
+
+.record-detail__photo-kind {
+  font-size: 22rpx;
+  color: $color-text-secondary;
+}
+
+/* 时间线 */
+.record-detail__timeline-empty {
+  font-size: 28rpx;
+  color: $color-text-secondary;
+  padding: 16rpx 0;
+}
+
+.record-detail__timeline-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.record-detail__timeline-item {
+  position: relative;
+  padding-left: 40rpx;
+  padding-bottom: 32rpx;
+
+  &.is-last {
+    padding-bottom: 0;
+  }
+}
+
+.record-detail__timeline-dot {
+  position: absolute;
+  left: 0;
+  top: 8rpx;
+  width: 16rpx;
+  height: 16rpx;
+  border-radius: 50%;
+  background: $color-accent;
+}
+
+.record-detail__timeline-line {
+  position: absolute;
+  left: 7rpx;
+  top: 32rpx;
+  bottom: 0;
+  width: 2rpx;
+  background: $color-border;
+}
+
+.record-detail__timeline-content {
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
+}
+
+.record-detail__timeline-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.record-detail__timeline-action {
+  font-size: 28rpx;
+  font-weight: 500;
+  color: $color-text-primary;
+}
+
+.record-detail__timeline-time {
+  font-size: 24rpx;
+  color: $color-text-secondary;
+}
+
+.record-detail__timeline-actor {
+  font-size: 24rpx;
+  color: $color-text-secondary;
+}
+
+/* 底部操作栏 */
+.record-detail__actions {
+  display: flex;
+  justify-content: center;
+  padding: 16rpx 0;
+}
+
+.record-detail__edit-btn {
+  height: 72rpx;
+  padding: 0 48rpx;
+  border-radius: 36rpx;
+  background: $color-accent;
+  color: $color-primary;
+  font-size: 28rpx;
+  font-weight: 700;
+  line-height: 72rpx;
+  text-align: center;
 }
