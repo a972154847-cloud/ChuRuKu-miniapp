@@ -21,6 +21,10 @@ try {
     json.miniprogramRoot = '';
     changed = true;
   }
+  if (json.lazyCodeLoading !== 'requiredComponents') {
+    json.lazyCodeLoading = 'requiredComponents';
+    changed = true;
+  }
   if (json.setting) {
     if (json.setting.es6 !== false) {
       json.setting.es6 = false;
@@ -30,8 +34,8 @@ try {
       json.setting.enhance = false;
       changed = true;
     }
-    if (json.setting.minified !== false) {
-      json.setting.minified = false;
+    if (json.setting.minified !== true) {
+      json.setting.minified = true;
       changed = true;
     }
     if (json.setting.swc !== false) {
@@ -45,7 +49,7 @@ try {
   }
   if (changed) {
     fs.writeFileSync(projectConfigPath, JSON.stringify(json, null, 2));
-    console.log(`[fix-comp-json] Fixed project.config.json: appid=${REAL_APPID}, es6=false, enhance=false, minified=false`);
+    console.log(`[fix-comp-json] Fixed project.config.json: appid=${REAL_APPID}, es6=false, enhance=false, minified=true`);
     fixedCount++;
   }
 } catch (e) {
