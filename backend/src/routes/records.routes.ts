@@ -1,6 +1,7 @@
 import { Router, Request, Response } from 'express'
 import authRequired from '../middlewares/auth'
-import { requireAdmin, requireEditor, requireViewer } from '../middlewares/role'
+import { requireAdmin, requireViewer } from '../middlewares/role'
+import { requirePermission } from '../middlewares/permission'
 import { toInt, toStr } from '../utils/helpers'
 import {
   createRecord,
@@ -44,7 +45,7 @@ router.get('/equipment-in', requireViewer, (req: Request, res: Response) => {
   res.json({ code: 0, message: 'ok', data: result })
 })
 
-router.post('/', requireViewer, (req: Request, res: Response) => {
+router.post('/', requirePermission('record:create'), (req: Request, res: Response) => {
   const b = req.body || {}
   const record = createRecord(
     {
@@ -64,7 +65,7 @@ router.post('/', requireViewer, (req: Request, res: Response) => {
   res.status(201).json({ code: 0, message: 'ok', data: record })
 })
 
-router.get('/', requireViewer, (req: Request, res: Response) => {
+router.get('/', requirePermission('record:read'), (req: Request, res: Response) => {
   const {
     type,
     equipment_id,
@@ -104,7 +105,7 @@ router.get('/', requireViewer, (req: Request, res: Response) => {
   })
 })
 
-router.get('/:id', requireViewer, (req: Request, res: Response) => {
+router.get('/:id', requirePermission('record:read'), (req: Request, res: Response) => {
   const id = toInt(req.params.id, NaN)
   if (!Number.isFinite(id)) {
     res.status(400).json({ code: 400, message: '非法记录 id' })
@@ -123,7 +124,7 @@ router.get('/:id', requireViewer, (req: Request, res: Response) => {
   res.json({ code: 0, message: 'ok', data: record })
 })
 
-router.put('/:id', requireViewer, (req: Request, res: Response) => {
+router.put('/:id', requirePermission('record:update'), (req: Request, res: Response) => {
   const id = toInt(req.params.id, NaN)
   if (!Number.isFinite(id)) {
     res.status(400).json({ code: 400, message: '非法记录 id' })
@@ -148,7 +149,7 @@ router.put('/:id', requireViewer, (req: Request, res: Response) => {
   res.json({ code: 0, message: 'ok', data: updated })
 })
 
-router.delete('/:id', requireAdmin, (req: Request, res: Response) => {
+router.delete('/:id', requirePermission('record:delete'), (req: Request, res: Response) => {
   const id = toInt(req.params.id, NaN)
   if (!Number.isFinite(id)) {
     res.status(400).json({ code: 400, message: '非法记录 id' })
@@ -158,7 +159,7 @@ router.delete('/:id', requireAdmin, (req: Request, res: Response) => {
   res.json({ code: 0, message: 'ok' })
 })
 
-router.post('/:id/photos', requireViewer, (req: Request, res: Response) => {
+router.post('/:id/photos', requirePermission('record:photos'), (req: Request, res: Response) => {
   const id = toInt(req.params.id, NaN)
   if (!Number.isFinite(id)) {
     res.status(400).json({ code: 400, message: '非法记录 id' })
@@ -185,7 +186,7 @@ router.post('/:id/photos', requireViewer, (req: Request, res: Response) => {
  * Body: { photos: AttachPhotoInput[] }
  * - photos 为空数组时，等同于清空所有照片
  */
-router.put('/:id/photos', requireViewer, (req: Request, res: Response) => {
+router.put('/:id/photos', requirePermission('record:photos'), (req: Request, res: Response) => {
   const id = toInt(req.params.id, NaN)
   if (!Number.isFinite(id)) {
     res.status(400).json({ code: 400, message: '非法记录 id' })
@@ -207,7 +208,7 @@ router.put('/:id/photos', requireViewer, (req: Request, res: Response) => {
   res.json({ code: 0, message: 'ok', data: { list: inserted } })
 })
 
-router.delete('/:id/photos/:photoId', requireViewer, (req: Request, res: Response) => {
+router.delete('/:id/photos/:photoId', requirePermission('record:photos'), (req: Request, res: Response) => {
   const id = toInt(req.params.id, NaN)
   const photoId = toInt(req.params.photoId, NaN)
   if (!Number.isFinite(id) || !Number.isFinite(photoId)) {

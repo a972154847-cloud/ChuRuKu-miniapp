@@ -1,6 +1,6 @@
 import { Router, Request, Response } from 'express'
 import authRequired from '../middlewares/auth'
-import { requireAdmin, requireViewer } from '../middlewares/role'
+import { requirePermission } from '../middlewares/permission'
 import { isAppError, NotFoundError, ConflictError } from '../utils/errors'
 import {
   listCategoriesTree,
@@ -25,7 +25,7 @@ function toInt(v: unknown, def: number): number {
  * GET / 完整分类树（带 children 嵌套）
  * viewer 及以上可访问
  */
-router.get('/', requireViewer, (_req: Request, res: Response) => {
+router.get('/', requirePermission('category:read'), (_req: Request, res: Response) => {
   const tree = listCategoriesTree()
   res.json({ code: 0, message: 'ok', data: tree })
 })
@@ -35,7 +35,7 @@ router.get('/', requireViewer, (_req: Request, res: Response) => {
  * viewer 及以上可访问
  * 注意：必须在 /:id 之前注册（当前无 GET /:id，仍保持顺序清晰）
  */
-router.get('/flat', requireViewer, (_req: Request, res: Response) => {
+router.get('/flat', requirePermission('category:read'), (_req: Request, res: Response) => {
   const list = listCategoriesFlat()
   res.json({ code: 0, message: 'ok', data: list })
 })
@@ -46,7 +46,7 @@ router.get('/flat', requireViewer, (_req: Request, res: Response) => {
  * Body: { description: string, equipment_name?: string }
  * 注意：必须在 /:id 之前注册，避免被 /:id 误匹配
  */
-router.post('/auto-suggest', requireViewer, (req: Request, res: Response) => {
+router.post('/auto-suggest', requirePermission('category:read'), (req: Request, res: Response) => {
   const b = req.body || {}
   const description = typeof b.description === 'string' ? b.description : ''
   const equipmentName =
@@ -59,7 +59,7 @@ router.post('/auto-suggest', requireViewer, (req: Request, res: Response) => {
  * POST / 创建分类（仅 admin）
  * Body: { name, code, parent_id?, level?, sort_order? }
  */
-router.post('/', requireAdmin, (req: Request, res: Response) => {
+router.post('/', requirePermission('category:manage'), (req: Request, res: Response) => {
   const b = req.body || {}
   try {
     const created = createCategory(
@@ -82,7 +82,7 @@ router.post('/', requireAdmin, (req: Request, res: Response) => {
  * PATCH /:id 修改分类（仅 admin）
  * Body: { name?, code?, parent_id?, level?, sort_order? }
  */
-router.patch('/:id', requireAdmin, (req: Request, res: Response) => {
+router.patch('/:id', requirePermission('category:manage'), (req: Request, res: Response) => {
   const id = toInt(req.params.id, NaN)
   if (!Number.isFinite(id)) {
     res.status(400).json({ code: 400, message: '非法分类 id' })
@@ -119,7 +119,7 @@ router.patch('/:id', requireAdmin, (req: Request, res: Response) => {
  *   - 默认 → 400（提示先解除关联），返回 { code: 400, message, has_equipments: true, equip_count }
  *   - ?force=true → 解除关联器材（category_id 设为 NULL），然后删除分类
  */
-router.delete('/:id', requireAdmin, (req: Request, res: Response) => {
+router.delete('/:id', requirePermission('category:manage'), (req: Request, res: Response) => {
   const id = toInt(req.params.id, NaN)
   if (!Number.isFinite(id)) {
     res.status(400).json({ code: 400, message: '非法分类 id' })

@@ -1,0 +1,192 @@
+@import '@/styles/variables.scss';
+@import '@/styles/theme.scss';
+
+/* ============================================
+ * Permissions — 权限管理页面
+ * ============================================ */
+
+.permissions-page {
+  min-height: 100vh;
+  background: $color-bg-page;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.permissions-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-top: 100rpx;
+
+  &__text {
+    font-size: 40rpx;
+    color: $color-text-secondary;
+    margin-bottom: 20rpx;
+  }
+
+  &__sub {
+    font-size: 28rpx;
+    color: $color-text-tertiary;
+  }
+}
+
+.permissions-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 32rpx;
+  background: $color-bg-card;
+  margin-bottom: 20rpx;
+  border-bottom: 1px solid $color-border-light;
+  box-shadow: $shadow-card;
+
+  &__role {
+    display: flex;
+    align-items: center;
+    padding: 16rpx 24rpx;
+    background: $color-border-light;
+    border-radius: $radius-md;
+  }
+
+  &__role-dot {
+    width: 16rpx;
+    height: 16rpx;
+    border-radius: 50%;
+    margin-right: 12rpx;
+  }
+
+  &__role-text {
+    font-size: 32rpx;
+    color: $color-text-primary;
+    font-weight: $font-weight-medium;
+  }
+
+  &__save {
+    background: $color-primary;
+    color: $color-text-inverse;
+    border-radius: $radius-md;
+    padding: 16rpx 32rpx;
+    font-size: 28rpx;
+    border: none;
+    font-weight: $font-weight-medium;
+
+    &:active {
+      opacity: 0.85;
+    }
+  }
+}
+
+.permissions-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24rpx 32rpx;
+  background: $color-bg-card;
+  margin-bottom: 20rpx;
+  border: 1px solid $color-border;
+  border-radius: $radius-lg;
+  margin: 0 32rpx 20rpx;
+
+  &__btn {
+    background: rgba($color-primary, 0.08);
+    color: $color-primary;
+    border-radius: $radius-md;
+    font-weight: $font-weight-medium;
+  }
+
+  &__count {
+    font-size: 26rpx;
+    color: $color-text-secondary;
+  }
+}
+
+.permissions-list {
+  padding: 0 32rpx;
+}
+
+.permissions-group {
+  background: $color-bg-card;
+  border: 1px solid $color-border;
+  border-radius: $radius-lg;
+  margin-bottom: 20rpx;
+  overflow: hidden;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 28rpx 32rpx;
+    background: $color-border-light;
+    border-bottom: 1px solid $color-border;
+
+    &:active {
+      background: #E8E5E0;
+    }
+  }
+
+  &__title {
+    font-size: 32rpx;
+    font-weight: $font-weight-bold;
+    color: $color-text-primary;
+  }
+
+  &__count {
+    font-size: 26rpx;
+    color: $color-text-secondary;
+    background: $color-border;
+    padding: 4rpx 16rpx;
+    border-radius: 20rpx;
+  }
+
+  &__items {
+    padding: 8rpx 0;
+  }
+}
+
+.permissions-item {
+  display: flex;
+  align-items: center;
+  padding: 24rpx 32rpx;
+  border-bottom: 1px solid $color-border-light;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &:active {
+    background: $color-border-light;
+  }
+
+  &__info {
+    flex: 1;
+    margin-left: 20rpx;
+  }
+
+  &__name {
+    font-size: 30rpx;
+    color: $color-text-primary;
+    display: block;
+    margin-bottom: 4rpx;
+  }
+
+  &__code {
+    font-size: 24rpx;
+    color: $color-text-secondary;
+    font-family: monospace;
+    display: block;
+  }
+
+  &__desc {
+    font-size: 24rpx;
+    color: $color-text-tertiary;
+    margin-left: 20rpx;
+    flex-shrink: 0;
+  }
+}
+
+/* Switch 开关 — 选中态使用强调色 */
+.permissions-item {
+  checkbox {
+    --td-switch-checked-color: #{$color-accent};
+  }
+}

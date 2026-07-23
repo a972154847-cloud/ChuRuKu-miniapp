@@ -5,11 +5,19 @@ import db from '../db'
 import { config } from '../config'
 import { AuthUser, Role } from '../types'
 import { writeLog } from '../services/log.service'
+import { getPermissionsByRole } from '../services/permission.service'
 
 interface WxLoginResult {
   openid: string
   session_key: string
   unionid?: string
+}
+
+export class WxBusinessError extends Error {
+  constructor(public errcode: number, public errmsg: string) {
+    super(`微信登录失败: ${errcode} ${errmsg}`)
+    this.name = 'WxBusinessError'
+  }
 }
 
 export const WX_LOGIN_TIMEOUT_MS = 8000
@@ -18,6 +26,10 @@ export const WX_LOGIN_TIMEOUT_MS = 8000
 export function isWxLoginTimeout(error: unknown): boolean {
   const code = (error as { code?: unknown } | null)?.code
   return code === 'ECONNABORTED' || code === 'ETIMEDOUT'
+}
+
+export function isWxBusinessError(error: unknown): error is WxBusinessError {
+  return error instanceof WxBusinessError
 }
 
 /**
@@ -53,7 +65,7 @@ export async function wxLogin(code: string): Promise<WxLoginResult> {
     timeout: WX_LOGIN_TIMEOUT_MS,
   })
   if (res.data.errcode) {
-    throw new Error(`微信登录失败: ${res.data.errcode} ${res.data.errmsg}`)
+    throw new WxBusinessError(res.data.errcode, res.data.errmsg)
   }
   return res.data as WxLoginResult
 }
@@ -61,7 +73,7 @@ export async function wxLogin(code: string): Promise<WxLoginResult> {
 /**
  * 签发 JWT，payload 包含 id/openid/name/role
  */
-export function signToken(user: AuthUser): string {
+export function signToken(user: Pick<AuthUser, 'id' | 'openid' | 'name' | 'role'>): string {
   // @types/jsonwebtoken 9.x 将 expiresIn 限定为 ms.StringValue 字面量，
   // 但运行时支持任意字符串（如 '2h'）；config.jwtExpiresIn 为 string，故用 SignOptions 类型断言绕过
   const opts: jwt.SignOptions = { expiresIn: config.jwtExpiresIn as unknown as jwt.SignOptions['expiresIn'] }
@@ -128,12 +140,14 @@ export function verifyToken(token: string): AuthUser | null {
     if (!row || row.status === 'disabled') {
       return null
     }
-    // P1-7: 使用 DB 中的最新 role（防止 token 中 role 过期后仍可越权）
+    const role = row.role as Role
+    const permissions = getPermissionsByRole(role)
     return {
       id: row.id,
       openid: payload.openid,
       name: payload.name,
-      role: row.role as Role,
+      role,
+      permissions,
     }
   } catch {
     return null

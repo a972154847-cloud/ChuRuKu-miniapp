@@ -1,6 +1,6 @@
 import { Router, Request, Response } from 'express'
 import authRequired from '../middlewares/auth'
-import { requireAdmin } from '../middlewares/role'
+import { requirePermission } from '../middlewares/permission'
 import { listLogs, getLogById, getLogStats } from '../services/log-query.service'
 
 const router = Router()
@@ -22,7 +22,7 @@ function toStr(v: unknown): string | undefined {
 /**
  * GET /stats 日志统计（必须在 /:id 之前注册，否则 stats 会被当作 :id）
  */
-router.get('/stats', requireAdmin, (_req: Request, res: Response) => {
+router.get('/stats', requirePermission('log:read'), (_req: Request, res: Response) => {
   const stats = getLogStats()
   res.json({ code: 0, message: 'ok', data: stats })
 })
@@ -31,7 +31,7 @@ router.get('/stats', requireAdmin, (_req: Request, res: Response) => {
  * GET / 分页查询日志
  * Query: actor_id?, action?, entity?, start_date?, end_date?, page?, page_size?
  */
-router.get('/', requireAdmin, (req: Request, res: Response) => {
+router.get('/', requirePermission('log:read'), (req: Request, res: Response) => {
   const { actor_id, action, entity, start_date, end_date, page, page_size } =
     req.query
   const result = listLogs({
@@ -49,7 +49,7 @@ router.get('/', requireAdmin, (req: Request, res: Response) => {
 /**
  * GET /:id 单条日志详情
  */
-router.get('/:id', requireAdmin, (req: Request, res: Response) => {
+router.get('/:id', requirePermission('log:read'), (req: Request, res: Response) => {
   const id = toInt(req.params.id, NaN)
   if (!Number.isFinite(id)) {
     res.status(400).json({ code: 400, message: '非法日志 id' })

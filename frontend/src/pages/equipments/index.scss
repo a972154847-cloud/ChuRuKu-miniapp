@@ -1,139 +1,209 @@
+@import '@/styles/variables.scss';
+@import '@/styles/theme.scss';
+
+/* ============================================
+ * Equipments — 装备列表
+ * ============================================ */
+
 .equipments-page {
   min-height: 100vh;
-  background: #f5f5f5;
-  padding-bottom: 30rpx;
+  background: $color-bg-page;
+  padding: 12px 16px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
 }
 
-.equipments-header {
+/* 顶部导航 */
+.equip-header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 30rpx 30rpx 20rpx;
-  background: #fff;
-  border-bottom: 1rpx solid #eee;
+  gap: 8px;
+  padding: 4px 0;
 }
 
-.equipments-header__title {
-  font-size: 36rpx;
-  font-weight: bold;
-  color: #333;
-}
-
-.equipments-header__count {
-  font-size: 26rpx;
-  color: #999;
-}
-
-.equipments-search {
+.equip-back-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
   display: flex;
   align-items: center;
-  padding: 20rpx 30rpx;
-  background: #fff;
-  border-bottom: 10rpx solid #f5f5f5;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  flex-shrink: 0;
+
+  &:active {
+    background: $color-border-light;
+  }
 }
 
-.equipments-search__input {
-  flex: 1;
-  height: 64rpx;
-  padding: 0 20rpx;
-  font-size: 28rpx;
-  background: #f5f5f5;
-  border-radius: 32rpx;
+.equip-title {
+  font-size: 18px;
+  font-weight: $font-weight-bold;
+  color: $color-text-primary;
 }
 
-.equipments-search__btn {
-  margin-left: 20rpx;
-  padding: 0 24rpx;
-  height: 64rpx;
-  line-height: 64rpx;
-  font-size: 28rpx;
-  color: #fff;
-  background: #d9534f;
-  border-radius: 32rpx;
+/* 搜索栏 */
+.equip-search-wrap {
+  position: relative;
 }
 
-.equipments-search__clear {
-  margin-left: 16rpx;
-  font-size: 32rpx;
-  color: #999;
-  padding: 0 10rpx;
+.equip-search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: $color-text-secondary;
+  pointer-events: none;
 }
 
-.equipments-list {
-  padding: 20rpx 30rpx;
+.equip-search-input {
+  width: 100%;
+  height: 44px;
+  padding: 0 16px 0 40px;
+  background: $color-bg-card;
+  border: 1px solid $color-border;
+  border-radius: 12px;
+  font-size: $font-size-body;
+  color: $color-text-primary;
+  box-sizing: border-box;
+
+  &::placeholder {
+    color: $color-text-secondary;
+  }
 }
 
-.equipments-empty {
-  padding: 100rpx 0;
-  text-align: center;
+/* 分类 Chip */
+.category-chips-scroll {
+  overflow-x: auto;
+  white-space: nowrap;
+  margin: 0 -16px;
+  padding: 0 16px 4px;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
-.equipments-empty__text {
-  font-size: 28rpx;
-  color: #999;
+.category-chips {
+  display: flex;
+  gap: 8px;
 }
 
-.equipments-item {
+.category-chip {
+  display: inline-block;
+  padding: 6px 16px;
+  border-radius: $radius-round;
+  font-size: $font-size-body;
+  font-weight: $font-weight-medium;
+  border: none;
+  flex-shrink: 0;
+  line-height: normal;
+}
+
+.category-chip-active {
+  background: $color-primary;
+  color: $color-text-inverse;
+}
+
+.category-chip-inactive {
+  background: $color-border-light;
+  color: $color-text-secondary;
+}
+
+/* 装备卡片列表 */
+.equip-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.equip-card {
+  background: $color-bg-card;
+  border: 1px solid $color-border;
+  border-radius: 12px;
+  padding: 14px 16px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 30rpx;
-  margin-bottom: 16rpx;
-  background: #fff;
-  border-radius: 12rpx;
-  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.04);
+  gap: 12px;
 }
 
-.equipments-item__main {
+.equip-card-info {
   flex: 1;
   min-width: 0;
 }
 
-.equipments-item__name {
-  display: block;
-  font-size: 30rpx;
-  font-weight: 500;
-  color: #333;
-  margin-bottom: 8rpx;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+.equip-card-name {
+  font-size: 15px;
+  font-weight: $font-weight-bold;
+  color: $color-text-primary;
+  line-height: 1.4;
 }
 
-.equipments-item__sub {
-  display: block;
-  font-size: 24rpx;
-  color: #999;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+.equip-card-model {
+  font-size: 13px;
+  color: $color-text-secondary;
+  margin-top: 2px;
 }
 
-.equipments-item__stock {
+.equip-card-tags {
   display: flex;
-  align-items: baseline;
-  margin-left: 20rpx;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
 }
 
-.equipments-item__qty {
-  font-size: 40rpx;
-  font-weight: bold;
-  color: #52c41a;
+.equip-stock-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: $font-size-tag;
+  font-weight: $font-weight-medium;
 }
 
-.equipments-item__qty--low {
-  color: #d9534f;
+.equip-stock-normal {
+  background: rgba($color-success, 0.12);
+  color: $color-success;
 }
 
-.equipments-item__unit {
-  font-size: 24rpx;
-  color: #999;
-  margin-left: 6rpx;
+.equip-stock-low {
+  background: rgba($color-warning, 0.12);
+  color: $color-warning;
 }
 
-.equipments-loading-more {
-  padding: 30rpx 0;
-  text-align: center;
-  font-size: 24rpx;
-  color: #999;
+.equip-stock-critical {
+  background: rgba($color-error, 0.12);
+  color: $color-error;
+}
+
+.equip-category-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: $font-size-tag;
+  background: $color-border-light;
+  color: $color-text-secondary;
+}
+
+.equip-card-arrow {
+  color: $color-text-secondary;
+  flex-shrink: 0;
+}
+
+/* 空状态 */
+.equip-no-results {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 64px 16px;
+  color: $color-text-secondary;
+}
+
+.equip-no-results-text {
+  font-size: $font-size-body;
+  margin-top: 8px;
 }

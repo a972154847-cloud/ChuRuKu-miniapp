@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { View, Text, ScrollView, Image } from '@tarojs/components'
+import { View, Text, ScrollView } from '@tarojs/components'
 import Taro, { useLoad } from '@tarojs/taro'
 import {
   getRecordById,
@@ -10,11 +10,11 @@ import {
 } from '@/services/records'
 import { resolveFileUrl } from '@/services/upload'
 import { useUserStore } from '@/store/user'
+import Image from '@/components/Image'
 import AIFab from '@/components/AIFab'
 import AIChatPanel from '@/components/AIChatPanel'
 import './index.scss'
 
-/** 日志动作中文映射 */
 const ACTION_LABELS: Record<string, string> = {
   'record.create': '创建记录',
   'record.update': '更新记录',
@@ -23,7 +23,6 @@ const ACTION_LABELS: Record<string, string> = {
   'record.detach_photo': '删除照片'
 }
 
-/** 照片类型中文映射 */
 const PHOTO_KIND_LABELS: Record<string, string> = {
   product: '器材照片',
   location: '位置照片',
@@ -31,7 +30,6 @@ const PHOTO_KIND_LABELS: Record<string, string> = {
   video: '视频'
 }
 
-/** 格式化完整时间：后端返回 'YYYY-MM-DD HH:MM:SS'，原样展示 */
 function formatFullTime(t?: string | null): string {
   if (!t) return ''
   return t
@@ -65,13 +63,11 @@ export default function RecordDetailPage() {
       const data = await getRecordById(id)
       setRecord(data)
     } catch {
-      // 错误已由 request.ts toast
     } finally {
       setLoading(false)
     }
   }
 
-  /** 照片预览（仅图片，视频单独处理） */
   const handlePreviewImage = (photos: RecordPhoto[], current: RecordPhoto) => {
     const imagePhotos = photos.filter((p) => p.kind !== 'video')
     const urls = imagePhotos.map((p) => resolveFileUrl(p.url))
@@ -79,17 +75,12 @@ export default function RecordDetailPage() {
     Taro.previewImage({ urls, current: currentUrl })
   }
 
-  /** 视频预览 */
   const handlePreviewVideo = (photo: RecordPhoto) => {
     const url = resolveFileUrl(photo.url)
-    // H5 直接打开链接；小程序用 previewMedia（需基础库 2.13.0+）
-    // 兜底：复制链接到剪贴板
     // #ifdef H5
     window.open(url, '_blank')
     // #endif
     // #ifndef H5
-    // 注意：不能用 Taro.previewMedia?.(...).catch(...) 链式写法，
-    // 因为 ?.() 短路返回 undefined 时 .catch 会抛 TypeError。
     if (typeof Taro.previewMedia === 'function') {
       Taro.previewMedia({
         sources: [{ url, type: 'video' }]
@@ -99,14 +90,12 @@ export default function RecordDetailPage() {
         Taro.showToast({ title: '视频链接已复制', icon: 'none' })
       })
     } else {
-      // 基础库不支持 previewMedia，退回复制链接
       Taro.setClipboardData({ data: url })
       Taro.showToast({ title: '视频链接已复制', icon: 'none' })
     }
     // #endif
   }
 
-  /** 删除记录 */
   const handleDelete = () => {
     if (!record) return
     if (deleting) return
@@ -182,7 +171,6 @@ export default function RecordDetailPage() {
 
   return (
     <View className='record-detail'>
-      {/* 顶部基本信息卡片 */}
       <View className='record-detail__card record-detail__hero'>
         <View className='record-detail__hero-head'>
           <Text
@@ -219,7 +207,6 @@ export default function RecordDetailPage() {
         </View>
       </View>
 
-      {/* 扩展字段卡片 */}
       {(record.remark || record.recipient || record.purpose || record.expected_return_at) && (
         <View className='record-detail__card record-detail__fields'>
           {record.recipient && (
@@ -251,7 +238,6 @@ export default function RecordDetailPage() {
         </View>
       )}
 
-      {/* 照片画廊 */}
       {photos.length > 0 && (
         <View className='record-detail__card record-detail__gallery'>
           <Text className='record-detail__section-title'>照片 ({photos.length})</Text>
@@ -275,9 +261,9 @@ export default function RecordDetailPage() {
                   ) : (
                     <Image
                       className='record-detail__photo-img'
-                      src={resolveFileUrl(p.thumbnail_url || p.url)}
+                      src={p.url}
+                      thumbnailUrl={p.thumbnail_url}
                       mode='aspectFill'
-                      lazyLoad
                     />
                   )}
                   <Text className='record-detail__photo-kind'>
@@ -290,7 +276,6 @@ export default function RecordDetailPage() {
         </View>
       )}
 
-      {/* 操作日志时间线 */}
       <View className='record-detail__card record-detail__timeline'>
         <Text className='record-detail__section-title'>
           操作日志 ({logs.length})
@@ -329,7 +314,6 @@ export default function RecordDetailPage() {
         )}
       </View>
 
-      {/* 操作按钮（仅 Admin/Editor 可见） */}
       {canEdit && (
         <View className='record-detail__actions'>
           {canEdit && (

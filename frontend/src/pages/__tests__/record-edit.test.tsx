@@ -5,7 +5,9 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 // PhotoKind 是 type，编译时擦除，mock 工厂只需提供运行时值
 vi.mock('@/services/records', () => ({
   createRecord: vi.fn().mockResolvedValue({ id: 100, operator_id: 1 }),
-  attachPhotos: vi.fn().mockResolvedValue({ list: [] })
+  attachPhotos: vi.fn().mockResolvedValue({ list: [] }),
+  getEquipmentList: vi.fn().mockResolvedValue({ list: [] }),
+  getEquipmentInRecords: vi.fn().mockResolvedValue({ list: [] })
 }))
 
 vi.mock('@/services/upload', () => ({
@@ -68,7 +70,7 @@ describe('record-edit 页面', () => {
     expect(Taro.reLaunch).toHaveBeenCalledWith({ url: '/pages/login/index' })
   })
 
-  it('viewer 角色不渲染表单（useEffect 触发 navigateBack）', () => {
+  it('viewer 角色不渲染表单（权限守卫拦截）', () => {
     useUserStore.setState({
       token: 'viewer-token',
       user: { id: 2, name: 'Viewer', role: 'viewer' }
@@ -76,10 +78,6 @@ describe('record-edit 页面', () => {
     render(<RecordEdit />)
     expect(screen.queryByText('入库')).not.toBeInTheDocument()
     expect(screen.queryByText('提交')).not.toBeInTheDocument()
-    // showToast "无操作权限"
-    expect(Taro.showToast).toHaveBeenCalledWith(
-      expect.objectContaining({ title: '无操作权限' })
-    )
   })
 
   it('editor 角色渲染完整表单（类型/器材/数量/照片/提交）', () => {

@@ -10,3 +10,6 @@ uploads/*
 *.log
 .transformers-cache/
 ../.verification/
+*.tar.gz
+*.zip
+*.tgz

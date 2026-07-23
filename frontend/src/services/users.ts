@@ -31,9 +31,9 @@ export function updateUserRole(id: number, role: Role) {
   })
 }
 
-export function updateUserProfile(id: number, data: { name?: string; avatar?: string }) {
+export function updateUserProfile(data: { name?: string; avatar?: string }) {
   return request<User>({
-    url: `/users/${id}/profile`,
+    url: '/users/me',
     method: 'PATCH',
     data
   })

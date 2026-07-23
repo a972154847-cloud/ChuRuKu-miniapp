@@ -5,17 +5,25 @@ import { wxLogin } from '@/services/auth'
 import { useUserStore } from '@/store/user'
 import './index.scss'
 
+function isNameValid(name?: string): boolean {
+  return Boolean(name && name.trim() && name.trim().length > 0 && name.trim().length <= 50)
+}
+
 export default function Login() {
   const setAuth = useUserStore((s) => s.setAuth)
   const token = useUserStore((s) => s.token)
+  const user = useUserStore((s) => s.user)
   const [loading, setLoading] = useState(false)
 
-  // 已登录则自动跳转首页
   useEffect(() => {
-    if (token) {
-      Taro.reLaunch({ url: '/pages/dashboard/index' })
+    if (token && user) {
+      if (isNameValid(user.name)) {
+        Taro.reLaunch({ url: '/pages/dashboard/index' })
+      } else {
+        Taro.reLaunch({ url: '/pages/profile-setup/index' })
+      }
     }
-  }, [token])
+  }, [token, user])
 
   const goHome = () => {
     Taro.reLaunch({ url: '/pages/dashboard/index' })
@@ -32,7 +40,6 @@ export default function Login() {
       const res = await wxLogin(code)
       setAuth(res.token, res.user)
       Taro.showToast({ title: '登录成功', icon: 'success' })
-      setTimeout(goHome, 500)
     } catch (err) {
       Taro.showToast({
         title: err instanceof Error ? err.message : '微信登录失败，请稍后重试',
@@ -60,7 +67,6 @@ export default function Login() {
           微信一键登录
         </Button>
       </View>
-
     </View>
   )
 }

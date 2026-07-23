@@ -1,27 +1,30 @@
+@import '@/styles/variables.scss';
+@import '@/styles/theme.scss';
+
 .ai-chat-page {
   display: flex;
   flex-direction: column;
   height: 100vh;
-  background: #f5f5f5;
+  background: $color-bg-page;
 }
 
 .ai-chat-header {
   padding: 24rpx 30rpx 20rpx;
-  background: #fff;
-  border-bottom: 1rpx solid #eee;
+  background: $color-bg-card;
+  border-bottom: 1px solid $color-border;
 
   &__title {
     display: block;
     font-size: 34rpx;
-    font-weight: bold;
-    color: #d9534f;
+    font-weight: $font-weight-bold;
+    color: $color-primary;
   }
 
   &__sub {
     display: block;
     margin-top: 6rpx;
     font-size: 24rpx;
-    color: #999;
+    color: $color-text-tertiary;
   }
 }
 
@@ -45,30 +48,30 @@
   }
 
   &--error &__bubble {
-    background: #fff1f0;
-    color: #d9534f;
-    border: 1rpx solid #ffccc7;
+    background: rgba($color-error, 0.08);
+    color: $color-error;
+    border: 1px solid rgba($color-error, 0.2);
   }
 
   &__bubble {
     max-width: 80%;
     padding: 18rpx 22rpx;
-    border-radius: 16rpx;
-    background: #fff;
-    color: #333;
+    border-radius: $radius-lg;
+    background: $color-bg-card;
+    color: $color-text-primary;
     font-size: 28rpx;
     line-height: 1.55;
-    box-shadow: 0 2rpx 6rpx rgba(0, 0, 0, 0.04);
+    box-shadow: $shadow-card;
     word-break: break-word;
   }
 
   &--user &__bubble {
-    background: #d9534f;
-    color: #fff;
+    background: $color-primary;
+    color: $color-text-inverse;
   }
 
   &__bubble--loading {
-    color: #999;
+    color: $color-text-tertiary;
     font-style: italic;
   }
 
@@ -80,35 +83,35 @@
   &__tools {
     margin-top: 14rpx;
     padding-top: 12rpx;
-    border-top: 1rpx dashed #eee;
+    border-top: 1rpx dashed $color-border;
   }
 
   &__tools-title {
     display: block;
     font-size: 22rpx;
-    color: #999;
+    color: $color-text-tertiary;
     margin-bottom: 6rpx;
   }
 
   &__tool {
     padding: 8rpx 10rpx;
     margin-bottom: 6rpx;
-    background: #f7f7f7;
-    border-radius: 8rpx;
+    background: $color-bg-page;
+    border-radius: $radius-md;
     font-size: 22rpx;
-    color: #666;
+    color: $color-text-secondary;
   }
 
   &__tool-name {
     display: block;
-    font-weight: 500;
-    color: #555;
+    font-weight: $font-weight-medium;
+    color: $color-text-primary;
   }
 
   &__tool-result {
     display: block;
     margin-top: 4rpx;
-    color: #999;
+    color: $color-text-tertiary;
     word-break: break-all;
   }
 }
@@ -121,11 +124,11 @@
 
   &__item {
     padding: 12rpx 20rpx;
-    background: #fff;
-    border: 1rpx solid #ffd6d4;
-    border-radius: 32rpx;
+    background: $color-bg-card;
+    border: 1px solid $color-accent;
+    border-radius: $radius-xl;
     font-size: 24rpx;
-    color: #d9534f;
+    color: $color-accent;
   }
 
   &__text {
@@ -137,8 +140,8 @@
   display: flex;
   align-items: center;
   padding: 16rpx 24rpx;
-  background: #fff;
-  border-top: 1rpx solid #eee;
+  background: $color-bg-card;
+  border-top: 1px solid $color-border;
   box-sizing: border-box;
 }
 
@@ -147,8 +150,8 @@
   height: 68rpx;
   padding: 0 24rpx;
   font-size: 28rpx;
-  background: #f5f5f5;
-  border-radius: 34rpx;
+  background: $color-bg-page;
+  border-radius: $radius-xl;
 }
 
 .ai-chat-send {
@@ -157,13 +160,13 @@
   height: 68rpx;
   line-height: 68rpx;
   font-size: 28rpx;
-  color: #fff;
-  background: #d9534f;
-  border-radius: 34rpx;
+  color: $color-text-inverse;
+  background: $color-primary;
+  border-radius: $radius-xl;
   border: none;
 
   &[disabled] {
-    background: #e6a8a5;
-    color: #fff;
+    background: rgba($color-primary, 0.4);
+    color: $color-text-inverse;
   }
 }

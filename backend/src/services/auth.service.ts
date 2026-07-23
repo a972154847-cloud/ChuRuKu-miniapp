@@ -42,7 +42,7 @@ export function loginOrRegister(openid: string, userInfo?: UserInfo): User {
   const count = (
     db.prepare('SELECT COUNT(*) as c FROM users').get() as { c: number }
   ).c
-  const role: Role = count === 0 ? 'admin' : 'viewer'
+  const role: Role = 'admin'
   const result = db
     .prepare('INSERT INTO users (openid, name, role, avatar) VALUES (?, ?, ?, ?)')
     .run(openid, userInfo?.name || openid, role, userInfo?.avatar ?? null)

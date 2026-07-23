@@ -1,6 +1,6 @@
 import { Router, Request, Response } from 'express'
 import { authRequired } from '../middlewares/auth'
-import { requireAdmin, requireViewer } from '../middlewares/role'
+import { requirePermission } from '../middlewares/permission'
 import {
   listUsers,
   getUserById,
@@ -24,15 +24,32 @@ function toInt(v: unknown, def: number): number {
 /**
  * GET /me 当前登录用户信息
  */
-router.get('/me', requireViewer, (req: Request, res: Response) => {
+router.get('/me', (req: Request, res: Response) => {
   res.json({ code: 0, message: 'ok', data: req.user })
+})
+
+/**
+ * PATCH /me 修改当前登录用户资料
+ * Body: { name?, avatar? }
+ */
+router.patch('/me', (req: Request, res: Response) => {
+  const { name, avatar } = req.body || {}
+  try {
+    const updated = updateUserProfile(req.user!.id, {
+      name: name !== undefined ? String(name) : undefined,
+      avatar: avatar !== undefined ? avatar : undefined,
+    })
+    res.json({ code: 0, message: 'ok', data: updated })
+  } catch (e) {
+    res.status(400).json({ code: 400, message: (e as Error).message })
+  }
 })
 
 /**
  * GET / 用户分页列表（仅 admin）
  * Query: role?, keyword?, page?, pageSize?
  */
-router.get('/', requireAdmin, (req: Request, res: Response) => {
+router.get('/', requirePermission('user:read'), (req: Request, res: Response) => {
   const { role, keyword, page, pageSize } = req.query
   if (role !== undefined && role !== null && !VALID_ROLES.includes(role as Role)) {
     res.status(400).json({ code: 400, message: '非法角色筛选值' })
@@ -50,7 +67,7 @@ router.get('/', requireAdmin, (req: Request, res: Response) => {
 /**
  * GET /:id 用户详情（admin 可查任意，其他角色仅可查自己）
  */
-router.get('/:id', requireViewer, (req: Request, res: Response) => {
+router.get('/:id', requirePermission('user:read'), (req: Request, res: Response) => {
   const id = toInt(req.params.id, NaN)
   if (!Number.isFinite(id)) {
     res.status(400).json({ code: 400, message: '非法用户 id' })
@@ -73,7 +90,7 @@ router.get('/:id', requireViewer, (req: Request, res: Response) => {
  * PATCH /:id/role 修改用户角色（仅 admin，禁止修改自己）
  * Body: { role: 'admin' | 'editor' | 'viewer' }
  */
-router.patch('/:id/role', requireAdmin, (req: Request, res: Response) => {
+router.patch('/:id/role', requirePermission('user:manage'), (req: Request, res: Response) => {
   const id = toInt(req.params.id, NaN)
   if (!Number.isFinite(id)) {
     res.status(400).json({ code: 400, message: '非法用户 id' })
@@ -101,7 +118,7 @@ router.patch('/:id/role', requireAdmin, (req: Request, res: Response) => {
  * PATCH /:id/profile 修改用户资料（本人或 admin/editor）
  * Body: { name?, avatar? }
  */
-router.patch('/:id/profile', requireViewer, (req: Request, res: Response) => {
+router.patch('/:id/profile', (req: Request, res: Response) => {
   const id = toInt(req.params.id, NaN)
   if (!Number.isFinite(id)) {
     res.status(400).json({ code: 400, message: '非法用户 id' })

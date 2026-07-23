@@ -1,43 +1,55 @@
+@import '@/styles/variables.scss';
+@import '@/styles/theme.scss';
+
+/* ============================================
+ * Equipment Detail — 器材详情页
+ * ============================================ */
+
 .equipment-detail {
   min-height: 100vh;
-  background: #f5f5f5;
-  padding-bottom: 20px;
+  background: $color-bg-page;
+  padding-bottom: $spacing-lg;
 }
 
-// 头部信息卡片
+/* 头部信息卡片 */
 .detail-header {
-  background: #fff;
-  padding: 24px 20px;
-  margin-bottom: 12px;
+  background: $color-bg-card;
+  padding: 24px $spacing-lg;
+  margin-bottom: $section-gap;
+  border-bottom: 1px solid $color-border-light;
 
   &__name {
-    font-size: 20px;
-    font-weight: 600;
-    color: #333;
+    font-size: $font-size-title-lg;
+    font-weight: $font-weight-bold;
+    color: $color-text-primary;
     line-height: 1.4;
   }
 
   &__meta {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
-    margin-top: 10px;
-    font-size: 13px;
-    color: #999;
+    gap: $spacing-xs;
+    margin-top: $spacing-sm;
+    font-size: $font-size-aux;
+    color: $color-text-secondary;
   }
 
   &__tag {
-    background: #f0f0f0;
+    background: $color-border-light;
     padding: 2px 10px;
-    border-radius: 4px;
+    border-radius: $radius-sm;
+    font-size: $font-size-tag;
+    color: $color-text-secondary;
   }
 }
 
-// 库存状态卡片
+/* 库存状态卡片 */
 .stock-card {
-  background: #fff;
-  padding: 20px;
-  margin-bottom: 12px;
+  background: $color-bg-card;
+  border: 1px solid $color-border;
+  border-radius: $radius-lg;
+  padding: $spacing-lg;
+  margin: 0 $spacing-md $section-gap;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -47,41 +59,41 @@
   }
 
   &__label {
-    font-size: 13px;
-    color: #999;
+    font-size: $font-size-aux;
+    color: $color-text-secondary;
     margin-bottom: 4px;
   }
 
   &__value {
     font-size: 36px;
-    font-weight: 700;
-    color: #333;
+    font-weight: $font-weight-bold;
+    color: $color-text-primary;
 
     &--low {
-      color: #D9534F;
+      color: $color-error;
     }
 
     &--normal {
-      color: #5CB85C;
+      color: $color-success;
     }
   }
 
   &__threshold {
-    font-size: 12px;
-    color: #bbb;
+    font-size: $font-size-tag;
+    color: $color-text-tertiary;
     margin-top: 4px;
   }
 
   &__unit {
-    font-size: 14px;
-    color: #999;
+    font-size: $font-size-body;
+    color: $color-text-secondary;
     margin-left: 4px;
   }
 
   &__extra {
     text-align: right;
-    font-size: 13px;
-    color: #999;
+    font-size: $font-size-aux;
+    color: $color-text-secondary;
 
     &-item {
       margin-bottom: 4px;
@@ -89,32 +101,77 @@
   }
 }
 
-// 最近记录列表
+/* 操作按钮区 */
+.action-bar {
+  display: flex;
+  gap: $spacing-sm;
+  padding: 0 $spacing-md;
+  margin-bottom: $section-gap;
+
+  &__btn {
+    flex: 1;
+    height: $button-height-md;
+    border-radius: $radius-md;
+    font-size: $font-size-body;
+    font-weight: $font-weight-medium;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    line-height: normal;
+
+    &--primary {
+      background: $color-primary;
+      color: $color-text-inverse;
+    }
+
+    &--accent {
+      background: $color-accent;
+      color: $color-text-inverse;
+    }
+
+    &--outline {
+      background: $color-bg-card;
+      color: $color-primary;
+      border: 1px solid $color-primary;
+    }
+
+    &:active {
+      opacity: 0.85;
+    }
+  }
+}
+
+/* 最近记录列表 */
 .section {
-  background: #fff;
-  margin-bottom: 12px;
+  background: $color-bg-card;
+  border: 1px solid $color-border;
+  border-radius: $radius-lg;
+  margin: 0 $spacing-md $section-gap;
+  overflow: hidden;
 
   &__header {
-    padding: 16px 20px 12px;
-    font-size: 16px;
-    font-weight: 600;
-    color: #333;
-    border-bottom: 1px solid #f0f0f0;
+    padding: $spacing-md $spacing-lg $spacing-sm;
+    font-size: $font-size-subtitle;
+    font-weight: $font-weight-bold;
+    color: $color-text-primary;
+    border-bottom: 1px solid $color-border-light;
   }
 
   &__empty {
     padding: 40px 0;
     text-align: center;
-    color: #ccc;
-    font-size: 14px;
+    color: $color-text-tertiary;
+    font-size: $font-size-body;
   }
 }
 
 .record-item {
   display: flex;
   align-items: center;
-  padding: 14px 20px;
-  border-bottom: 1px solid #f8f8f8;
+  padding: 14px $spacing-lg;
+  border-bottom: 1px solid $color-border-light;
 
   &:last-child {
     border-bottom: none;
@@ -123,22 +180,22 @@
   &__type {
     width: 44px;
     height: 44px;
-    border-radius: 8px;
+    border-radius: $radius-md;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 13px;
-    font-weight: 600;
-    margin-right: 12px;
+    font-size: $font-size-aux;
+    font-weight: $font-weight-bold;
+    margin-right: $spacing-sm;
 
     &--in {
-      background: #E8F5E9;
-      color: #5CB85C;
+      background: rgba($color-success, 0.1);
+      color: $color-success;
     }
 
     &--out {
-      background: #FFF3E0;
-      color: #FF9800;
+      background: rgba($color-error, 0.1);
+      color: $color-error;
     }
   }
 
@@ -147,19 +204,19 @@
   }
 
   &__qty {
-    font-size: 15px;
-    font-weight: 500;
-    color: #333;
+    font-size: $font-size-subtitle;
+    font-weight: $font-weight-medium;
+    color: $color-text-primary;
   }
 
   &__operator {
-    font-size: 12px;
-    color: #999;
+    font-size: $font-size-tag;
+    color: $color-text-secondary;
     margin-top: 2px;
   }
 
   &__time {
-    font-size: 12px;
-    color: #bbb;
+    font-size: $font-size-tag;
+    color: $color-text-tertiary;
   }
 }

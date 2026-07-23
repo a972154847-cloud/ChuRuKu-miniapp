@@ -6,7 +6,7 @@ import {
   createThumbnail,
 } from '../services/upload.service'
 import authRequired from '../middlewares/auth'
-import { requireViewer } from '../middlewares/role'
+import { requirePermission } from '../middlewares/permission'
 
 const router = Router()
 
@@ -18,7 +18,7 @@ router.use(authRequired)
  */
 router.post(
   '/',
-  requireViewer,
+  requirePermission('upload:file'),
   upload.single('file'),
   validateImageSize,
   async (req: Request, res: Response) => {
@@ -47,7 +47,7 @@ router.post(
  */
 router.post(
   '/multiple',
-  requireViewer,
+  requirePermission('upload:file'),
   upload.array('files', 5),
   validateImageSize,
   async (req: Request, res: Response) => {

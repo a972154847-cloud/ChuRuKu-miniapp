@@ -30,9 +30,9 @@ if (config.nodeEnv === 'production') {
     if (behindProxy) {
       // Docker + Nginx 反代场景，后端跑内部 HTTP
       console.log('[server] 生产环境（反向代理模式），使用 HTTP')
-      app.listen(config.port, () => {
-        console.log(`HTTP Server running on http://localhost:${config.port}`)
-      })
+      app.listen(config.port, '0.0.0.0', () => {
+      console.log(`HTTP Server running on http://0.0.0.0:${config.port}`)
+    })
     } else {
       throw new Error(
         '[server] 生产环境必须配置 HTTPS 证书（certs/cert.pem、certs/key.pem）或设置 BEHIND_PROXY=true'
@@ -53,20 +53,16 @@ if (config.nodeEnv === 'production') {
     key: fs.readFileSync(keyFile),
   }
   // HTTPS 服务（微信小程序图片加载需要）
-  https.createServer(httpsOptions, app).listen(config.port, () => {
-    console.log(`HTTPS Server running on https://localhost:${config.port}`)
-    console.log(`  局域网访问：https://192.168.101.65:${config.port}`)
-  })
-  // HTTP 服务（H5 浏览器测试，自签名证书不被 fetch API 信任）
-  // 仅在开发环境启动，生产环境不启动 HTTP
-  http.createServer(app).listen(config.port + 1, () => {
-    console.log(`HTTP Server running on http://localhost:${config.port + 1}`)
-  })
-} else {
-  // 开发环境回退到 HTTP（证书不存在时）
-  console.warn('⚠️  未找到 HTTPS 证书（certs/cert.pem、certs/key.pem），回退到 HTTP')
-  console.warn('   微信小程序基础库 3.8.7+ 禁止加载 HTTP 图片，请运行：node scripts/gen-cert.js')
-  app.listen(config.port, () => {
-    console.log(`HTTP Server running on http://localhost:${config.port}`)
-  })
-}
+  https.createServer(httpsOptions, app).listen(config.port, '0.0.0.0', () => {
+      console.log(`HTTPS Server running on https://0.0.0.0:${config.port}`)
+    })
+    http.createServer(app).listen(config.port + 1, '0.0.0.0', () => {
+      console.log(`HTTP Server running on http://0.0.0.0:${config.port + 1}`)
+    })
+  } else {
+    console.warn('⚠️  未找到 HTTPS 证书（certs/cert.pem、certs/key.pem），回退到 HTTP')
+    console.warn('   微信小程序基础库 3.8.7+ 禁止加载 HTTP 图片，请运行：node scripts/gen-cert.js')
+    app.listen(config.port, '0.0.0.0', () => {
+      console.log(`HTTP Server running on http://0.0.0.0:${config.port}`)
+    })
+  }

@@ -12,7 +12,9 @@ export default defineAppConfig({
     'pages/login/index',
     'pages/ai-chat/index',
     'pages/equipment-detail/index',
-    'pages/recycle/index'
+    'pages/recycle/index',
+    'pages/permissions/index',
+    'pages/profile-setup/index'
   ],
   window: {
     backgroundTextStyle: 'dark',
@@ -22,8 +24,8 @@ export default defineAppConfig({
     navigationBarTextStyle: 'black'
   },
   tabBar: {
-    color: '#999999',
-    selectedColor: '#2c664b',
+    color: '#9196A0',
+    selectedColor: '#1B284B',
     backgroundColor: '#ffffff',
     borderStyle: 'black',
     list: [

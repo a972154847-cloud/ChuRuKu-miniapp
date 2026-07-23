@@ -5,7 +5,7 @@
  */
 import { Router, Request, Response } from 'express'
 import authRequired from '../middlewares/auth'
-import { requireAdmin } from '../middlewares/role'
+import { requirePermission } from '../middlewares/permission'
 import { toInt } from '../utils/helpers'
 import { isAppError, NotFoundError, ValidationError } from '../utils/errors'
 import {
@@ -22,7 +22,7 @@ router.use(authRequired)
  * GET / 回收站列表
  * 可选查询参数：entity_type, page, pageSize
  */
-router.get('/', requireAdmin, (req: Request, res: Response) => {
+router.get('/', requirePermission('recycle:read'), (req: Request, res: Response) => {
   const entityType = req.query.entity_type as string | undefined
   const page = toInt(req.query.page, 1)
   const pageSize = toInt(req.query.pageSize || req.query.page_size, 20)
@@ -48,7 +48,7 @@ router.get('/', requireAdmin, (req: Request, res: Response) => {
 /**
  * POST /:id/restore 从回收站恢复数据
  */
-router.post('/:id/restore', requireAdmin, (req: Request, res: Response) => {
+router.post('/:id/restore', requirePermission('recycle:manage'), (req: Request, res: Response) => {
   const id = toInt(req.params.id, NaN)
   if (!Number.isFinite(id)) {
     res.status(400).json({ code: 400, message: '非法回收站 id' })
@@ -72,7 +72,7 @@ router.post('/:id/restore', requireAdmin, (req: Request, res: Response) => {
 /**
  * DELETE /:id 从回收站永久删除（不可恢复）
  */
-router.delete('/:id', requireAdmin, (req: Request, res: Response) => {
+router.delete('/:id', requirePermission('recycle:manage'), (req: Request, res: Response) => {
   const id = toInt(req.params.id, NaN)
   if (!Number.isFinite(id)) {
     res.status(400).json({ code: 400, message: '非法回收站 id' })

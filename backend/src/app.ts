@@ -16,6 +16,7 @@ import uploadRoutes from './routes/upload.routes'
 import dashboardRoutes from './routes/dashboard.routes'
 import logsRoutes from './routes/logs.routes'
 import recycleRoutes from './routes/recycle.routes'
+import permissionsRoutes from './routes/permissions.routes'
 
 const app = express()
 
@@ -92,6 +93,7 @@ app.use('/api/upload', uploadRoutes)
 app.use('/api/dashboard', dashboardRoutes)
 app.use('/api/logs', logsRoutes)
 app.use('/api/recycle', recycleRoutes)
+app.use('/api/permissions', permissionsRoutes)
 
 // 错误处理
 app.use(notFound)

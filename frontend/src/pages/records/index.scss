@@ -1,4 +1,202 @@
-.records-page { min-height: 100vh; padding: 18rpx 24rpx calc(140rpx + env(safe-area-inset-bottom)); box-sizing: border-box; background: #f3f7f3; color: #283a31; }.records-filter { padding: 16rpx; margin-bottom: 14rpx; border: 1rpx solid #dfe9e1; border-radius: 7rpx; background: #fff; }.records-filter__row { display: flex; gap: 10rpx; margin-bottom: 11rpx; }.records-filter__row:last-child { margin: 0; }.records-filter__row--search { flex-direction: row-reverse; }.records-filter__picker { height: 58rpx; padding: 0 12rpx; display: flex; align-items: center; justify-content: space-between; border: 1rpx solid #e1e9e3; border-radius: 4rpx; background: #f9fcf9; }.records-filter__picker-text { overflow: hidden; color: #506057; font-size: 21rpx; text-overflow: ellipsis; white-space: nowrap; }.records-filter__arrow { color: #7b8b81; font-size: 19rpx; }.records-filter__input { flex: 1; height: 58rpx; padding: 0 13rpx; border: 1rpx solid #dfe9e1; border-radius: 4rpx; background: #fbfdfb; font-size: 22rpx; box-sizing: border-box; }.records-filter__search-btn { width: 60rpx; height: 58rpx; line-height: 58rpx; color: #fff; background: #176e4e; font-size: 20rpx; text-align: center; }.records-filter__reset-btn { width: 54rpx; height: 58rpx; line-height: 58rpx; color: #6e7d74; font-size: 20rpx; text-align: center; }
-.records-page { background: #f6f8f7; }.records-filter { padding: 0; border: 0; background: transparent; }.records-filter__row--search { margin-bottom: 14rpx; flex-direction: row; }.records-filter__input { border-color: #e6eae8; border-radius: 6rpx; background: #fff; }.records-filter__search-btn { width: 76rpx; border-radius: 6rpx; background: #2c664b; }.records-filter__reset-btn { width: 58rpx; }.records-filter__tabs { display: flex; gap: 10rpx; overflow-x: auto; padding-bottom: 8rpx; white-space: nowrap; }.records-filter__tab { display: inline-flex; height: 56rpx; padding: 0 20rpx; align-items: center; border: 1rpx solid #e6eae8; border-radius: 28rpx; background: #fff; color: #5d6963; font-size: 21rpx; }.records-filter__tab.is-active { border-color: #2c664b; background: #2c664b; color: #fff; }.records-filter__tab--range { color: #2c664b; }
-.records-card { padding: 20rpx; border-color: #e6eae8; border-radius: 6rpx; }.records-card__head { margin-bottom: 7rpx; }.records-card__body { padding-bottom: 8rpx; }.records-card__name { font-size: 26rpx; font-weight: 600; }.records-card__direction { margin: 0; color: #666b68; }.records-card__qty-num { font-size: 32rpx; }.records-card__foot { border-top: 0; padding-top: 0; }
-.records-list { display: flex; flex-direction: column; gap: 10rpx; }.records-card { padding: 16rpx 18rpx; border: 1rpx solid #e1e9e3; border-radius: 7rpx; background: #fff; }.records-card:active { background: #f1f7f2; }.records-card__head, .records-card__foot { display: flex; justify-content: space-between; align-items: center; }.records-card__head { margin-bottom: 9rpx; }.records-card__tag { padding: 4rpx 9rpx; font-size: 18rpx; font-weight: 700; }.records-card__tag--in { color: #147550; background: #dff1e6; }.records-card__tag--out { color: #af483c; background: #f7e3df; }.records-card__time { color: #87958d; font-size: 18rpx; }.records-card__body { padding-bottom: 10rpx; }.records-card__name { display: block; overflow: hidden; color: #314137; font-size: 25rpx; font-weight: 700; text-overflow: ellipsis; white-space: nowrap; }.records-card__direction { display: block; margin-top: 4rpx; color: #84938a; font-size: 18rpx; }.records-card__foot { padding-top: 9rpx; border-top: 1rpx solid #edf2ee; }.records-card__qty { display: flex; align-items: baseline; }.records-card__qty-prefix { color: #19845a; font-size: 21rpx; font-weight: 700; }.records-card--out .records-card__qty-prefix { color: #c45648; }.records-card__qty-num { margin-left: 3rpx; color: #273a30; font-size: 28rpx; font-weight: 700; }.records-card__qty-unit { margin-left: 3rpx; color: #7c8b82; font-size: 18rpx; }.records-card__operator { color: #8a9790; font-size: 18rpx; }.records-empty { display: flex; flex-direction: column; align-items: center; padding: 130rpx 0; }.records-empty__text { color: #617168; font-size: 28rpx; }.records-empty__sub { margin-top: 8rpx; color: #9ca79f; font-size: 21rpx; }.records-footer { padding: 24rpx 0; text-align: center; }.records-footer__text { color: #8c9990; font-size: 20rpx; }.records-fab { position: fixed; right: 28rpx; bottom: calc(86rpx + env(safe-area-inset-bottom)); width: 84rpx; height: 84rpx; display: flex; align-items: center; justify-content: center; border-radius: 50%; color: #fff; background: #11704f; box-shadow: 0 9rpx 20rpx rgba(14, 94, 63, .26); }.records-fab__plus { font-size: 48rpx; line-height: 1; }
+@import '@/styles/variables.scss';
+@import '@/styles/theme.scss';
+
+/* ============================================
+ * Records — 出入库记录列表
+ * ============================================ */
+
+.records-page {
+  min-height: 100vh;
+  background: $color-bg-page;
+  padding-bottom: 80px;
+}
+
+/* 页面头 */
+.records-header {
+  padding: 24px 16px 16px;
+}
+
+.records-title {
+  font-size: $font-size-title-lg;
+  font-weight: $font-weight-bold;
+  color: $color-text-primary;
+}
+
+/* 筛选栏 */
+.filter-bar {
+  padding: 0 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.filter-row {
+  display: flex;
+  gap: 8px;
+}
+
+.filter-select {
+  flex: 1;
+  height: 40px;
+  padding: 0 12px;
+  border-radius: $radius-md;
+  border: 1px solid $color-border;
+  background: $color-bg-card;
+  font-size: $font-size-body;
+  color: $color-text-primary;
+  appearance: none;
+}
+
+.filter-search-input {
+  flex: 1;
+  height: 40px;
+  padding: 0 12px;
+  border-radius: $radius-md;
+  border: 1px solid $color-border;
+  background: $color-bg-card;
+  font-size: $font-size-body;
+  color: $color-text-primary;
+
+  &::placeholder {
+    color: $color-text-secondary;
+  }
+}
+
+.filter-search-btn {
+  height: 40px;
+  padding: 0 16px;
+  border-radius: $radius-md;
+  background: $color-primary;
+  color: $color-text-inverse;
+  font-size: $font-size-body;
+  font-weight: $font-weight-medium;
+  border: none;
+  flex-shrink: 0;
+  line-height: 40px;
+  text-align: center;
+}
+
+.filter-reset-btn {
+  height: 40px;
+  padding: 0 12px;
+  border-radius: $radius-md;
+  border: 1px solid $color-border;
+  background: $color-bg-card;
+  color: $color-text-secondary;
+  font-size: $font-size-body;
+  flex-shrink: 0;
+  line-height: 40px;
+  text-align: center;
+}
+
+/* 记录卡片 */
+.record-list {
+  padding: 0 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.record-card {
+  background: $color-bg-card;
+  border-radius: $radius-md;
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba($color-accent, 0.15);
+}
+
+.record-card-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.record-name-area {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.record-type-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: $font-size-tag;
+  font-weight: $font-weight-medium;
+  flex-shrink: 0;
+}
+
+.record-type-in {
+  background: rgba($color-success, 0.1);
+  color: $color-success;
+}
+
+.record-type-out {
+  background: rgba($color-error, 0.1);
+  color: $color-error;
+}
+
+.record-equip-name {
+  font-size: $font-size-body;
+  font-weight: $font-weight-medium;
+  color: $color-text-primary;
+  @include text-ellipsis;
+}
+
+.record-qty {
+  font-size: $font-size-body;
+  font-weight: $font-weight-bold;
+  flex-shrink: 0;
+}
+
+.record-meta {
+  margin-top: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: $font-size-tag;
+  color: $color-text-secondary;
+}
+
+.record-meta-sep {
+  color: $color-border;
+}
+
+/* 页脚 */
+.records-footer {
+  padding: 24px 16px;
+  text-align: center;
+  font-size: $font-size-tag;
+  color: $color-text-secondary;
+}
+
+/* 空状态 */
+.records-empty {
+  padding: 80px 16px;
+  text-align: center;
+}
+
+.records-empty-text {
+  font-size: $font-size-body;
+  color: $color-text-secondary;
+}
+
+/* FAB 新增按钮 */
+.records-fab {
+  position: fixed;
+  bottom: 80px;
+  right: 16px;
+  z-index: 40;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: $color-accent;
+  color: $color-primary;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+}

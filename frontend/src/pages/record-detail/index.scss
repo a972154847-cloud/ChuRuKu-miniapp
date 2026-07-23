@@ -1,6 +1,196 @@
-.record-detail { min-height: 100vh; padding: 18rpx 24rpx calc(54rpx + env(safe-area-inset-bottom)); box-sizing: border-box; color: #2d4036; background: #f3f7f3; }.record-detail__card { padding: 20rpx; margin-bottom: 13rpx; border: 1rpx solid #e0e9e2; border-radius: 7rpx; background: #fff; }.record-detail__loading, .record-detail__empty { padding: 140rpx 0; text-align: center; }.record-detail__loading-text, .record-detail__empty-text { color: #89968e; font-size: 25rpx; }
-.record-detail { background: #f6f8f7; color: #2c302e; }.record-detail__card { border-color: #e6eae8; border-radius: 6rpx; }.record-detail__hero { text-align: center; }.record-detail__hero-head { margin-bottom: 18rpx; }.record-detail__tag { border-radius: 22rpx; font-weight: 500; }.record-detail__tag--in { color: #389464; background: #e6f4ed; }.record-detail__tag--out { color: #b84a38; background: #f9ecea; }.record-detail__more { color: #666b68; }.record-detail__name { color: #2c302e; font-size: 34rpx; }.record-detail__qty-box { display: block; border: 0; }.record-detail__qty-label { display: block; margin-bottom: 5rpx; }.record-detail__field-label, .record-detail__meta-label { color: #666b68; }.record-detail__field-value, .record-detail__meta-value { color: #2c302e; }.record-detail__section-title { color: #2c302e; }.record-detail__edit-btn { border-radius: 6rpx; background: #2c664b; }
-.record-detail__hero { background: #fff; }.record-detail__hero-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 13rpx; }.record-detail__tag { padding: 5rpx 10rpx; color: #fff; font-size: 19rpx; font-weight: 700; }.record-detail__tag--in { background: #17825a; }.record-detail__tag--out { background: #c35345; }.record-detail__more { color: #6b7d72; font-size: 21rpx; }.record-detail__name { display: block; margin-bottom: 16rpx; color: #24372d; font-size: 33rpx; font-weight: 700; }.record-detail__qty-box { display: flex; align-items: baseline; justify-content: space-between; padding: 14rpx 0; border-top: 1rpx solid #e9efea; border-bottom: 1rpx solid #e9efea; }.record-detail__qty-label { color: #839189; font-size: 22rpx; }.record-detail__qty-num { color: #17825a; font-size: 49rpx; font-weight: 700; }.record-detail__qty-num--out { color: #bf4e41; }.record-detail__meta { display: grid; grid-template-columns: 1fr 1fr; gap: 15rpx; margin-top: 16rpx; }.record-detail__meta-label { display: block; color: #89968e; font-size: 18rpx; }.record-detail__meta-value { display: block; margin-top: 4rpx; color: #4d5d53; font-size: 20rpx; }
-.record-detail__fields { padding-top: 6rpx; padding-bottom: 6rpx; }.record-detail__field-row { display: flex; justify-content: space-between; gap: 20rpx; padding: 14rpx 0; border-bottom: 1rpx solid #eef3ef; }.record-detail__field-row:last-child { border: 0; }.record-detail__field-label { color: #829087; font-size: 21rpx; }.record-detail__field-value { flex: 1; color: #46574d; font-size: 21rpx; text-align: right; }
-.record-detail__section-title { display: block; margin-bottom: 14rpx; color: #34483d; font-size: 23rpx; font-weight: 700; }.record-detail__gallery-scroll { width: 100%; white-space: nowrap; }.record-detail__gallery-list { display: inline-flex; gap: 10rpx; }.record-detail__photo-item { position: relative; width: 170rpx; height: 170rpx; overflow: hidden; border-radius: 4rpx; background: #eaf0eb; flex-shrink: 0; }.record-detail__photo-img { width: 100%; height: 100%; }.record-detail__photo-kind { position: absolute; left: 5rpx; bottom: 5rpx; padding: 3rpx 6rpx; color: #fff; background: rgba(27,56,44,.7); font-size: 16rpx; }.record-detail__photo-video { display: flex; height: 100%; align-items: center; justify-content: center; flex-direction: column; color: #fff; background: #345344; }.record-detail__photo-video-icon { font-size: 38rpx; }.record-detail__photo-video-text { margin-top: 5rpx; font-size: 18rpx; }
-.record-detail__timeline-item { position: relative; padding: 0 0 20rpx 25rpx; }.record-detail__timeline-item.is-last { padding-bottom: 0; }.record-detail__timeline-dot { position: absolute; left: 0; top: 7rpx; width: 9rpx; height: 9rpx; border: 3rpx solid #dcece1; border-radius: 50%; background: #17825a; }.record-detail__timeline-line { position: absolute; left: 6rpx; top: 20rpx; bottom: 0; width: 2rpx; background: #e1ebe4; }.record-detail__timeline-head { display: flex; justify-content: space-between; gap: 12rpx; }.record-detail__timeline-action { color: #405248; font-size: 21rpx; font-weight: 600; }.record-detail__timeline-time, .record-detail__timeline-actor { color: #849189; font-size: 18rpx; }.record-detail__timeline-actor { display: block; margin-top: 4rpx; }.record-detail__timeline-empty { display: block; padding: 20rpx 0; color: #909c94; font-size: 20rpx; text-align: center; }.record-detail__actions { padding-top: 2rpx; }.record-detail__edit-btn { display: block; height: 76rpx; line-height: 76rpx; color: #fff; border-radius: 4rpx; background: #16704e; font-size: 24rpx; text-align: center; }
+@import '@/styles/variables.scss';
+@import '@/styles/theme.scss';
+
+/* ============================================
+ * Record Detail — 记录详情
+ * ============================================ */
+
+.record-detail-page {
+  min-height: 100vh;
+  background: $color-bg-page;
+  padding: 16px;
+  padding-bottom: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* 返回导航 */
+.detail-nav {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 0;
+}
+
+.detail-back-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: $radius-md;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: $color-text-primary;
+  background: transparent;
+  border: none;
+
+  &:active {
+    background: $color-border-light;
+  }
+}
+
+.detail-nav-title {
+  font-size: 18px;
+  font-weight: $font-weight-bold;
+  color: $color-text-primary;
+}
+
+/* 类型标识头 */
+.detail-badge-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 20px 0 12px;
+}
+
+.detail-type-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 16px;
+  border-radius: $radius-round;
+  font-size: $font-size-body;
+  font-weight: $font-weight-bold;
+}
+
+.detail-type-in {
+  background: rgba($color-success, 0.12);
+  color: $color-success;
+}
+
+.detail-type-out {
+  background: rgba($color-error, 0.12);
+  color: $color-error;
+}
+
+.detail-equip-name {
+  font-size: $font-size-title-lg;
+  font-weight: $font-weight-bold;
+  color: $color-text-primary;
+  text-align: center;
+  padding: 0 16px;
+}
+
+.detail-qty {
+  font-size: 30px;
+  font-weight: $font-weight-bold;
+  color: $color-text-primary;
+  letter-spacing: -0.5px;
+
+  .unit {
+    font-size: 16px;
+    font-weight: $font-weight-regular;
+    color: $color-text-secondary;
+  }
+}
+
+/* 信息卡片 */
+.detail-info-card {
+  background: $color-bg-card;
+  border-radius: 12px;
+  border: 1px solid $color-border;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+  overflow: hidden;
+}
+
+.detail-section {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.detail-section-title {
+  font-size: $font-size-tag;
+  font-weight: $font-weight-bold;
+  color: $color-text-secondary;
+  letter-spacing: 0.05em;
+}
+
+.detail-info-grid {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 24px;
+  row-gap: 12px;
+  align-items: baseline;
+}
+
+.detail-info-label {
+  font-size: $font-size-body;
+  color: $color-text-secondary;
+  white-space: nowrap;
+}
+
+.detail-info-value {
+  font-size: $font-size-body;
+  font-weight: $font-weight-medium;
+  color: $color-text-primary;
+  text-align: right;
+}
+
+.detail-notes {
+  font-size: $font-size-body;
+  color: $color-text-primary;
+  line-height: 1.6;
+}
+
+.detail-divider {
+  border: none;
+  border-top: 1px solid $color-border;
+  margin: 0 16px;
+}
+
+/* 照片区域 */
+.detail-photos {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.detail-photos-title {
+  font-size: $font-size-body;
+  font-weight: $font-weight-bold;
+  color: $color-text-secondary;
+}
+
+.detail-photo-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.detail-photo-item {
+  aspect-ratio: 1;
+  border-radius: $radius-md;
+  background: $color-border-light;
+  border: 1px solid $color-border;
+  overflow: hidden;
+}
+
+.detail-photo-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: $color-text-secondary;
+  opacity: 0.35;
+}
+
+.detail-photo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}

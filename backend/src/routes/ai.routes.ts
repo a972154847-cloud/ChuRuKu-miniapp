@@ -1,6 +1,6 @@
 import { Router, Request, Response } from 'express'
 import authRequired from '../middlewares/auth'
-import { requireEditor, requireViewer } from '../middlewares/role'
+import { requirePermission } from '../middlewares/permission'
 import {
   describeImage,
   matchEquipment,
@@ -17,7 +17,7 @@ const router = Router()
 router.use(authRequired)
 
 // 图片识别 / 匹配类端点需要 editor 及以上角色
-router.use(requireEditor)
+router.use(requirePermission('ai:use'))
 
 /**
  * 将 ImageDescription 拼接为自然语言描述串，供 matchEquipment 使用。
@@ -203,7 +203,7 @@ const SYSTEM_PROMPT = `你是消防器材装备管理系统的 AI 助手，帮�
 
 const MAX_TOOL_ROUNDS = 3
 
-router.post('/chat', requireEditor, async (req: Request, res: Response) => {
+router.post('/chat', requirePermission('ai:use'), async (req: Request, res: Response) => {
   const b = req.body || {}
   const userMessage = typeof b.message === 'string' ? b.message.trim() : ''
   if (!userMessage) {

@@ -57,6 +57,23 @@ export default defineConfig<'webpack5'>(async (merge, _env) => {
       },
       webpackChain(chain) {
         chain.resolve.plugin('tsconfig-paths').use(TsconfigPathsPlugin)
+        chain.optimization.splitChunks({
+          cacheGroups: {
+            vendors: {
+              name: 'vendors',
+              test: /[\\/]node_modules[\\/]/,
+              priority: -10,
+              chunks: 'initial'
+            },
+            taro: {
+              name: 'taro',
+              test: /[\\/]@tarojs[\\/]/,
+              priority: -5,
+              chunks: 'initial'
+            },
+            common: false
+          }
+        })
         if (process.env.NODE_ENV === 'production') {
           chain.optimization.minimizer('terser').use(TerserPlugin as any, [
             {

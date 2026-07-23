@@ -1,27 +1,83 @@
-/* NutUI 主题样式（按需引入；依赖已安装，暂注释，使用时取消注释） */
-// @import '@nutui/nutui-react-taro/dist/style.css';
-
-/* P2-8: z-index 层级契约（与原生层交互）
- * 9997  .ai-fab              浮窗入口
- * 9998  .ai-panel-mask       浮窗遮罩
- * 9999  .ai-panel--floating  浮窗容器
- * 任何超过 9999 的 z-index 都会盖住 Taro.showModal/showToast，破坏原生 UX
- */
-$z-ai-fab: 9997;
-$z-ai-mask: 9998;
-$z-ai-panel: 9999;
+@import './styles/variables.scss';
+@import './styles/theme.scss';
 
 page {
-  background-color: #f5f5f5;
-  color: #1D2129;
+  background-color: $color-bg-page;
+  color: $color-text-primary;
   font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica,
     'PingFang SC', 'Microsoft YaHei', sans-serif;
-  font-size: 28rpx;
+  font-size: $font-size-body;
 }
 
 .container {
-  padding: 32rpx;
-  background: #f5f5f5;
+  padding: $page-padding;
+  background: $color-bg-page;
   min-height: 100vh;
   box-sizing: border-box;
+}
+
+/* 通用卡片 */
+.page-card {
+  background: $color-bg-card;
+  border-radius: $radius-lg;
+  border: 1px solid $color-border;
+  padding: $spacing-md;
+  margin-bottom: $section-gap;
+  box-shadow: $shadow-card;
+}
+
+.section-title {
+  font-size: $font-size-subtitle;
+  font-weight: $font-weight-bold;
+  color: $color-text-primary;
+  margin-bottom: $spacing-sm;
+}
+
+/* 主按钮 — 海军蓝实心 */
+.btn-primary {
+  background: $color-primary;
+  color: $color-text-inverse;
+  border: none;
+  border-radius: $radius-button;
+  font-size: $font-size-body;
+  font-weight: $font-weight-bold;
+
+  &:active {
+    background: $color-primary-dark;
+  }
+}
+
+/* 次要按钮 — 海军蓝描边 */
+.btn-secondary {
+  background: $color-bg-card;
+  color: $color-primary;
+  border: 2px solid $color-primary;
+  border-radius: $radius-button;
+  font-size: $font-size-body;
+  font-weight: $font-weight-bold;
+
+  &:active {
+    opacity: 0.85;
+  }
+}
+
+/* 文字颜色快捷类 */
+.text-primary { color: $color-text-primary; }
+.text-secondary { color: $color-text-secondary; }
+.text-tertiary { color: $color-text-tertiary; }
+
+/* 状态颜色快捷类 */
+.status-in { color: $color-success; }
+.status-out { color: $color-error; }
+.status-warning { color: $color-warning; }
+
+/* 通用页面头 */
+.page-header {
+  padding: 20px $page-padding 16px;
+}
+
+.page-header-title {
+  font-size: $font-size-title-lg;
+  font-weight: $font-weight-bold;
+  color: $color-text-primary;
 }

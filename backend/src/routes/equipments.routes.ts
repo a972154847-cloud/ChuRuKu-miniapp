@@ -1,6 +1,6 @@
 import { Router, Request, Response } from 'express'
 import authRequired from '../middlewares/auth'
-import { requireViewer, requireEditor } from '../middlewares/role'
+import { requirePermission } from '../middlewares/permission'
 import { searchEquipments, getEquipmentDetail } from '../services/equipment.service'
 import { toInt, safePageSize } from '../utils/helpers'
 import db from '../db'
@@ -14,7 +14,7 @@ router.use(authRequired)
  * 返回所有器材（含分类名 + 当前库存），支持分页和关键字搜索。
  * Query: page?, pageSize?, keyword?
  */
-router.get('/', requireViewer, (req: Request, res: Response) => {
+router.get('/', requirePermission('equipment:read'), (req: Request, res: Response) => {
   const page = toInt(req.query.page, 1)
   const pageSize = safePageSize(req.query.pageSize, 20)
   const keyword = req.query.keyword ? String(req.query.keyword) : undefined
@@ -56,7 +56,7 @@ router.get('/', requireViewer, (req: Request, res: Response) => {
  * Body: { keyword: string }
  * 返回候选清单（含 category_name），空关键字返回空列表
  */
-router.post('/search', requireEditor, (req: Request, res: Response) => {
+router.post('/search', requirePermission('equipment:read'), (req: Request, res: Response) => {
   const keyword = (req.body || {}).keyword
   const list = searchEquipments(keyword || '')
   res.json({ code: 0, message: 'ok', data: { list } })
@@ -66,7 +66,7 @@ router.post('/search', requireEditor, (req: Request, res: Response) => {
  * GET /:id 器材详情（viewer 及以上）
  * 返回器材完整信息（含当前库存 + 最近 10 条出入库记录）
  */
-router.get('/:id', requireViewer, (req: Request, res: Response) => {
+router.get('/:id', requirePermission('equipment:read'), (req: Request, res: Response) => {
   const id = toInt(req.params.id, NaN)
   if (!Number.isFinite(id)) {
     res.status(400).json({ code: 400, message: '非法器材 id' })

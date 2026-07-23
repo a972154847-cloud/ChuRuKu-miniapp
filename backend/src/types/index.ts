@@ -24,6 +24,7 @@ export interface AuthUser {
   openid: string
   name: string
   role: Role
+  permissions: string[]
 }
 
 /** 扩展 Request 携带用户信息（鉴权中间件填充） */

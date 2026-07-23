@@ -38,6 +38,10 @@ export default function Users() {
   const [editingId, setEditingId] = useState<number | null>(null)
   const [editRoleIdx, setEditRoleIdx] = useState(0)
 
+  const goToPermissions = () => {
+    Taro.navigateTo({ url: '/pages/permissions/index' })
+  }
+
   const fetchList = async (overrides?: { role?: string; keyword?: string }) => {
     setLoading(true)
     try {
@@ -107,31 +111,39 @@ export default function Users() {
   return (
     <View className='users-page'>
       <View className='users-filter'>
-        <Picker
-          mode='selector'
-          range={ROLE_FILTER.map((r) => r.label)}
-          value={roleIdx}
-          onChange={(e) => handleRoleFilterChange(Number(e.detail.value))}
-        >
-          <View className='users-filter__picker'>
-            <Text>{ROLE_FILTER[roleIdx].label}</Text>
-          </View>
-        </Picker>
-        <Input
-          className='users-filter__input'
-          value={keyword}
-          placeholder='搜索用户名'
-          onInput={(e) => setKeyword(e.detail.value)}
-          onConfirm={handleSearch}
-        />
+          <Picker
+            mode='selector'
+            range={ROLE_FILTER.map((r) => r.label)}
+            value={roleIdx}
+            onChange={(e) => handleRoleFilterChange(Number(e.detail.value))}
+          >
+            <View className='users-filter__picker'>
+              <Text>{ROLE_FILTER[roleIdx].label}</Text>
+            </View>
+          </Picker>
+          <Input
+            className='users-filter__input'
+            value={keyword}
+            placeholder='搜索用户名'
+            onInput={(e) => setKeyword(e.detail.value)}
+            onConfirm={handleSearch}
+          />
+          <Button
+            className='users-filter__btn'
+            size='mini'
+            onClick={handleSearch}
+          >
+            搜索
+          </Button>
+        </View>
+
         <Button
-          className='users-filter__btn'
+          className='users-permissions-btn'
           size='mini'
-          onClick={handleSearch}
+          onClick={goToPermissions}
         >
-          搜索
+          权限管理
         </Button>
-      </View>
 
       <View className='users-list'>
         {list.length === 0 && !loading && (

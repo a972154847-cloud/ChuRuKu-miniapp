@@ -1,6 +1,13 @@
+@import '@/styles/variables.scss';
+@import '@/styles/theme.scss';
+
+/* ============================================
+ * Recycle — 回收站页面
+ * ============================================ */
+
 .recycle-page {
-  padding: 16px;
-  background: #f5f5f5;
+  padding: $spacing-md;
+  background: $color-bg-page;
   min-height: 100vh;
   box-sizing: border-box;
 }
@@ -9,43 +16,45 @@
 .recycle-filter {
   display: flex;
   align-items: center;
-  gap: 12px;
-  background: #fff;
-  border-radius: 12px;
-  padding: 16px;
-  margin-bottom: 16px;
+  gap: $spacing-sm;
+  background: $color-bg-card;
+  border: 1px solid $color-border;
+  border-radius: $radius-lg;
+  padding: $spacing-md;
+  margin-bottom: $section-gap;
 
   &__picker {
     flex: 1;
     height: 64px;
-    padding: 0 20px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
+    padding: 0 $spacing-lg;
+    border: 1px solid $color-border;
+    border-radius: $radius-md;
     display: flex;
     align-items: center;
     font-size: 26px;
-    color: #333;
+    color: $color-text-primary;
   }
 
   &__btn {
     flex: 0 0 auto;
-    background: #f5f5f5;
-    color: #666;
-    border: 1px solid #ddd;
-    border-radius: 8px;
+    background: $color-border-light;
+    color: $color-text-secondary;
+    border: 1px solid $color-border;
+    border-radius: $radius-md;
   }
 }
 
 /* 回收站列表 */
 .recycle-list {
-  background: #fff;
-  border-radius: 12px;
+  background: $color-bg-card;
+  border: 1px solid $color-border;
+  border-radius: $radius-lg;
   overflow: hidden;
 }
 
 .recycle-item {
-  padding: 20px;
-  border-bottom: 1px solid #f0f0f0;
+  padding: $spacing-lg;
+  border-bottom: 1px solid $color-border-light;
 
   &:last-child {
     border-bottom: none;
@@ -55,31 +64,30 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 8px;
+    margin-bottom: $spacing-xs;
   }
 
   &__type-tag {
     font-size: 22px;
     padding: 4px 12px;
-    border-radius: 4px;
-    margin-right: 12px;
+    border-radius: $radius-sm;
 
     &.type-record {
-      background: #fff7e6;
-      color: #d46b08;
+      background: rgba($color-warning, 0.1);
+      color: $color-warning;
     }
 
     &.type-category {
-      background: #e6f7ff;
-      color: #096dd9;
+      background: rgba($color-info, 0.1);
+      color: $color-info;
     }
   }
 
   &__summary {
     flex: 1;
     font-size: 28px;
-    font-weight: 500;
-    color: #333;
+    font-weight: $font-weight-medium;
+    color: $color-text-primary;
     min-width: 0;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -89,46 +97,54 @@
   &__time {
     flex: 0 0 auto;
     font-size: 22px;
-    color: #999;
-    margin-left: 12px;
+    color: $color-text-secondary;
+    margin-left: $spacing-sm;
   }
 
   &__meta {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 12px;
+    margin-bottom: $spacing-sm;
   }
 
   &__deleter {
     font-size: 24px;
-    color: #666;
+    color: $color-text-secondary;
   }
 
   &__actions {
     display: flex;
-    gap: 12px;
+    gap: $spacing-sm;
     justify-content: flex-end;
   }
 
   &__restore-btn {
-    background: #52c41a;
-    color: #fff;
+    background: $color-success;
+    color: $color-text-inverse;
     border: none;
-    border-radius: 8px;
+    border-radius: $radius-md;
     padding: 8px 24px;
     font-size: 24px;
     line-height: 1.5;
+
+    &:active {
+      opacity: 0.85;
+    }
   }
 
   &__delete-btn {
-    background: #ff4d4f;
-    color: #fff;
+    background: $color-error;
+    color: $color-text-inverse;
     border: none;
-    border-radius: 8px;
+    border-radius: $radius-md;
     padding: 8px 24px;
     font-size: 24px;
     line-height: 1.5;
+
+    &:active {
+      opacity: 0.85;
+    }
   }
 }
 
@@ -139,8 +155,8 @@
   &__text {
     display: block;
     font-size: 36px;
-    color: #999;
-    margin-bottom: 12px;
+    color: $color-text-secondary;
+    margin-bottom: $spacing-sm;
   }
 }
 
@@ -150,6 +166,6 @@
 
   &__text {
     font-size: 24px;
-    color: #bbb;
+    color: $color-text-tertiary;
   }
 }
