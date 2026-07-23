@@ -29,9 +29,24 @@ export default defineAppConfig({
     backgroundColor: '#ffffff',
     borderStyle: 'black',
     list: [
-      { pagePath: 'pages/dashboard/index', text: '仪表盘' },
-      { pagePath: 'pages/records/index', text: '记录' },
-      { pagePath: 'pages/profile/index', text: '我的' }
+      {
+        pagePath: 'pages/dashboard/index',
+        text: '仪表盘',
+        iconPath: 'assets/icons/dashboard.png',
+        selectedIconPath: 'assets/icons/dashboard-active.png'
+      },
+      {
+        pagePath: 'pages/records/index',
+        text: '记录',
+        iconPath: 'assets/icons/records.png',
+        selectedIconPath: 'assets/icons/records-active.png'
+      },
+      {
+        pagePath: 'pages/profile/index',
+        text: '我的',
+        iconPath: 'assets/icons/profile.png',
+        selectedIconPath: 'assets/icons/profile-active.png'
+      }
     ]
   }
 })

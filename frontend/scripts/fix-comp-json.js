@@ -2,13 +2,29 @@ const fs = require('fs');
 const path = require('path');
 
 const distDir = path.join(__dirname, '../dist');
+const srcDir = path.join(__dirname, '..');
 const compJsonPath = path.join(distDir, 'comp.json');
 const projectConfigPath = path.join(distDir, 'project.config.json');
 const sitemapPath = path.join(distDir, 'sitemap.json');
+const iconsDir = path.join(srcDir, 'assets/icons');
+const distIconsDir = path.join(distDir, 'assets/icons');
 
 const REAL_APPID = 'wx60a0c04ff6885b0d';
 
 let fixedCount = 0;
+
+// 复制图标到 dist
+if (fs.existsSync(iconsDir)) {
+  if (!fs.existsSync(distIconsDir)) {
+    fs.mkdirSync(distIconsDir, { recursive: true });
+  }
+  const iconFiles = fs.readdirSync(iconsDir).filter(f => f.endsWith('.png'));
+  for (const file of iconFiles) {
+    fs.copyFileSync(path.join(iconsDir, file), path.join(distIconsDir, file));
+  }
+  console.log(`[fix-comp-json] Copied ${iconFiles.length} tabbar icons to dist/assets/icons/`);
+  fixedCount++;
+}
 
 try {
   const json = JSON.parse(fs.readFileSync(projectConfigPath, 'utf-8'));
