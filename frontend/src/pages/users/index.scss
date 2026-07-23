@@ -13,15 +13,15 @@
   align-items: center;
   background: $color-bg-card;
   border-radius: $radius-lg;
-  border: 1px solid $color-border;
+  border: 2px solid $color-border;
   padding: $spacing-md;
   margin-bottom: $section-gap;
 
   &__picker {
     flex: 0 0 auto;
-    height: 40px;
-    padding: 0 20px;
-    border: 1px solid $color-border;
+    height: 80px;
+    padding: 0 40px;
+    border: 2px solid $color-border;
     border-radius: $radius-md;
     display: flex;
     align-items: center;
@@ -32,8 +32,8 @@
 
   &__input {
     flex: 1;
-    height: 40px;
-    border: 1px solid $color-border;
+    height: 80px;
+    border: 2px solid $color-border;
     border-radius: $radius-md;
     padding: 0 $spacing-md;
     font-size: $font-size-aux;
@@ -52,15 +52,15 @@
 .users-list {
   background: $color-bg-card;
   border-radius: $radius-lg;
-  border: 1px solid $color-border;
+  border: 2px solid $color-border;
   overflow: hidden;
 }
 
 .users-item {
   display: flex;
   align-items: center;
-  padding: $spacing-xl 20px;
-  border-bottom: 1px solid $color-border-light;
+  padding: $spacing-xl 40px;
+  border-bottom: 2px solid $color-border-light;
 
   &:last-child {
     border-bottom: none;
@@ -112,7 +112,7 @@
 
 .users-role {
   display: inline-block;
-  padding: 4px $spacing-sm;
+  padding: 8px $spacing-sm;
   border-radius: $radius-sm;
   font-size: $font-size-tag;
   color: $color-text-inverse;
@@ -143,7 +143,7 @@
 
 .users-empty {
   text-align: center;
-  padding: 120px 0;
+  padding: 240px 0;
 
   &__text {
     display: block;
@@ -176,7 +176,7 @@
   width: 80%;
   background: $color-bg-card;
   border-radius: $radius-lg;
-  padding: 32px $spacing-xl;
+  padding: 64px $spacing-xl;
 
   &__title {
     display: block;
@@ -188,10 +188,10 @@
   }
 
   &__picker {
-    height: 40px;
-    border: 1px solid $color-border;
+    height: 80px;
+    border: 2px solid $color-border;
     border-radius: $radius-md;
-    padding: 0 20px;
+    padding: 0 40px;
     display: flex;
     align-items: center;
     font-size: $font-size-body;
@@ -213,7 +213,7 @@
       background: $color-bg-page;
       color: $color-text-secondary;
       margin-right: $spacing-md;
-      border: 1px solid $color-border;
+      border: 2px solid $color-border;
     }
 
     &--ok {

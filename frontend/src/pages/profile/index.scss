@@ -8,13 +8,13 @@
 .profile-page {
   min-height: 100vh;
   background: $color-bg-page;
-  padding-bottom: 80px;
+  padding-bottom: 120rpx;
 }
 
 /* 个人头部 — 海军蓝渐变 */
 .profile-header {
   position: relative;
-  padding: 40px 16px 32px;
+  padding: 80rpx $page-padding 64rpx;
   background: $gradient-profile-header;
 }
 
@@ -22,7 +22,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
+  gap: 24rpx;
 }
 
 .profile-avatar-wrap {
@@ -31,14 +31,14 @@
 }
 
 .profile-avatar {
-  width: 80px;
-  height: 80px;
+  width: 80rpx;
+  height: 80rpx;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.15);
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 0 0 3px $color-accent;
+  box-shadow: 0 0 0 6rpx $color-accent;
   overflow: hidden;
 }
 
@@ -56,8 +56,8 @@
 .profile-role-badge {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  padding: 2px 12px;
+  gap: 8rpx;
+  padding: 4rpx 24rpx;
   border-radius: $radius-round;
   font-size: $font-size-tag;
   font-weight: $font-weight-bold;
@@ -82,16 +82,16 @@
 .profile-menu-group {
   background: $color-bg-card;
   border-radius: $radius-lg;
-  border: 1px solid $color-border;
+  border: 1rpx solid $color-border;
   overflow: hidden;
 }
 
 .profile-menu-item {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 14px 16px;
-  font-size: 15px;
+  gap: 24rpx;
+  padding: 28rpx $page-padding;
+  font-size: $font-size-subtitle;
   color: $color-text-primary;
 
   &:active {
@@ -115,23 +115,23 @@
 
 .profile-menu-divider {
   border: none;
-  border-top: 1px solid $color-border;
-  margin: 0 16px;
+  border-top: 1rpx solid $color-border;
+  margin: 0 $page-padding;
 }
 
 /* 退出登录按钮 */
 .profile-logout-area {
-  padding: 24px $page-padding 16px;
+  padding: 48rpx $page-padding 32rpx;
 }
 
 .profile-logout-btn {
   width: 100%;
-  padding: 12px 0;
+  padding: 24rpx 0;
   text-align: center;
   font-size: $font-size-body;
   font-weight: $font-weight-medium;
   border-radius: $radius-md;
-  border: 1px solid rgba($color-error, 0.3);
+  border: 1rpx solid rgba($color-error, 0.3);
   color: $color-error;
   background: transparent;
 

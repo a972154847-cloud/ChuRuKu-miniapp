@@ -6,7 +6,7 @@
  * ============================================ */
 
 .dashboard {
-  padding: 16px;
+  padding: $page-padding;
   padding-bottom: 80px;
   display: flex;
   flex-direction: column;
@@ -21,7 +21,7 @@
   position: relative;
   overflow: hidden;
   border-radius: $radius-xl;
-  padding: 24px 20px;
+  padding: 28px 30px;
   background: $gradient-primary;
   color: $color-text-inverse;
   min-height: 140px;
@@ -63,19 +63,19 @@
   position: relative;
   display: flex;
   align-items: baseline;
-  gap: 6px;
-  margin-top: 8px;
+  gap: 12px;
+  margin-top: 16px;
 }
 
 .stock-count-number {
-  font-size: 44px;
+  font-size: 64px;
   font-weight: 800;
   line-height: 1;
   letter-spacing: -1px;
 }
 
 .stock-count-unit {
-  font-size: 18px;
+  font-size: $font-size-aux;
   font-weight: $font-weight-medium;
   color: $color-accent;
 }
@@ -84,16 +84,16 @@
   position: relative;
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin-top: 12px;
+  gap: 16px;
+  margin-top: 24px;
 }
 
 .stock-badge {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: 8px;
   font-size: $font-size-tag;
-  padding: 4px 10px;
+  padding: 8px 20px;
   border-radius: $radius-round;
   font-weight: $font-weight-medium;
   background: rgba($color-accent, 0.18);
@@ -109,13 +109,13 @@
 .kpi-row {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
+  gap: 24px;
 }
 
 .kpi-card {
   background: $color-bg-card;
-  border-radius: 12px;
-  padding: 14px 12px;
+  border-radius: $radius-sm;
+  padding: 28px 24px;
   border: 1px solid $color-border;
   display: flex;
   flex-direction: column;
@@ -128,21 +128,21 @@
   font-size: $font-size-tag;
   color: $color-text-secondary;
   line-height: 1.3;
-  margin-top: 2px;
+  margin-top: 4px;
 }
 
 .kpi-value {
-  font-size: 20px;
+  font-size: 36px;
   font-weight: $font-weight-bold;
-  margin-top: 2px;
+  margin-top: 4px;
 }
 
 .kpi-warning-dot {
   position: absolute;
-  top: 6px;
-  right: 6px;
-  width: 8px;
-  height: 8px;
+  top: 12px;
+  right: 12px;
+  width: 16px;
+  height: 16px;
   border-radius: 50%;
   background: $color-warning;
 }
@@ -151,16 +151,16 @@
 .quick-actions {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 12px;
+  gap: 24px;
 }
 
 .quick-action-btn {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  padding: 12px 16px;
-  border-radius: 12px;
+  gap: 16px;
+  padding: 24px 32px;
+  border-radius: $radius-sm;
   font-size: $font-size-body;
   font-weight: $font-weight-bold;
   border: none;
@@ -184,16 +184,16 @@
 
 /* 4. 低库存预警卡片 */
 .alert-card {
-  border-radius: 12px;
-  padding: 14px 16px;
+  border-radius: $radius-sm;
+  padding: 28px 32px;
   background: #FDF6E4;
 }
 
 .alert-header {
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin-bottom: 10px;
+  gap: 16px;
+  margin-bottom: 20px;
 }
 
 .alert-title {
@@ -206,7 +206,7 @@
   margin-left: auto;
   font-size: $font-size-tag;
   font-weight: $font-weight-medium;
-  padding: 2px 8px;
+  padding: 4px 16px;
   border-radius: $radius-round;
   background: rgba($color-warning, 0.16);
   color: $color-warning;
@@ -217,7 +217,7 @@
   align-items: center;
   justify-content: space-between;
   font-size: $font-size-body;
-  margin-bottom: 8px;
+  margin-bottom: 16px;
 
   &:last-of-type {
     margin-bottom: 0;
@@ -227,7 +227,7 @@
 .alert-item-name {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 16px;
   min-width: 0;
   font-weight: $font-weight-medium;
   color: #5C4328;
@@ -238,8 +238,8 @@
 }
 
 .alert-dot {
-  width: 6px;
-  height: 6px;
+  width: 12px;
+  height: 12px;
   border-radius: 50%;
   background: $color-warning;
   flex-shrink: 0;
@@ -247,14 +247,14 @@
 
 .alert-item-count {
   flex-shrink: 0;
-  margin-left: 8px;
+  margin-left: 16px;
   font-size: $font-size-tag;
   font-weight: $font-weight-bold;
   color: $color-error;
 }
 
 .alert-divider {
-  margin: 12px 0 10px;
+  margin: 24px 0 20px;
   border: none;
   border-top: 1px solid #E8D5A4;
 }
@@ -265,22 +265,22 @@
   color: $color-warning;
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 8px;
 }
 
 /* 5. 趋势图区域 */
 .chart-section {
   background: $color-bg-card;
-  border-radius: 12px;
+  border-radius: $radius-sm;
   border: 1px solid $color-border;
-  padding: 16px;
+  padding: $spacing-md;
 }
 
 .chart-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 4px;
+  margin-bottom: 8px;
 }
 
 .chart-title {
@@ -292,15 +292,15 @@
 .chart-toggle-group {
   display: flex;
   align-items: center;
-  gap: 2px;
-  border-radius: 8px;
-  padding: 2px;
+  gap: 4px;
+  border-radius: 16px;
+  padding: 4px;
   background: $color-border-light;
 }
 
 .chart-toggle {
-  padding: 4px 10px;
-  border-radius: 6px;
+  padding: 8px 20px;
+  border-radius: 12px;
   font-size: $font-size-tag;
   font-weight: $font-weight-medium;
   color: $color-text-secondary;
@@ -318,22 +318,22 @@
 .chart-legend {
   display: flex;
   align-items: center;
-  gap: 16px;
-  margin: 16px 0 8px;
+  gap: 32px;
+  margin: 32px 0 16px;
 }
 
 .chart-legend-item {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 12px;
   font-size: $font-size-tag;
   color: $color-text-secondary;
 }
 
 .chart-legend-color {
-  width: 12px;
-  height: 12px;
-  border-radius: 2px;
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
   flex-shrink: 0;
 }
 
@@ -341,7 +341,7 @@
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
-  gap: 6px;
+  gap: 12px;
   height: 160px;
 }
 
@@ -355,34 +355,34 @@
 }
 
 .chart-bar-label-top {
-  font-size: 10px;
+  font-size: 20px;
   font-weight: $font-weight-bold;
   color: $color-text-secondary;
-  margin-bottom: 2px;
+  margin-bottom: 4px;
 }
 
 .chart-bar-in {
   width: 100%;
-  max-width: 28px;
+  max-width: 56px;
   background: $color-success;
 }
 
 .chart-bar-out {
   width: 100%;
-  max-width: 28px;
+  max-width: 56px;
   background: $color-error;
 }
 
 .chart-bar-label-bottom {
-  font-size: 10px;
+  font-size: 20px;
   color: $color-text-secondary;
-  margin-top: 4px;
+  margin-top: 8px;
 }
 
 /* 6. 最近操作记录 */
 .recent-section {
   background: $color-bg-card;
-  border-radius: 12px;
+  border-radius: $radius-sm;
   border: 1px solid $color-border;
   overflow: hidden;
 }
@@ -391,7 +391,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px 16px 12px;
+  padding: 32px 32px 24px;
 }
 
 .recent-title {
@@ -406,14 +406,14 @@
   color: $color-accent;
   display: flex;
   align-items: center;
-  gap: 2px;
+  gap: 4px;
 }
 
 .recent-item {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 12px 16px;
+  gap: 24px;
+  padding: 24px 32px;
 }
 
 .recent-item + .recent-item {
@@ -421,9 +421,9 @@
 }
 
 .recent-icon-wrap {
-  width: 36px;
-  height: 36px;
-  border-radius: 8px;
+  width: 72px;
+  height: 72px;
+  border-radius: 16px;
   display: flex;
   align-items: center;
   justify-content: center;

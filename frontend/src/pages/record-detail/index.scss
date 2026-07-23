@@ -8,24 +8,24 @@
 .record-detail-page {
   min-height: 100vh;
   background: $color-bg-page;
-  padding: 16px;
-  padding-bottom: 40px;
+  padding: $spacing-md;
+  padding-bottom: 80rpx;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: $spacing-md;
 }
 
 /* 返回导航 */
 .detail-nav {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 8px 0;
+  gap: 24rpx;
+  padding: 16rpx 0;
 }
 
 .detail-back-btn {
-  width: 36px;
-  height: 36px;
+  width: 72rpx;
+  height: 72rpx;
   border-radius: $radius-md;
   display: flex;
   align-items: center;
@@ -40,7 +40,7 @@
 }
 
 .detail-nav-title {
-  font-size: 18px;
+  font-size: 36rpx;
   font-weight: $font-weight-bold;
   color: $color-text-primary;
 }
@@ -50,15 +50,15 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
-  padding: 20px 0 12px;
+  gap: 24rpx;
+  padding: 40rpx 0 24rpx;
 }
 
 .detail-type-badge {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 6px 16px;
+  gap: 12rpx;
+  padding: 12rpx $spacing-md;
   border-radius: $radius-round;
   font-size: $font-size-body;
   font-weight: $font-weight-bold;
@@ -79,17 +79,17 @@
   font-weight: $font-weight-bold;
   color: $color-text-primary;
   text-align: center;
-  padding: 0 16px;
+  padding: 0 $spacing-md;
 }
 
 .detail-qty {
-  font-size: 30px;
+  font-size: $font-size-title-lg;
   font-weight: $font-weight-bold;
   color: $color-text-primary;
-  letter-spacing: -0.5px;
+  letter-spacing: -1rpx;
 
   .unit {
-    font-size: 16px;
+    font-size: $font-size-aux;
     font-weight: $font-weight-regular;
     color: $color-text-secondary;
   }
@@ -98,17 +98,17 @@
 /* 信息卡片 */
 .detail-info-card {
   background: $color-bg-card;
-  border-radius: 12px;
-  border: 1px solid $color-border;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+  border-radius: $radius-md;
+  border: 1rpx solid $color-border;
+  box-shadow: $shadow-card;
   overflow: hidden;
 }
 
 .detail-section {
-  padding: 16px;
+  padding: $spacing-md;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 24rpx;
 }
 
 .detail-section-title {
@@ -121,8 +121,8 @@
 .detail-info-grid {
   display: grid;
   grid-template-columns: auto 1fr;
-  column-gap: 24px;
-  row-gap: 12px;
+  column-gap: 48rpx;
+  row-gap: 24rpx;
   align-items: baseline;
 }
 
@@ -147,16 +147,16 @@
 
 .detail-divider {
   border: none;
-  border-top: 1px solid $color-border;
-  margin: 0 16px;
+  border-top: 1rpx solid $color-border;
+  margin: 0 $spacing-md;
 }
 
 /* 照片区域 */
 .detail-photos {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  margin-top: 4px;
+  gap: 24rpx;
+  margin-top: 8rpx;
 }
 
 .detail-photos-title {
@@ -168,14 +168,14 @@
 .detail-photo-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
+  gap: 20rpx;
 }
 
 .detail-photo-item {
   aspect-ratio: 1;
   border-radius: $radius-md;
   background: $color-border-light;
-  border: 1px solid $color-border;
+  border: 1rpx solid $color-border;
   overflow: hidden;
 }
 

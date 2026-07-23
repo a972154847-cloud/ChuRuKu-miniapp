@@ -37,7 +37,7 @@
   padding: 32rpx;
   background: $color-bg-card;
   margin-bottom: 20rpx;
-  border-bottom: 1px solid $color-border-light;
+  border-bottom: 2px solid $color-border-light;
   box-shadow: $shadow-card;
 
   &__role {
@@ -83,7 +83,7 @@
   padding: 24rpx 32rpx;
   background: $color-bg-card;
   margin-bottom: 20rpx;
-  border: 1px solid $color-border;
+  border: 2px solid $color-border;
   border-radius: $radius-lg;
   margin: 0 32rpx 20rpx;
 
@@ -106,7 +106,7 @@
 
 .permissions-group {
   background: $color-bg-card;
-  border: 1px solid $color-border;
+  border: 2px solid $color-border;
   border-radius: $radius-lg;
   margin-bottom: 20rpx;
   overflow: hidden;
@@ -117,7 +117,7 @@
     align-items: center;
     padding: 28rpx 32rpx;
     background: $color-border-light;
-    border-bottom: 1px solid $color-border;
+    border-bottom: 2px solid $color-border;
 
     &:active {
       background: #E8E5E0;
@@ -147,7 +147,7 @@
   display: flex;
   align-items: center;
   padding: 24rpx 32rpx;
-  border-bottom: 1px solid $color-border-light;
+  border-bottom: 2px solid $color-border-light;
 
   &:last-child {
     border-bottom: none;

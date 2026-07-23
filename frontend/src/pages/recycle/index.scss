@@ -18,20 +18,20 @@
   align-items: center;
   gap: $spacing-sm;
   background: $color-bg-card;
-  border: 1px solid $color-border;
+  border: 2px solid $color-border;
   border-radius: $radius-lg;
   padding: $spacing-md;
   margin-bottom: $section-gap;
 
   &__picker {
     flex: 1;
-    height: 64px;
+    height: 128px;
     padding: 0 $spacing-lg;
-    border: 1px solid $color-border;
+    border: 2px solid $color-border;
     border-radius: $radius-md;
     display: flex;
     align-items: center;
-    font-size: 26px;
+    font-size: 52px;
     color: $color-text-primary;
   }
 
@@ -39,7 +39,7 @@
     flex: 0 0 auto;
     background: $color-border-light;
     color: $color-text-secondary;
-    border: 1px solid $color-border;
+    border: 2px solid $color-border;
     border-radius: $radius-md;
   }
 }
@@ -47,14 +47,14 @@
 /* 回收站列表 */
 .recycle-list {
   background: $color-bg-card;
-  border: 1px solid $color-border;
+  border: 2px solid $color-border;
   border-radius: $radius-lg;
   overflow: hidden;
 }
 
 .recycle-item {
   padding: $spacing-lg;
-  border-bottom: 1px solid $color-border-light;
+  border-bottom: 2px solid $color-border-light;
 
   &:last-child {
     border-bottom: none;
@@ -68,8 +68,8 @@
   }
 
   &__type-tag {
-    font-size: 22px;
-    padding: 4px 12px;
+    font-size: 44px;
+    padding: 8px 24px;
     border-radius: $radius-sm;
 
     &.type-record {
@@ -85,7 +85,7 @@
 
   &__summary {
     flex: 1;
-    font-size: 28px;
+    font-size: 56px;
     font-weight: $font-weight-medium;
     color: $color-text-primary;
     min-width: 0;
@@ -96,7 +96,7 @@
 
   &__time {
     flex: 0 0 auto;
-    font-size: 22px;
+    font-size: 44px;
     color: $color-text-secondary;
     margin-left: $spacing-sm;
   }
@@ -109,7 +109,7 @@
   }
 
   &__deleter {
-    font-size: 24px;
+    font-size: 48px;
     color: $color-text-secondary;
   }
 
@@ -124,8 +124,8 @@
     color: $color-text-inverse;
     border: none;
     border-radius: $radius-md;
-    padding: 8px 24px;
-    font-size: 24px;
+    padding: 16px 48px;
+    font-size: 48px;
     line-height: 1.5;
 
     &:active {
@@ -138,8 +138,8 @@
     color: $color-text-inverse;
     border: none;
     border-radius: $radius-md;
-    padding: 8px 24px;
-    font-size: 24px;
+    padding: 16px 48px;
+    font-size: 48px;
     line-height: 1.5;
 
     &:active {
@@ -150,11 +150,11 @@
 
 .recycle-empty {
   text-align: center;
-  padding: 120px 0;
+  padding: 240px 0;
 
   &__text {
     display: block;
-    font-size: 36px;
+    font-size: 72px;
     color: $color-text-secondary;
     margin-bottom: $spacing-sm;
   }
@@ -162,10 +162,10 @@
 
 .recycle-footer {
   text-align: center;
-  padding: 32px 0;
+  padding: 64px 0;
 
   &__text {
-    font-size: 24px;
+    font-size: 48px;
     color: $color-text-tertiary;
   }
 }

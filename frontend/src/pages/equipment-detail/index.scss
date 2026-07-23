@@ -14,9 +14,9 @@
 /* 头部信息卡片 */
 .detail-header {
   background: $color-bg-card;
-  padding: 24px $spacing-lg;
+  padding: 48px $spacing-lg;
   margin-bottom: $section-gap;
-  border-bottom: 1px solid $color-border-light;
+  border-bottom: 2px solid $color-border-light;
 
   &__name {
     font-size: $font-size-title-lg;
@@ -36,7 +36,7 @@
 
   &__tag {
     background: $color-border-light;
-    padding: 2px 10px;
+    padding: 4px 20px;
     border-radius: $radius-sm;
     font-size: $font-size-tag;
     color: $color-text-secondary;
@@ -46,7 +46,7 @@
 /* 库存状态卡片 */
 .stock-card {
   background: $color-bg-card;
-  border: 1px solid $color-border;
+  border: 2px solid $color-border;
   border-radius: $radius-lg;
   padding: $spacing-lg;
   margin: 0 $spacing-md $section-gap;
@@ -61,11 +61,11 @@
   &__label {
     font-size: $font-size-aux;
     color: $color-text-secondary;
-    margin-bottom: 4px;
+    margin-bottom: 8px;
   }
 
   &__value {
-    font-size: 36px;
+    font-size: 72px;
     font-weight: $font-weight-bold;
     color: $color-text-primary;
 
@@ -81,13 +81,13 @@
   &__threshold {
     font-size: $font-size-tag;
     color: $color-text-tertiary;
-    margin-top: 4px;
+    margin-top: 8px;
   }
 
   &__unit {
     font-size: $font-size-body;
     color: $color-text-secondary;
-    margin-left: 4px;
+    margin-left: 8px;
   }
 
   &__extra {
@@ -96,7 +96,7 @@
     color: $color-text-secondary;
 
     &-item {
-      margin-bottom: 4px;
+      margin-bottom: 8px;
     }
   }
 }
@@ -118,7 +118,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 6px;
+    gap: 12px;
     line-height: normal;
 
     &--primary {
@@ -134,7 +134,7 @@
     &--outline {
       background: $color-bg-card;
       color: $color-primary;
-      border: 1px solid $color-primary;
+      border: 2px solid $color-primary;
     }
 
     &:active {
@@ -146,7 +146,7 @@
 /* 最近记录列表 */
 .section {
   background: $color-bg-card;
-  border: 1px solid $color-border;
+  border: 2px solid $color-border;
   border-radius: $radius-lg;
   margin: 0 $spacing-md $section-gap;
   overflow: hidden;
@@ -156,11 +156,11 @@
     font-size: $font-size-subtitle;
     font-weight: $font-weight-bold;
     color: $color-text-primary;
-    border-bottom: 1px solid $color-border-light;
+    border-bottom: 2px solid $color-border-light;
   }
 
   &__empty {
-    padding: 40px 0;
+    padding: 80px 0;
     text-align: center;
     color: $color-text-tertiary;
     font-size: $font-size-body;
@@ -170,16 +170,16 @@
 .record-item {
   display: flex;
   align-items: center;
-  padding: 14px $spacing-lg;
-  border-bottom: 1px solid $color-border-light;
+  padding: 28px $spacing-lg;
+  border-bottom: 2px solid $color-border-light;
 
   &:last-child {
     border-bottom: none;
   }
 
   &__type {
-    width: 44px;
-    height: 44px;
+    width: 88px;
+    height: 88px;
     border-radius: $radius-md;
     display: flex;
     align-items: center;
@@ -212,7 +212,7 @@
   &__operator {
     font-size: $font-size-tag;
     color: $color-text-secondary;
-    margin-top: 2px;
+    margin-top: 4px;
   }
 
   &__time {

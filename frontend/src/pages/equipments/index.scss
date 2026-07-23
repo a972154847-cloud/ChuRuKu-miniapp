@@ -8,23 +8,23 @@
 .equipments-page {
   min-height: 100vh;
   background: $color-bg-page;
-  padding: 12px 16px 32px;
+  padding: 24rpx $page-padding 64rpx;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 28rpx;
 }
 
 /* 顶部导航 */
 .equip-header {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 4px 0;
+  gap: 16rpx;
+  padding: 8rpx 0;
 }
 
 .equip-back-btn {
-  width: 32px;
-  height: 32px;
+  width: 64rpx;
+  height: 64rpx;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -39,7 +39,7 @@
 }
 
 .equip-title {
-  font-size: 18px;
+  font-size: 36rpx;
   font-weight: $font-weight-bold;
   color: $color-text-primary;
 }
@@ -51,7 +51,7 @@
 
 .equip-search-icon {
   position: absolute;
-  left: 12px;
+  left: 24rpx;
   top: 50%;
   transform: translateY(-50%);
   color: $color-text-secondary;
@@ -60,11 +60,11 @@
 
 .equip-search-input {
   width: 100%;
-  height: 44px;
-  padding: 0 16px 0 40px;
+  height: 80rpx;
+  padding: 0 $spacing-md 0 80rpx;
   background: $color-bg-card;
-  border: 1px solid $color-border;
-  border-radius: 12px;
+  border: 1rpx solid $color-border;
+  border-radius: $radius-sm;
   font-size: $font-size-body;
   color: $color-text-primary;
   box-sizing: border-box;
@@ -78,8 +78,8 @@
 .category-chips-scroll {
   overflow-x: auto;
   white-space: nowrap;
-  margin: 0 -16px;
-  padding: 0 16px 4px;
+  margin: 0 (-$page-padding);
+  padding: 0 $page-padding 8rpx;
 
   &::-webkit-scrollbar {
     display: none;
@@ -88,12 +88,12 @@
 
 .category-chips {
   display: flex;
-  gap: 8px;
+  gap: 16rpx;
 }
 
 .category-chip {
   display: inline-block;
-  padding: 6px 16px;
+  padding: 12rpx $spacing-md;
   border-radius: $radius-round;
   font-size: $font-size-body;
   font-weight: $font-weight-medium;
@@ -116,17 +116,17 @@
 .equip-list {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 24rpx;
 }
 
 .equip-card {
   background: $color-bg-card;
-  border: 1px solid $color-border;
-  border-radius: 12px;
-  padding: 14px 16px;
+  border: 1rpx solid $color-border;
+  border-radius: $radius-md;
+  padding: 28rpx $page-padding;
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 24rpx;
 }
 
 .equip-card-info {
@@ -135,30 +135,30 @@
 }
 
 .equip-card-name {
-  font-size: 15px;
+  font-size: $font-size-subtitle;
   font-weight: $font-weight-bold;
   color: $color-text-primary;
   line-height: 1.4;
 }
 
 .equip-card-model {
-  font-size: 13px;
+  font-size: 26rpx;
   color: $color-text-secondary;
-  margin-top: 2px;
+  margin-top: 4rpx;
 }
 
 .equip-card-tags {
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin-top: 8px;
+  gap: 16rpx;
+  margin-top: 16rpx;
 }
 
 .equip-stock-badge {
   display: inline-flex;
   align-items: center;
-  padding: 2px 8px;
-  border-radius: 4px;
+  padding: 4rpx 16rpx;
+  border-radius: 8rpx;
   font-size: $font-size-tag;
   font-weight: $font-weight-medium;
 }
@@ -181,8 +181,8 @@
 .equip-category-tag {
   display: inline-flex;
   align-items: center;
-  padding: 2px 8px;
-  border-radius: 4px;
+  padding: 4rpx 16rpx;
+  border-radius: 8rpx;
   font-size: $font-size-tag;
   background: $color-border-light;
   color: $color-text-secondary;
@@ -199,11 +199,11 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 64px 16px;
+  padding: 128rpx $page-padding;
   color: $color-text-secondary;
 }
 
 .equip-no-results-text {
   font-size: $font-size-body;
-  margin-top: 8px;
+  margin-top: 16rpx;
 }

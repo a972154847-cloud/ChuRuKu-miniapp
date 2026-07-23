@@ -8,22 +8,22 @@
 .record-edit-page {
   min-height: 100vh;
   background: $color-bg-page;
-  padding-bottom: 40px;
+  padding-bottom: 80rpx;
 }
 
 /* 顶部返回栏 */
 .edit-header {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 12px;
+  gap: 16rpx;
+  padding: 24rpx;
   background: $color-bg-card;
-  border-bottom: 1px solid $color-border;
+  border-bottom: 1rpx solid $color-border;
 }
 
 .edit-back-btn {
-  width: 36px;
-  height: 36px;
+  width: 72rpx;
+  height: 72rpx;
   border-radius: $radius-md;
   display: flex;
   align-items: center;
@@ -37,14 +37,14 @@
 }
 
 .edit-title {
-  font-size: 18px;
+  font-size: 36rpx;
   font-weight: $font-weight-bold;
   color: $color-text-primary;
 }
 
 /* 表单内容 */
 .edit-form {
-  padding: 20px 16px;
+  padding: 40rpx $page-padding;
   display: flex;
   flex-direction: column;
   gap: $section-gap;
@@ -54,15 +54,15 @@
 .type-toggle {
   background: $color-bg-card;
   border-radius: $radius-lg;
-  padding: 6px;
+  padding: 12rpx;
   display: flex;
-  border: 1px solid $color-border;
-  gap: 4px;
+  border: 1rpx solid $color-border;
+  gap: 8rpx;
 }
 
 .type-toggle-btn {
   flex: 1;
-  padding: 10px 0;
+  padding: 20rpx 0;
   border-radius: $radius-md;
   font-size: $font-size-body;
   font-weight: $font-weight-medium;
@@ -88,7 +88,7 @@
 .edit-field-card {
   background: $color-bg-card;
   border-radius: $radius-lg;
-  border: 1px solid $color-border;
+  border: 1rpx solid $color-border;
   overflow: hidden;
 }
 
@@ -96,7 +96,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px;
+  padding: $spacing-md;
   background: $color-bg-card;
   border: none;
   width: 100%;
@@ -111,7 +111,7 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 2px;
+  gap: 4rpx;
 }
 
 .edit-field-label-tip {
@@ -135,7 +135,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px;
+  padding: $spacing-md;
 }
 
 .edit-qty-label {
@@ -146,14 +146,14 @@
 .edit-stepper {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 24rpx;
 }
 
 .edit-stepper-btn {
-  width: 32px;
-  height: 32px;
+  width: 64rpx;
+  height: 64rpx;
   border-radius: 50%;
-  border: 1px solid $color-border;
+  border: 1rpx solid $color-border;
   background: transparent;
   display: flex;
   align-items: center;
@@ -165,16 +165,16 @@
 }
 
 .edit-stepper-value {
-  font-size: 16px;
+  font-size: $font-size-body;
   font-weight: $font-weight-bold;
   color: $color-text-primary;
-  width: 32px;
+  width: 64rpx;
   text-align: center;
 }
 
 /* 备注输入 */
 .edit-notes {
-  padding: 16px;
+  padding: $spacing-md;
 }
 
 .edit-textarea {
@@ -194,21 +194,21 @@
 
 /* 照片上传 */
 .edit-photos {
-  padding: 16px;
+  padding: $spacing-md;
 }
 
 .edit-photos-label {
   font-size: $font-size-tag;
   color: $color-text-secondary;
   display: block;
-  margin-bottom: 12px;
+  margin-bottom: 24rpx;
 }
 
 .edit-photo-add-btn {
-  width: 80px;
-  height: 80px;
+  width: 80rpx;
+  height: 80rpx;
   border-radius: $radius-md;
-  border: 2px dashed $color-border;
+  border: 2rpx dashed $color-border;
   background: rgba($color-border-light, 0.5);
   display: flex;
   align-items: center;
@@ -226,14 +226,14 @@
 /* 提交按钮 */
 .edit-submit-btn {
   width: 100%;
-  padding: 14px 0;
+  padding: 28rpx 0;
   border-radius: $radius-md;
   font-size: $font-size-body;
   font-weight: $font-weight-bold;
   background: $color-accent;
   color: $color-primary;
   border: none;
-  margin-top: 8px;
+  margin-top: 16rpx;
 
   &:active {
     opacity: 0.9;

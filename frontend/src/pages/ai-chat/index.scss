@@ -11,7 +11,7 @@
 .ai-chat-header {
   padding: 24rpx 30rpx 20rpx;
   background: $color-bg-card;
-  border-bottom: 1px solid $color-border;
+  border-bottom: 2px solid $color-border;
 
   &__title {
     display: block;
@@ -50,7 +50,7 @@
   &--error &__bubble {
     background: rgba($color-error, 0.08);
     color: $color-error;
-    border: 1px solid rgba($color-error, 0.2);
+    border: 2px solid rgba($color-error, 0.2);
   }
 
   &__bubble {
@@ -125,7 +125,7 @@
   &__item {
     padding: 12rpx 20rpx;
     background: $color-bg-card;
-    border: 1px solid $color-accent;
+    border: 2px solid $color-accent;
     border-radius: $radius-xl;
     font-size: 24rpx;
     color: $color-accent;
@@ -141,7 +141,7 @@
   align-items: center;
   padding: 16rpx 24rpx;
   background: $color-bg-card;
-  border-top: 1px solid $color-border;
+  border-top: 2px solid $color-border;
   box-sizing: border-box;
 }
 

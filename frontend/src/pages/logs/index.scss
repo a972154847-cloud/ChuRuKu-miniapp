@@ -13,7 +13,7 @@
   display: flex;
   background: $color-bg-card;
   border-radius: $radius-lg;
-  border: 1px solid $color-border;
+  border: 2px solid $color-border;
   padding: $spacing-xl $spacing-md;
   margin-bottom: $section-gap;
 
@@ -22,7 +22,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    border-right: 1px solid $color-border-light;
+    border-right: 2px solid $color-border-light;
 
     &:last-child {
       border-right: none;
@@ -50,16 +50,16 @@
   gap: $spacing-sm;
   background: $color-bg-card;
   border-radius: $radius-lg;
-  border: 1px solid $color-border;
+  border: 2px solid $color-border;
   padding: $spacing-md;
   margin-bottom: $section-gap;
 
   &__picker {
     flex: 0 0 auto;
     max-width: 30%;
-    height: 40px;
-    padding: 0 20px;
-    border: 1px solid $color-border;
+    height: 80px;
+    padding: 0 40px;
+    border: 2px solid $color-border;
     border-radius: $radius-md;
     display: flex;
     align-items: center;
@@ -72,9 +72,9 @@
   &__date {
     flex: 1;
     min-width: 30%;
-    height: 40px;
+    height: 80px;
     padding: 0 $spacing-md;
-    border: 1px solid $color-border;
+    border: 2px solid $color-border;
     border-radius: $radius-md;
     display: flex;
     align-items: center;
@@ -91,7 +91,7 @@
     flex: 0 0 auto;
     background: $color-bg-page;
     color: $color-text-secondary;
-    border: 1px solid $color-border;
+    border: 2px solid $color-border;
     border-radius: $radius-md;
   }
 }
@@ -100,13 +100,13 @@
 .logs-list {
   background: $color-bg-card;
   border-radius: $radius-lg;
-  border: 1px solid $color-border;
+  border: 2px solid $color-border;
   overflow: hidden;
 }
 
 .logs-item {
   padding: $spacing-lg;
-  border-bottom: 1px solid $color-border-light;
+  border-bottom: 2px solid $color-border-light;
 
   &:last-child {
     border-bottom: none;
@@ -142,7 +142,7 @@
     font-size: $font-size-aux;
     color: $color-info;
     background: rgba($color-info, 0.08);
-    padding: 4px $spacing-sm;
+    padding: 8px $spacing-sm;
     border-radius: $radius-sm;
   }
 
@@ -172,7 +172,7 @@
   &__detail {
     margin-top: $spacing-md;
     padding-top: $spacing-md;
-    border-top: 1px dashed $color-border;
+    border-top: 2px dashed $color-border;
   }
 
   &__json {
@@ -205,7 +205,7 @@
 
 .logs-empty {
   text-align: center;
-  padding: 120px 0;
+  padding: 240px 0;
 
   &__text {
     display: block;
@@ -223,7 +223,7 @@
 
 .logs-footer {
   text-align: center;
-  padding: 32px 0;
+  padding: 64px 0;
 
   &__text {
     font-size: $font-size-aux;

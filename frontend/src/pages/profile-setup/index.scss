@@ -39,7 +39,7 @@
 
 .profile-setup-form {
   background: $color-bg-card;
-  border: 1px solid $color-border;
+  border: 2px solid $color-border;
   border-radius: $radius-lg;
   padding: 40rpx 32rpx;
   box-shadow: $shadow-card;
@@ -65,7 +65,7 @@
 .profile-setup-input {
   width: 100%;
   height: $button-height-lg;
-  border: 1px solid $color-border;
+  border: 2px solid $color-border;
   border-radius: $radius-md;
   padding: 0 $spacing-md;
   box-sizing: border-box;
@@ -90,7 +90,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid $color-border;
+  border: 2px solid $color-border;
   border-radius: $radius-md;
   font-size: $font-size-body;
   color: $color-text-secondary;
