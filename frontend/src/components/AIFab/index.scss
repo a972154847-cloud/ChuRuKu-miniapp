@@ -5,8 +5,8 @@
   width: 100rpx;
   height: 100rpx;
   border-radius: 50%;
-  background: linear-gradient(135deg, #1989fa 0%, #1677d4 100%);
-  box-shadow: 0 8rpx 24rpx rgba(25, 137, 250, 0.4);
+  background: linear-gradient(135deg, #1B284B 0%, #354F73 100%);
+  box-shadow: 0 8rpx 24rpx rgba(27, 40, 75, 0.35);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -31,15 +31,17 @@
 .ai-fab--dragging {
   transition: none;
   transform: scale(1.1);
-  box-shadow: 0 12rpx 32rpx rgba(25, 137, 250, 0.5);
+  box-shadow: 0 12rpx 32rpx rgba(27, 40, 75, 0.45);
   opacity: 0.9;
 }
 
-.ai-fab__icon {
-  font-size: 48rpx;
+.ai-fab__text {
+  font-size: 32rpx;
+  font-weight: 700;
   color: #fff;
-  line-height: 1;
+  letter-spacing: 1rpx;
   pointer-events: none;
+  font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, sans-serif;
 }
 
 .ai-fab__badge {

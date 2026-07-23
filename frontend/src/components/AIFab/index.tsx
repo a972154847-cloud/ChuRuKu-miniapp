@@ -151,7 +151,7 @@ export default function AIFab() {
       catchMove
       hoverClass='ai-fab--hover'
     >
-      <Text className='ai-fab__icon'>🤖</Text>
+      <Text className='ai-fab__text'>AI</Text>
     </View>
   )
 }
