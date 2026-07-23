@@ -2,6 +2,16 @@
   display: flex;
   margin-bottom: 24rpx;
   width: 100%;
+  padding: 0 24rpx;
+  box-sizing: border-box;
+}
+
+.ai-msg:first-child {
+  padding-top: 24rpx;
+}
+
+.ai-msg:last-child {
+  padding-bottom: 12rpx;
 }
 
 .ai-msg--user {
